@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.boosthubllc.app",
+      "sha256_cert_fingerprints": ["3C:17:02:6C:CE:DA:72:87:50:EA:A8:4C:A6:BB:A5:DC:35:53:AE:62:C7:BD:4A:E3:D2:B0:8E:F0:C1:F8:62:22"]
+    }
+  }
+]
