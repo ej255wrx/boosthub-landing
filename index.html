@@ -154,14 +154,13 @@
     .hero-sub {
       font-size: 18px; font-weight: 400;
       color: #9ca3af;
-      max-width: 520px;
+      max-width: 560px;
       line-height: 1.7;
       margin-bottom: 50px;
       opacity: 0;
       animation: fadeUp 0.7s ease forwards 0.35s;
     }
 
-    /* SIGNUP FORM */
     .signup-wrap {
       width: 100%;
       max-width: 480px;
@@ -439,7 +438,7 @@
     .cta-sub {
       font-size: 17px;
       color: #9ca3af;
-      max-width: 460px;
+      max-width: 500px;
       margin: 0 auto 40px;
       line-height: 1.7;
       position: relative;
@@ -634,14 +633,20 @@
   <div style="margin-top: 72px;" class="ticker-wrap">
     <div class="ticker">
       <span class="ticker-item">Post Your Build <span>✦</span></span>
+      <span class="ticker-item">Short Video Clips <span>✦</span></span>
       <span class="ticker-item">Dyno Sheets <span>✦</span></span>
+      <span class="ticker-item">BoostMap <span>✦</span></span>
+      <span class="ticker-item">Events <span>✦</span></span>
       <span class="ticker-item">Mod Lists <span>✦</span></span>
       <span class="ticker-item">Horsepower Numbers <span>✦</span></span>
       <span class="ticker-item">Follow Builders <span>✦</span></span>
       <span class="ticker-item">Boost Calculators <span>✦</span></span>
       <span class="ticker-item">Car Community <span>✦</span></span>
       <span class="ticker-item">Post Your Build <span>✦</span></span>
+      <span class="ticker-item">Short Video Clips <span>✦</span></span>
       <span class="ticker-item">Dyno Sheets <span>✦</span></span>
+      <span class="ticker-item">BoostMap <span>✦</span></span>
+      <span class="ticker-item">Events <span>✦</span></span>
       <span class="ticker-item">Mod Lists <span>✦</span></span>
       <span class="ticker-item">Horsepower Numbers <span>✦</span></span>
       <span class="ticker-item">Follow Builders <span>✦</span></span>
@@ -663,8 +668,8 @@
     </h1>
 
     <p class="hero-sub">
-      Post your build. Share your dyno sheets. Show your mods.
-      BoostHub is the first app built specifically for automotive enthusiasts who take their builds seriously.
+      Post your build. Share your mods, dyno sheets, and short video clips.
+      BoostHub is built for automotive enthusiasts who take their builds, events, and community seriously.
     </p>
 
     <div class="signup-wrap" id="heroWrap">
@@ -710,17 +715,17 @@
         <div class="feature-card">
           <span class="feature-icon">🏎️</span>
           <div class="feature-title">Post Your Build</div>
-          <p class="feature-desc">Upload photos, list your horsepower, torque, mods, ECU, turbo setup — everything. Your build gets its own profile page.</p>
+          <p class="feature-desc">Upload photos, short video clips, list your horsepower, torque, mods, ECU, turbo setup, and more. Your build gets its own profile page.</p>
         </div>
         <div class="feature-card">
           <span class="feature-icon">📈</span>
           <div class="feature-title">Dyno Sheets</div>
-          <p class="feature-desc">Upload your dyno sheet directly to your build. Get verified status. Let your numbers speak for themselves.</p>
+          <p class="feature-desc">Upload dyno sheets when you have them, keep them optional when you do not, and submit builds for verification if you want proof attached to your numbers.</p>
         </div>
         <div class="feature-card">
           <span class="feature-icon">🌐</span>
           <div class="feature-title">Discover Builds</div>
-          <p class="feature-desc">Browse builds from enthusiasts worldwide. See real activity — likes, comments, new builds — all in one live feed.</p>
+          <p class="feature-desc">Browse builds from enthusiasts worldwide, follow activity in the live feed, and keep up with community events like meets, cruises, dyno days, and track nights.</p>
         </div>
         <div class="feature-card">
           <span class="feature-icon">👥</span>
@@ -730,7 +735,7 @@
         <div class="feature-card">
           <span class="feature-icon">🗺️</span>
           <div class="feature-title">Build Map</div>
-          <p class="feature-desc">See where builds are located on a live map. Find enthusiasts near you, or discover the global community.</p>
+          <p class="feature-desc">See where public builds are located on BoostMap, discover enthusiasts near you, and explore a map that is expanding to include automotive-related businesses and community locations.</p>
         </div>
         <div class="feature-card">
           <span class="feature-icon">🔧</span>
@@ -783,21 +788,21 @@
           <div class="step-num">2</div>
           <div class="step-content">
             <div class="step-title">Post Your Build</div>
-            <p class="step-desc">Add your car's details — year, make, model, horsepower, mods, turbo setup, ECU, and more. Upload photos and your dyno sheet.</p>
+            <p class="step-desc">Add your car's details — year, make, model, horsepower, mods, turbo setup, ECU, and more. Upload photos, short video clips, and dyno sheets if you have them.</p>
           </div>
         </div>
         <div class="step reveal">
           <div class="step-num">3</div>
           <div class="step-content">
-            <div class="step-title">Get Verified</div>
-            <p class="step-desc">Submit your dyno sheet for verification. Earn your verified badge and let your numbers do the talking.</p>
+            <div class="step-title">Optional Verification</div>
+            <p class="step-desc">Submit a dyno sheet for verification if you want proof attached to your build. Verification is optional, and you can still post your build without it.</p>
           </div>
         </div>
         <div class="step reveal">
           <div class="step-num">4</div>
           <div class="step-content">
             <div class="step-title">Connect with the Community</div>
-            <p class="step-desc">Follow builders, like builds, leave comments, and discover enthusiasts near you on the live map.</p>
+            <p class="step-desc">Follow builders, like builds, comment, discover events, and find enthusiasts near you on BoostMap.</p>
           </div>
         </div>
       </div>
@@ -863,7 +868,6 @@
   </div>
 
   <script>
-    // Scroll reveal
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -872,7 +876,6 @@
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
 
-    // Tag hover
     document.querySelectorAll('.tag').forEach(tag => {
       tag.addEventListener('mouseenter', () => {
         document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
@@ -880,7 +883,6 @@
       });
     });
 
-    // Signup — sends name, email, platform to Formspree
     async function submitSignup(event, nameId, emailId, platformId, btnId, successId, wrapId) {
       event.preventDefault();
 
