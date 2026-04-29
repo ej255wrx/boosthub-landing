@@ -148,8 +148,9 @@
     <ul>
       <li><strong>Account information:</strong> Email address and password when you create an account.</li>
       <li><strong>Profile information:</strong> Username, display name, bio, and avatar photo you choose to provide.</li>
-      <li><strong>Build information:</strong> Vehicle details, photos, dyno sheets, horsepower numbers, mod lists, and location data you submit.</li>
-      <li><strong>Usage data:</strong> Likes, comments, follows, and other interactions within the app.</li>
+      <li><strong>Build information:</strong> Vehicle details, photos, short build-related video clips, dyno sheets, horsepower numbers, mod lists, and location data you submit.</li>
+      <li><strong>Video metadata:</strong> Video captions, thumbnails, playback or processing status, associated build information, and moderation status related to uploaded videos.</li>
+      <li><strong>Usage data:</strong> Likes, comments, follows, reports, feedback, and other interactions within the app.</li>
       <li><strong>Device information:</strong> Push notification tokens to deliver notifications to your device.</li>
       <li><strong>Crash reports:</strong> Anonymized crash and error data via Sentry to help us fix bugs.</li>
     </ul>
@@ -158,6 +159,7 @@
     <ul>
       <li>To provide and operate the BoostHub service.</li>
       <li>To display your public profile and builds to other users.</li>
+      <li>To process, display, and manage uploaded build media, including short video clips.</li>
       <li>To send push notifications about activity on your builds.</li>
       <li>To enable community features such as likes, comments, and follows.</li>
       <li>To respond to support requests and feedback.</li>
@@ -166,22 +168,25 @@
     </ul>
 
     <h2>3. Data Storage</h2>
-    <p>Your data is stored securely using Supabase, a cloud database provider. Build photos and dyno sheets are stored in Supabase Storage. All data is stored in the United States.</p>
+    <p>Your data is stored securely using Supabase, a cloud database provider. Build photos and dyno sheets are stored in Supabase Storage. Build videos may be stored, processed, and delivered through Cloudflare Stream. BoostHub stores related metadata about uploaded videos, including the uploading account, associated build, caption, thumbnail, playback information, processing status, and moderation status. All data is stored in the United States.</p>
 
     <h2>4. Data Sharing</h2>
     <p>We do not sell your personal data. We do not share your data with third parties for advertising purposes. We may share data only in the following limited circumstances:</p>
     <ul>
-      <li><strong>Service providers:</strong> Supabase (database and storage), Sentry (crash reporting), Resend (transactional email), and Expo (push notifications). These providers process data only as necessary to provide their services.</li>
+      <li><strong>Service providers:</strong> Supabase (database and storage), Cloudflare Stream (video storage, processing, and delivery), Sentry (crash reporting), Resend (transactional email), and Expo (push notifications). These providers process data only as necessary to provide their services.</li>
       <li><strong>Legal compliance:</strong> If required by law, court order, or to protect the rights and safety of BoostHub or its users.</li>
     </ul>
 
     <h2>5. Public Content</h2>
-    <p>Builds you mark as public, your username, display name, avatar, and any comments or likes you make are visible to other users of BoostHub. You control whether your build appears on BoostMap via the public/private setting on each build.</p>
+    <p>Builds you mark as public, your username, display name, avatar, uploaded build content, and any comments or likes you make are visible to other users of BoostHub. You control whether your build appears on BoostMap via the public/private setting on each build.</p>
 
-    <h2>6. Age Requirement</h2>
+    <h2>6. Content Moderation</h2>
+    <p>Uploaded photos, dyno sheets, and videos may be reviewed, moderated, restricted, or removed for safety, abuse prevention, copyright compliance, legal compliance, platform performance, or policy enforcement reasons.</p>
+
+    <h2>7. Age Requirement</h2>
     <p>BoostHub is intended for users aged 16 and older. We do not knowingly collect personal data from users under the age of 16. If we become aware that a user is under 16, we will delete their account and data.</p>
 
-    <h2>7. Your Rights (GDPR)</h2>
+    <h2>8. Your Rights (GDPR)</h2>
     <p>If you are located in the European Economic Area or United Kingdom, you have the following rights regarding your personal data:</p>
     <ul>
       <li><strong>Access:</strong> Request a copy of the data we hold about you.</li>
@@ -192,13 +197,13 @@
     </ul>
     <p>To exercise any of these rights, contact us at <a href="mailto:privacy@boosthubapp.com">privacy@boosthubapp.com</a>.</p>
 
-    <h2>8. Data Retention</h2>
-    <p>We retain your data for as long as your account is active. When you delete your account, we permanently delete your profile, builds, photos, comments, likes, and all associated data within 30 days. Some anonymized data may be retained for analytics purposes.</p>
+    <h2>9. Data Retention</h2>
+    <p>We retain your data for as long as your account is active. When you delete your account, we permanently delete your profile, builds, uploaded photos, uploaded videos, dyno sheets, comments, likes, follows, reports, feedback, and associated metadata within 30 days. Some anonymized data may be retained for analytics, safety, fraud prevention, or abuse prevention purposes.</p>
 
-    <h2>9. Push Notifications</h2>
+    <h2>10. Push Notifications</h2>
     <p>We use Expo's push notification service to deliver notifications about activity on your builds. You can disable push notifications at any time in your device settings or within the BoostHub app under Profile → Notifications.</p>
 
-    <h2>10. DMCA — Copyright Policy</h2>
+    <h2>11. DMCA — Copyright Policy</h2>
     <p>BoostHub respects intellectual property rights. If you believe content on BoostHub infringes your copyright, please send a DMCA takedown notice to <a href="mailto:dmca@boosthubapp.com">dmca@boosthubapp.com</a> with the following information:</p>
     <ul>
       <li>A description of the copyrighted work you claim has been infringed.</li>
@@ -208,13 +213,13 @@
       <li>Your electronic or physical signature.</li>
     </ul>
 
-    <h2>11. Cookies and Tracking</h2>
+    <h2>12. Cookies and Tracking</h2>
     <p>The BoostHub mobile app does not use cookies. Our landing page uses Google Analytics to track aggregate page visits. No personal data is shared with Google Analytics.</p>
 
-    <h2>12. Changes to This Policy</h2>
+    <h2>13. Changes to This Policy</h2>
     <p>We may update this Privacy Policy from time to time. We will notify users of significant changes via the app or by email. Continued use of BoostHub after changes constitutes acceptance of the updated policy.</p>
 
-    <h2>13. Governing Law</h2>
+    <h2>14. Governing Law</h2>
     <p>This Privacy Policy is governed by the laws of the State of Wisconsin, United States, without regard to conflict of law principles.</p>
 
     <div class="contact-card">
