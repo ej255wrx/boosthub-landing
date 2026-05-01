@@ -627,7 +627,7 @@
 
   <nav>
     <div class="nav-logo">Boost<span>Hub</span></div>
-    <div class="nav-badge">Beta Coming Soon</div>
+    <div class="nav-badge">iOS Live | Android Final Beta</div>
   </nav>
 
   <div style="margin-top: 72px;" class="ticker-wrap">
@@ -659,7 +659,7 @@
     <div class="hero-glow"></div>
     <div class="hero-glow-2"></div>
 
-    <p class="hero-eyebrow">The App Built for Builders</p>
+    <p class="hero-eyebrow">Available on iOS. Android final beta underway.</p>
 
     <h1 class="hero-title">
       Built<br>
@@ -668,9 +668,26 @@
     </h1>
 
     <p class="hero-sub">
-      Post your build. Share your mods, dyno sheets, and short video clips.
-      BoostHub is built for automotive enthusiasts who take their builds, events, and community seriously.
+      BoostHub is available now on the App Store. Android is in its final two-week
+      Google Play closed testing window before public release.
     </p>
+
+    <div class="store-badges">
+      <a href="https://apps.apple.com/us/app/id6761749887" class="store-badge">
+        <span class="badge-icon">🍎</span>
+        <div>
+          <span class="badge-coming">Available Now</span>
+          <span class="badge-name">App Store</span>
+        </div>
+      </a>
+      <a href="#heroWrap" class="store-badge">
+        <span class="badge-icon">▶</span>
+        <div>
+          <span class="badge-coming">Final Beta</span>
+          <span class="badge-name">Google Play</span>
+        </div>
+      </a>
+    </div>
 
     <div class="signup-wrap" id="heroWrap">
       <form class="signup-form" id="heroForm" onsubmit="submitSignup(event, 'heroName', 'heroEmail', 'heroPlatform', 'heroBtn', 'heroSuccess', 'heroWrap')">
@@ -682,24 +699,24 @@
           <option value="Android">Android</option>
           <option value="Both">Both</option>
         </select>
-        <button type="submit" id="heroBtn">Get Beta Access</button>
+        <button type="submit" id="heroBtn">Get Android Updates</button>
       </form>
       <p class="success-msg" id="heroSuccess">You're on the list. 🔥</p>
-      <p class="hero-note">No spam. Just your beta invite when we launch.</p>
+      <p class="hero-note">iOS is live now. Android testers can join the final beta update list.</p>
     </div>
 
     <div class="stats-bar">
       <div class="stat">
         <div class="stat-number">iOS</div>
-        <div class="stat-label">& Android</div>
+        <div class="stat-label">Available Now</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">Android</div>
+        <div class="stat-label">Final Closed Beta</div>
       </div>
       <div class="stat">
         <div class="stat-number">Free</div>
-        <div class="stat-label">To Join Beta</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">6K+</div>
-        <div class="stat-label">Enthusiasts Waiting</div>
+        <div class="stat-label">To Download</div>
       </div>
     </div>
   </section>
@@ -781,7 +798,7 @@
           <div class="step-num">1</div>
           <div class="step-content">
             <div class="step-title">Create Your Account</div>
-            <p class="step-desc">Sign up free. Set your username and build your profile. iOS and Android both supported.</p>
+            <p class="step-desc">Sign up free. Set your username and build your profile. iOS is available now, with Android in final closed beta testing.</p>
           </div>
         </div>
         <div class="step reveal">
@@ -812,11 +829,11 @@
   <section class="cta-section">
     <div class="cta-glow"></div>
     <h2 class="cta-title reveal">
-      Join the<br>
-      <span class="outline">Beta</span>
+      Get<br>
+      <span class="outline">BoostHub</span>
     </h2>
     <p class="cta-sub reveal">
-      We're launching beta soon. Get early access before it goes public. Free to join.
+      Download BoostHub on iOS now. Android is moving through the final Google Play closed testing process before public release.
     </p>
 
     <div class="cta-form-wrap reveal" id="ctaWrap">
@@ -829,23 +846,23 @@
           <option value="Android">Android</option>
           <option value="Both">Both</option>
         </select>
-        <button type="submit" id="ctaBtn">Join Beta</button>
+        <button type="submit" id="ctaBtn">Get Android Updates</button>
       </form>
       <p class="success-msg" id="ctaSuccess" style="font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--green); margin-top: 16px;">You're on the list. 🔥</p>
     </div>
 
     <div class="store-badges reveal">
-      <a href="#" class="store-badge">
+      <a href="https://apps.apple.com/us/app/id6761749887" class="store-badge">
         <span class="badge-icon">🍎</span>
         <div>
-          <span class="badge-coming">Coming Soon</span>
+          <span class="badge-coming">Available Now</span>
           <span class="badge-name">App Store</span>
         </div>
       </a>
-      <a href="#" class="store-badge">
+      <a href="#ctaWrap" class="store-badge">
         <span class="badge-icon">▶</span>
         <div>
-          <span class="badge-coming">Coming Soon</span>
+          <span class="badge-coming">Final Beta</span>
           <span class="badge-name">Google Play</span>
         </div>
       </a>
@@ -918,13 +935,13 @@
           gtag('event', 'beta_signup', { platform_selected: platform });
         } else {
           btn.disabled = false;
-          btn.textContent = wrapId === 'heroWrap' ? 'Get Beta Access' : 'Join Beta';
+          btn.textContent = 'Get Android Updates';
           emailEl.style.borderColor = '#ef4444';
           setTimeout(() => emailEl.style.borderColor = '', 1500);
         }
       } catch (err) {
         btn.disabled = false;
-        btn.textContent = wrapId === 'heroWrap' ? 'Get Beta Access' : 'Join Beta';
+        btn.textContent = 'Get Android Updates';
       }
     }
   </script>
