@@ -194,11 +194,40 @@
       text-transform: uppercase;
     }
 
+    .web-callout {
+      width: min(560px, 100%);
+      border: 1px solid rgba(59,130,246,0.38);
+      background: rgba(12,22,38,0.72);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 24px;
+      box-shadow: 0 18px 70px rgba(37,99,235,0.14);
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.48s;
+    }
+
+    .web-callout-label {
+      display: block;
+      color: var(--blue-bright);
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .web-callout-copy {
+      color: #d1d5db;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
     .signup-wrap {
       width: 100%;
       max-width: 520px;
       opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.5s;
+      animation: fadeUp 0.7s ease forwards 0.58s;
     }
 
     .signup-form {
@@ -735,7 +764,7 @@
       <img src="assets/boosthub-logo-square.png" alt="" />
       <span>Boost<span class="accent">Hub</span></span>
     </div>
-    <div class="nav-badge">iOS Live | Android Final Beta</div>
+    <div class="nav-badge">iOS Live | Android Final Beta | Web Coming</div>
   </nav>
 
   <div style="margin-top: 72px;" class="ticker-wrap">
@@ -786,6 +815,15 @@
       <span class="proof-pill">Dragy Results</span>
       <span class="proof-pill">Nearby Events</span>
       <span class="proof-pill">Marketplace Coming</span>
+      <span class="proof-pill">Full Web App Coming</span>
+    </div>
+
+    <div class="web-callout">
+      <span class="web-callout-label">Full Web Experience Coming</span>
+      <p class="web-callout-copy">
+        BoostHub is planned for desktop too, so you can manage builds, browse events,
+        follow profiles, and use marketplace tools from a computer, not just the mobile app.
+      </p>
     </div>
 
     <div class="store-badges">
@@ -833,6 +871,10 @@
       <div class="stat">
         <div class="stat-number">Free</div>
         <div class="stat-label">To Download</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">Web</div>
+        <div class="stat-label">Desktop Experience Coming</div>
       </div>
     </div>
     </div>
