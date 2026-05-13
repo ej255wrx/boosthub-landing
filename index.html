@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BoostHub — Built for Builders</title>
+  <title>BoostHub - Not Just Another Car Social Site</title>
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-KQ8C8HP08T"></script>
@@ -26,6 +26,7 @@
       --border: #1e2330;
       --blue: #2563eb;
       --blue-bright: #3b82f6;
+      --orange: #ff6a00;
       --green: #22c55e;
       --white: #f0f2f5;
       --muted: #6b7280;
@@ -73,9 +74,19 @@
       letter-spacing: 0.04em;
       text-transform: uppercase;
       color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .nav-logo span { color: var(--blue-bright); }
+    .nav-logo img {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .nav-logo .accent { color: var(--blue-bright); }
 
     .nav-badge {
       background: var(--blue);
@@ -91,31 +102,32 @@
 
     .hero {
       position: relative;
-      min-height: 100vh;
+      min-height: calc(100vh - 72px);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 120px 24px 80px;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 140px 7vw 70px;
       overflow: hidden;
-      text-align: center;
+      text-align: left;
+      background:
+        linear-gradient(90deg, rgba(8,10,13,0.94) 0%, rgba(8,10,13,0.52) 42%, rgba(8,10,13,0.2) 70%),
+        linear-gradient(0deg, rgba(8,10,13,0.88) 0%, rgba(8,10,13,0.18) 52%, rgba(8,10,13,0.76) 100%),
+        url("assets/boosthub-cover.png") center / cover no-repeat;
     }
 
     .hero-glow {
-      position: absolute;
-      top: 20%; left: 50%;
-      transform: translateX(-50%);
-      width: 800px; height: 500px;
-      background: radial-gradient(ellipse, rgba(37,99,235,0.18) 0%, transparent 70%);
-      pointer-events: none;
+      display: none;
     }
 
     .hero-glow-2 {
-      position: absolute;
-      bottom: 10%; right: -10%;
-      width: 500px; height: 400px;
-      background: radial-gradient(ellipse, rgba(34,197,94,0.08) 0%, transparent 70%);
-      pointer-events: none;
+      display: none;
+    }
+
+    .hero-content {
+      width: min(640px, 100%);
+      position: relative;
+      z-index: 1;
     }
 
     .hero-eyebrow {
@@ -131,39 +143,60 @@
 
     .hero-title {
       font-family: var(--font-display);
-      font-size: clamp(72px, 14vw, 160px);
+      font-size: clamp(54px, 9vw, 116px);
       font-weight: 900;
-      line-height: 0.9;
-      letter-spacing: -0.01em;
+      line-height: 0.92;
       text-transform: uppercase;
-      margin-bottom: 30px;
+      margin-bottom: 24px;
       opacity: 0;
       animation: fadeUp 0.7s ease forwards 0.2s;
     }
 
     .hero-title .line-2 {
-      color: transparent;
-      -webkit-text-stroke: 2px rgba(240,242,245,0.25);
+      color: var(--white);
+      -webkit-text-stroke: 0;
     }
 
     .hero-title .accent {
-      color: var(--blue-bright);
+      color: var(--orange);
       -webkit-text-stroke: 0;
     }
 
     .hero-sub {
       font-size: 18px; font-weight: 400;
-      color: #9ca3af;
+      color: #d1d5db;
       max-width: 560px;
       line-height: 1.7;
-      margin-bottom: 50px;
+      margin-bottom: 28px;
       opacity: 0;
       animation: fadeUp 0.7s ease forwards 0.35s;
     }
 
+    .hero-proof-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.42s;
+    }
+
+    .proof-pill {
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(8,10,13,0.46);
+      color: #e5e7eb;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
     .signup-wrap {
       width: 100%;
-      max-width: 480px;
+      max-width: 520px;
       opacity: 0;
       animation: fadeUp 0.7s ease forwards 0.5s;
     }
@@ -237,10 +270,10 @@
     .stats-bar {
       width: 100%; max-width: 900px;
       display: flex;
-      justify-content: center;
-      gap: 60px;
-      margin-top: 80px;
-      padding-top: 50px;
+      justify-content: flex-start;
+      gap: 44px;
+      margin-top: 52px;
+      padding-top: 32px;
       border-top: 1px solid var(--border);
       opacity: 0;
       animation: fadeUp 0.7s ease forwards 0.7s;
@@ -311,7 +344,23 @@
 
     .feature-card:hover { background: #141720; }
 
-    .feature-icon { font-size: 32px; margin-bottom: 20px; display: block; }
+    .feature-icon {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      margin-bottom: 20px;
+      color: var(--blue-bright);
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .feature-card:nth-child(2n) .feature-icon,
+    .feature-card:nth-child(5n) .feature-icon {
+      color: var(--orange);
+    }
 
     .feature-title {
       font-family: var(--font-display);
@@ -386,6 +435,48 @@
 
     .tags-wrap { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
 
+    .teaser-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(280px, 1.1fr);
+      gap: 34px;
+      align-items: center;
+    }
+
+    .teaser-image {
+      width: min(360px, 100%);
+      border-radius: 24px;
+      display: block;
+      margin: 0 auto;
+      box-shadow: 0 28px 90px rgba(0,0,0,0.48);
+    }
+
+    .teaser-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .teaser-item {
+      border: 1px solid var(--border);
+      background: rgba(15,18,23,0.8);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .teaser-title {
+      font-family: var(--font-display);
+      font-size: 23px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+
+    .teaser-copy {
+      color: #9ca3af;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
     .tag {
       font-family: var(--font-display);
       font-size: 18px; font-weight: 700;
@@ -412,12 +503,17 @@
     }
 
     .cta-glow {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 600px; height: 400px;
-      background: radial-gradient(ellipse, rgba(37,99,235,0.15) 0%, transparent 70%);
-      pointer-events: none;
+      display: none;
+    }
+
+    .cta-logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 28px;
+      object-fit: cover;
+      margin: 0 auto 24px;
+      display: block;
+      box-shadow: 0 18px 70px rgba(37,99,235,0.2);
     }
 
     .cta-title {
@@ -616,7 +712,16 @@
 
     @media (max-width: 640px) {
       nav { padding: 16px 20px; }
+      .nav-badge { display: none; }
+      .hero {
+        min-height: auto;
+        padding: 120px 20px 56px;
+        background-position: 54% center;
+      }
+      .hero-title { font-size: clamp(48px, 17vw, 72px); }
+      .hero-sub { font-size: 16px; }
       .stats-bar { gap: 30px; flex-wrap: wrap; }
+      .teaser-grid { grid-template-columns: 1fr; }
       .steps::before { left: 20px; }
       footer { justify-content: center; text-align: center; }
       .store-badges { flex-direction: column; align-items: center; }
@@ -626,7 +731,10 @@
 <body>
 
   <nav>
-    <div class="nav-logo">Boost<span>Hub</span></div>
+    <div class="nav-logo">
+      <img src="assets/boosthub-logo-square.png" alt="" />
+      <span>Boost<span class="accent">Hub</span></span>
+    </div>
     <div class="nav-badge">iOS Live | Android Final Beta</div>
   </nav>
 
@@ -659,29 +767,37 @@
     <div class="hero-glow"></div>
     <div class="hero-glow-2"></div>
 
+    <div class="hero-content">
     <p class="hero-eyebrow">Available on iOS. Android final beta underway.</p>
 
     <h1 class="hero-title">
-      Built<br>
-      <span class="line-2">For The</span><br>
-      <span class="accent">Build</span>
+      Not Just<br>
+      <span class="line-2">Another Car</span><br>
+      <span class="accent">Social Site</span>
     </h1>
 
     <p class="hero-sub">
-      BoostHub is available now on the App Store. Android is in its final two-week
-      Google Play closed testing window before public release.
+      Build profiles, proof, events, marketplace trust, and community tools for real
+      car people. BoostHub is built around the build, not the algorithm.
     </p>
+
+    <div class="hero-proof-row">
+      <span class="proof-pill">Dyno Proof</span>
+      <span class="proof-pill">Dragy Results</span>
+      <span class="proof-pill">Nearby Events</span>
+      <span class="proof-pill">Marketplace Coming</span>
+    </div>
 
     <div class="store-badges">
       <a href="https://apps.apple.com/us/app/id6761749887" class="store-badge">
-        <span class="badge-icon">🍎</span>
+        <span class="badge-icon">iOS</span>
         <div>
           <span class="badge-coming">Available Now</span>
           <span class="badge-name">App Store</span>
         </div>
       </a>
       <a href="#heroWrap" class="store-badge">
-        <span class="badge-icon">▶</span>
+        <span class="badge-icon">GP</span>
         <div>
           <span class="badge-coming">Final Beta</span>
           <span class="badge-name">Google Play</span>
@@ -701,7 +817,7 @@
         </select>
         <button type="submit" id="heroBtn">Get Android Updates</button>
       </form>
-      <p class="success-msg" id="heroSuccess">You're on the list. 🔥</p>
+      <p class="success-msg" id="heroSuccess">You're on the list.</p>
       <p class="hero-note">iOS is live now. Android testers can join the final beta update list.</p>
     </div>
 
@@ -719,6 +835,7 @@
         <div class="stat-label">To Download</div>
       </div>
     </div>
+    </div>
   </section>
 
   <div class="divider"></div>
@@ -730,34 +847,58 @@
 
       <div class="features-grid reveal">
         <div class="feature-card">
-          <span class="feature-icon">🏎️</span>
+          <span class="feature-icon">Builds</span>
           <div class="feature-title">Post Your Build</div>
-          <p class="feature-desc">Upload photos, short video clips, list your horsepower, torque, mods, ECU, turbo setup, and more. Your build gets its own profile page.</p>
+          <p class="feature-desc">Create a real profile for the car: photos, videos, horsepower, torque, mods, turbo setup, ECU, fuel, and the story behind the build.</p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">📈</span>
-          <div class="feature-title">Dyno Sheets</div>
-          <p class="feature-desc">Upload dyno sheets when you have them, keep them optional when you do not, and submit builds for verification if you want proof attached to your numbers.</p>
+          <span class="feature-icon">Proof</span>
+          <div class="feature-title">Dyno and Dragy</div>
+          <p class="feature-desc">Attach dyno sheets, Dragy screenshots, verified numbers, and zoomable proof photos so people can actually read the data.</p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">🌐</span>
-          <div class="feature-title">Discover Builds</div>
-          <p class="feature-desc">Browse builds from enthusiasts worldwide, follow activity in the live feed, and keep up with community events like meets, cruises, dyno days, and track nights.</p>
+          <span class="feature-icon">Discover</span>
+          <div class="feature-title">For You Feed</div>
+          <p class="feature-desc">Discover public builds, new activity, Build of the Week, badges, and community updates without one noisy post streak taking over the feed.</p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">👥</span>
-          <div class="feature-title">Follow Builders</div>
-          <p class="feature-desc">Follow the builders you respect. Get notified when they post. Build your network in the community.</p>
+          <span class="feature-icon">Trust</span>
+          <div class="feature-title">Badges and Ratings</div>
+          <p class="feature-desc">Creator, Verified, OG Beta, First 100, 1,000 Horsepower Club, and upcoming buyer/seller ratings help the right people stand out.</p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">🗺️</span>
-          <div class="feature-title">Build Map</div>
-          <p class="feature-desc">See where public builds are located on BoostMap, discover enthusiasts near you, and explore a map that is expanding to include automotive-related businesses and community locations.</p>
+          <span class="feature-icon">Events</span>
+          <div class="feature-title">Local Alerts</div>
+          <p class="feature-desc">Find meets, cruises, dyno days, race nights, and nearby event alerts based on where you are, not just where your home build lives.</p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">🔧</span>
-          <div class="feature-title">Car Calculators</div>
-          <p class="feature-desc">Built-in tools for injector sizing, boost calculations, tire dimensions, fuel mix, RPM, and more.</p>
+          <span class="feature-icon">Market</span>
+          <div class="feature-title">Marketplace Preview</div>
+          <p class="feature-desc">Parts listings are being shaped around fitment, trusted sellers, buyer reputation, local pickup, shops, vendors, and early visibility.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div style="background: var(--black); padding: 0 24px;">
+    <section class="section teaser-grid">
+      <img class="teaser-image reveal" src="assets/boosthub-logo-vertical.png" alt="BoostHub turbo logo" />
+      <div>
+        <p class="section-label reveal">Coming Into View</p>
+        <h2 class="section-title reveal">More Than<br>A Feed</h2>
+        <div class="teaser-list reveal">
+          <div class="teaser-item">
+            <div class="teaser-title">Marketplace With Trust</div>
+            <p class="teaser-copy">Buyer and seller ratings, verified shops, early seller visibility, and build-linked listings are being shaped for the car community.</p>
+          </div>
+          <div class="teaser-item">
+            <div class="teaser-title">Proof That Travels</div>
+            <p class="teaser-copy">Dyno sheets, Dragy screenshots, gallery details, photographer credits, and zoomable images keep the numbers tied to the build.</p>
+          </div>
+          <div class="teaser-item">
+            <div class="teaser-title">Real-World Community</div>
+            <p class="teaser-copy">Events, GPS-based nearby alerts, Build of the Week, public profiles, and badges help people find builders worth following.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -797,29 +938,29 @@
         <div class="step reveal">
           <div class="step-num">1</div>
           <div class="step-content">
-            <div class="step-title">Create Your Account</div>
-            <p class="step-desc">Sign up free. Set your username and build your profile. iOS is available now, with Android in final closed beta testing.</p>
+            <div class="step-title">Create Your Profile</div>
+            <p class="step-desc">Sign up free, claim your username, add your builder profile, and start earning trust signals as BoostHub grows.</p>
           </div>
         </div>
         <div class="step reveal">
           <div class="step-num">2</div>
           <div class="step-content">
             <div class="step-title">Post Your Build</div>
-            <p class="step-desc">Add your car's details — year, make, model, horsepower, mods, turbo setup, ECU, and more. Upload photos, short video clips, and dyno sheets if you have them.</p>
+            <p class="step-desc">Add your car's details: year, make, model, horsepower, mods, turbo setup, ECU, photos, video clips, dyno sheets, and Dragy results.</p>
           </div>
         </div>
         <div class="step reveal">
           <div class="step-num">3</div>
           <div class="step-content">
-            <div class="step-title">Optional Verification</div>
-            <p class="step-desc">Submit a dyno sheet for verification if you want proof attached to your build. Verification is optional, and you can still post your build without it.</p>
+            <div class="step-title">Add Proof and Badges</div>
+            <p class="step-desc">Attach proof when you have it, request verification, and let badges like Verified or 1,000 Horsepower Club make serious builds easier to spot.</p>
           </div>
         </div>
         <div class="step reveal">
           <div class="step-num">4</div>
           <div class="step-content">
-            <div class="step-title">Connect with the Community</div>
-            <p class="step-desc">Follow builders, like builds, comment, discover events, and find enthusiasts near you on BoostMap.</p>
+            <div class="step-title">Connect Beyond the Screen</div>
+            <p class="step-desc">Follow builders, discover nearby events, share your profile, and get ready for a marketplace built around trust instead of random listings.</p>
           </div>
         </div>
       </div>
@@ -828,12 +969,13 @@
 
   <section class="cta-section">
     <div class="cta-glow"></div>
+    <img class="cta-logo reveal" src="assets/boosthub-logo-square.png" alt="BoostHub logo" />
     <h2 class="cta-title reveal">
-      Get<br>
-      <span class="outline">BoostHub</span>
+      Get In<br>
+      <span class="outline">Early</span>
     </h2>
     <p class="cta-sub reveal">
-      Download BoostHub on iOS now. Android is moving through the final Google Play closed testing process before public release.
+      Download BoostHub on iOS now, join Android updates, and get first visibility as marketplace, ratings, and community tools roll out.
     </p>
 
     <div class="cta-form-wrap reveal" id="ctaWrap">
@@ -848,19 +990,19 @@
         </select>
         <button type="submit" id="ctaBtn">Get Android Updates</button>
       </form>
-      <p class="success-msg" id="ctaSuccess" style="font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--green); margin-top: 16px;">You're on the list. 🔥</p>
+      <p class="success-msg" id="ctaSuccess" style="font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--green); margin-top: 16px;">You're on the list.</p>
     </div>
 
     <div class="store-badges reveal">
       <a href="https://apps.apple.com/us/app/id6761749887" class="store-badge">
-        <span class="badge-icon">🍎</span>
+        <span class="badge-icon">iOS</span>
         <div>
           <span class="badge-coming">Available Now</span>
           <span class="badge-name">App Store</span>
         </div>
       </a>
       <a href="#ctaWrap" class="store-badge">
-        <span class="badge-icon">▶</span>
+        <span class="badge-icon">GP</span>
         <div>
           <span class="badge-coming">Final Beta</span>
           <span class="badge-name">Google Play</span>
@@ -879,7 +1021,7 @@
         <a href="/privacy.html">Privacy Policy</a>
       </div>
       <div class="footer-copy">
-        © 2026 BoostHub LLC. All rights reserved. Built in Wisconsin. 🧀
+        © 2026 BoostHub LLC. All rights reserved. Built in Wisconsin.
       </div>
     </footer>
   </div>
