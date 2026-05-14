@@ -355,32 +355,51 @@
       margin-bottom: 60px;
     }
 
-    .features-grid {
+    .feature-showcase {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
+      grid-template-columns: minmax(280px, 0.92fr) minmax(340px, 1.08fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .feature-nav {
+      display: grid;
+      gap: 10px;
     }
 
     .feature-card {
-      background: var(--card);
-      padding: 40px 36px;
-      transition: background 0.2s;
+      width: 100%;
+      display: block;
+      text-align: left;
+      text-decoration: none;
+      background: rgba(15,18,23,0.88);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px;
+      color: inherit;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
     }
 
-    .feature-card:hover { background: #141720; }
+    .feature-card:hover,
+    .feature-card.active {
+      background: #141922;
+      border-color: rgba(59,130,246,0.72);
+      transform: translateY(-1px);
+    }
+
+    .feature-card.active {
+      box-shadow: inset 3px 0 0 var(--blue-bright), 0 18px 70px rgba(37,99,235,0.08);
+    }
 
     .feature-icon {
       display: inline-flex;
       align-items: center;
-      min-height: 28px;
-      margin-bottom: 20px;
+      min-height: 24px;
+      margin-bottom: 12px;
       color: var(--blue-bright);
       font-family: var(--font-display);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 900;
       letter-spacing: 0.16em;
       text-transform: uppercase;
@@ -393,14 +412,278 @@
 
     .feature-title {
       font-family: var(--font-display);
-      font-size: 24px; font-weight: 800;
+      font-size: 24px;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.03em;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       color: var(--white);
     }
 
-    .feature-desc { font-size: 15px; color: #9ca3af; line-height: 1.7; }
+    .feature-desc { font-size: 15px; color: #9ca3af; line-height: 1.65; }
+
+    .feature-stage {
+      position: sticky;
+      top: 104px;
+      min-height: 650px;
+      align-self: flex-start;
+      border: 1px solid rgba(59,130,246,0.28);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at top right, rgba(37,99,235,0.2), transparent 38%),
+        linear-gradient(145deg, #10141c, #050608);
+      padding: 22px;
+      overflow: hidden;
+      box-shadow: 0 24px 90px rgba(0,0,0,0.42);
+    }
+
+    .preview-screen {
+      display: none;
+      animation: previewIn 0.22s ease;
+    }
+
+    .preview-screen.active { display: block; }
+
+    .preview-phone {
+      width: min(320px, 100%);
+      min-height: 590px;
+      margin: 0 auto;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 34px;
+      background: #050608;
+      padding: 12px;
+      box-shadow: inset 0 0 0 5px #0d1118, 0 28px 80px rgba(0,0,0,0.46);
+    }
+
+    .preview-phone-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #6b7280;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 8px 12px 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .preview-phone-content {
+      min-height: 520px;
+      border-radius: 24px;
+      background: #0c0f14;
+      overflow: hidden;
+      border: 1px solid #1b2230;
+    }
+
+    .preview-hero {
+      min-height: 170px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background:
+        linear-gradient(0deg, rgba(6,8,11,0.94), rgba(6,8,11,0.2)),
+        url("assets/boosthub-cover.png") center / cover no-repeat;
+    }
+
+    .preview-kicker {
+      color: var(--blue-bright);
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .preview-title {
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 0.96;
+      text-transform: uppercase;
+    }
+
+    .preview-sub {
+      color: #9ca3af;
+      font-size: 12px;
+      line-height: 1.45;
+      margin-top: 8px;
+    }
+
+    .preview-body { padding: 14px; display: grid; gap: 10px; }
+
+    .preview-card,
+    .preview-row {
+      border: 1px solid #202838;
+      background: #121722;
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .preview-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .preview-label {
+      color: #9ca3af;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .preview-value {
+      color: #f8fafc;
+      font-family: var(--font-display);
+      font-size: 23px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .preview-pill-row { display: flex; flex-wrap: wrap; gap: 7px; }
+
+    .preview-pill {
+      display: inline-flex;
+      border-radius: 999px;
+      background: rgba(59,130,246,0.13);
+      border: 1px solid rgba(59,130,246,0.26);
+      color: #bfdbfe;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 6px 8px;
+    }
+
+    .preview-pill.orange {
+      background: rgba(255,106,0,0.12);
+      border-color: rgba(255,106,0,0.32);
+      color: #fed7aa;
+    }
+
+    .preview-proof {
+      aspect-ratio: 1.65;
+      display: grid;
+      align-items: end;
+      background:
+        linear-gradient(145deg, rgba(17,24,39,0.2), rgba(3,7,18,0.9)),
+        repeating-linear-gradient(0deg, rgba(148,163,184,0.11) 0 1px, transparent 1px 26px),
+        repeating-linear-gradient(90deg, rgba(148,163,184,0.11) 0 1px, transparent 1px 36px);
+      border-radius: 14px;
+      border: 1px solid #273244;
+      padding: 12px;
+    }
+
+    .preview-chart-line {
+      height: 52px;
+      border-bottom: 3px solid var(--orange);
+      border-right: 3px solid var(--blue-bright);
+      transform: skew(-22deg);
+      opacity: 0.9;
+    }
+
+    .preview-feed-card {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .preview-thumb {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background:
+        linear-gradient(135deg, rgba(37,99,235,0.55), rgba(255,106,0,0.5)),
+        #111827;
+    }
+
+    .preview-map {
+      min-height: 270px;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, transparent 23%, rgba(59,130,246,0.2) 24% 25%, transparent 26%),
+        linear-gradient(0deg, transparent 21%, rgba(59,130,246,0.16) 22% 23%, transparent 24%),
+        #07111e;
+      background-size: 70px 70px;
+      border-radius: 20px;
+      border: 1px solid #233047;
+    }
+
+    .map-pin {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px 999px 999px 0;
+      background: var(--orange);
+      transform: rotate(-45deg);
+      box-shadow: 0 0 0 8px rgba(255,106,0,0.14);
+    }
+
+    .map-pin.one { left: 42%; top: 36%; }
+    .map-pin.two { left: 62%; top: 58%; background: var(--blue-bright); }
+    .map-pin.three { left: 26%; top: 66%; background: var(--green); }
+
+    .preview-market-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .market-tile {
+      min-height: 118px;
+      border-radius: 14px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0)),
+        #111827;
+      border: 1px solid #243044;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .market-price {
+      color: var(--green);
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .preview-link-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .preview-link {
+      color: #dbeafe;
+      text-decoration: none;
+      border: 1px solid rgba(59,130,246,0.42);
+      background: rgba(37,99,235,0.14);
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .preview-link.secondary {
+      border-color: rgba(255,106,0,0.42);
+      background: rgba(255,106,0,0.12);
+      color: #fed7aa;
+    }
+
+    @keyframes previewIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     .steps {
       display: flex;
@@ -454,7 +737,9 @@
     .step-desc { font-size: 15px; color: #9ca3af; line-height: 1.7; }
 
     .for-section {
-      background: var(--card);
+      background:
+        radial-gradient(circle at 72% 32%, rgba(37,99,235,0.13), transparent 34%),
+        var(--card);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       padding: 100px 24px;
@@ -462,7 +747,65 @@
 
     .for-inner { max-width: 1100px; margin: 0 auto; }
 
-    .tags-wrap { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
+    .audience-layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 1.1fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .audience-copy {
+      color: #a7b0bf;
+      font-size: 17px;
+      line-height: 1.75;
+      max-width: 430px;
+      margin-top: -34px;
+    }
+
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .audience-card {
+      min-height: 168px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      background: rgba(8,10,13,0.62);
+    }
+
+    .audience-card.featured {
+      border-color: rgba(59,130,246,0.48);
+      background: rgba(17,29,48,0.72);
+      box-shadow: 0 18px 60px rgba(37,99,235,0.08);
+    }
+
+    .audience-label {
+      color: var(--blue-bright);
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .audience-title {
+      font-family: var(--font-display);
+      font-size: 27px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .audience-text {
+      color: #9ca3af;
+      font-size: 14px;
+      line-height: 1.6;
+    }
 
     .teaser-grid {
       display: grid;
@@ -750,6 +1093,18 @@
       .hero-title { font-size: clamp(48px, 17vw, 72px); }
       .hero-sub { font-size: 16px; }
       .stats-bar { gap: 30px; flex-wrap: wrap; }
+      .feature-showcase { grid-template-columns: 1fr; }
+      .feature-stage {
+        position: relative;
+        top: auto;
+        min-height: auto;
+        padding: 14px;
+      }
+      .preview-phone { min-height: 540px; }
+      .preview-phone-content { min-height: 470px; }
+      .audience-layout { grid-template-columns: 1fr; }
+      .audience-copy { margin-top: -30px; }
+      .audience-grid { grid-template-columns: 1fr; }
       .teaser-grid { grid-template-columns: 1fr; }
       .steps::before { left: 20px; }
       footer { justify-content: center; text-align: center; }
@@ -887,36 +1242,201 @@
       <p class="section-label reveal">What BoostHub Does</p>
       <h2 class="section-title reveal">Everything<br>Your Build<br>Deserves</h2>
 
-      <div class="features-grid reveal">
-        <div class="feature-card">
-          <span class="feature-icon">Builds</span>
-          <div class="feature-title">Post Your Build</div>
-          <p class="feature-desc">Create a real profile for the car: photos, videos, horsepower, torque, mods, turbo setup, ECU, fuel, and the story behind the build.</p>
+      <div class="feature-showcase reveal">
+        <div class="feature-nav" aria-label="BoostHub feature previews">
+          <a href="#feature-builds" class="feature-card active" data-feature="builds">
+            <span class="feature-icon">Builds</span>
+            <div class="feature-title">Post Your Build</div>
+            <p class="feature-desc">Create a build profile with photos, videos, power numbers, mods, fuel, ECU, and the story behind the setup.</p>
+          </a>
+          <a href="#feature-proof" class="feature-card" data-feature="proof">
+            <span class="feature-icon">Proof</span>
+            <div class="feature-title">Dyno and Dragy</div>
+            <p class="feature-desc">Attach dyno sheets, Dragy screenshots, verified numbers, and zoomable proof photos that people can actually inspect.</p>
+          </a>
+          <a href="#feature-discover" class="feature-card" data-feature="discover">
+            <span class="feature-icon">Discover</span>
+            <div class="feature-title">Discover Feed</div>
+            <p class="feature-desc">Find public builds, Build of the Week, badges, and community activity without one noisy streak taking over the feed.</p>
+          </a>
+          <a href="#feature-trust" class="feature-card" data-feature="trust">
+            <span class="feature-icon">Trust</span>
+            <div class="feature-title">Badges and Ratings</div>
+            <p class="feature-desc">Creator, Verified, OG Beta, First 100, horsepower badges, and upcoming buyer/seller ratings help trust stand out.</p>
+          </a>
+          <a href="#feature-events" class="feature-card" data-feature="events">
+            <span class="feature-icon">Events</span>
+            <div class="feature-title">Local Events</div>
+            <p class="feature-desc">Discover meets, cruises, dyno days, race nights, and nearby alerts based on where you are right now.</p>
+          </a>
+          <a href="#feature-market" class="feature-card" data-feature="market">
+            <span class="feature-icon">Market</span>
+            <div class="feature-title">Marketplace Preview</div>
+            <p class="feature-desc">Parts listings are being shaped around fitment, trusted sellers, local pickup, shops, vendors, and reputation.</p>
+          </a>
         </div>
-        <div class="feature-card">
-          <span class="feature-icon">Proof</span>
-          <div class="feature-title">Dyno and Dragy</div>
-          <p class="feature-desc">Attach dyno sheets, Dragy screenshots, verified numbers, and zoomable proof photos so people can actually read the data.</p>
-        </div>
-        <div class="feature-card">
-          <span class="feature-icon">Discover</span>
-          <div class="feature-title">For You Feed</div>
-          <p class="feature-desc">Discover public builds, new activity, Build of the Week, badges, and community updates without one noisy post streak taking over the feed.</p>
-        </div>
-        <div class="feature-card">
-          <span class="feature-icon">Trust</span>
-          <div class="feature-title">Badges and Ratings</div>
-          <p class="feature-desc">Creator, Verified, OG Beta, First 100, 1,000 Horsepower Club, and upcoming buyer/seller ratings help the right people stand out.</p>
-        </div>
-        <div class="feature-card">
-          <span class="feature-icon">Events</span>
-          <div class="feature-title">Local Alerts</div>
-          <p class="feature-desc">Find meets, cruises, dyno days, race nights, and nearby event alerts based on where you are, not just where your home build lives.</p>
-        </div>
-        <div class="feature-card">
-          <span class="feature-icon">Market</span>
-          <div class="feature-title">Marketplace Preview</div>
-          <p class="feature-desc">Parts listings are being shaped around fitment, trusted sellers, buyer reputation, local pickup, shops, vendors, and early visibility.</p>
+
+        <div class="feature-stage" aria-live="polite">
+          <div class="preview-screen active" id="feature-builds" data-preview="builds">
+            <div class="preview-phone">
+              <div class="preview-phone-bar"><span>Garage</span><span>BoostHub</span></div>
+              <div class="preview-phone-content">
+                <div class="preview-hero">
+                  <div class="preview-kicker">My Build</div>
+                  <div class="preview-title">Boosted Build</div>
+                  <p class="preview-sub">Photos, videos, specs, and the story all live with the car.</p>
+                </div>
+                <div class="preview-body">
+                  <div class="preview-row">
+                    <div><div class="preview-label">Horsepower</div><div class="preview-value">512 WHP</div></div>
+                    <div><div class="preview-label">Torque</div><div class="preview-value">468 TQ</div></div>
+                  </div>
+                  <div class="preview-pill-row">
+                    <span class="preview-pill">E85</span>
+                    <span class="preview-pill">6MT</span>
+                    <span class="preview-pill orange">Single Turbo</span>
+                    <span class="preview-pill">Built Motor</span>
+                  </div>
+                  <div class="preview-card">
+                    <div class="preview-label">Build Notes</div>
+                    <p class="preview-sub">Clean setup, real parts list, photos, video clips, and profile links built around the garage.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="preview-link-row">
+              <a class="preview-link" href="https://apps.apple.com/us/app/id6761749887">Open App Store</a>
+              <a class="preview-link secondary" href="#ctaWrap">Join Android Beta</a>
+            </div>
+          </div>
+
+          <div class="preview-screen" id="feature-proof" data-preview="proof">
+            <div class="preview-phone">
+              <div class="preview-phone-bar"><span>Proof</span><span>Pinch Zoom</span></div>
+              <div class="preview-phone-content">
+                <div class="preview-body">
+                  <div class="preview-proof">
+                    <div class="preview-chart-line"></div>
+                  </div>
+                  <div class="preview-row">
+                    <div><div class="preview-label">Dyno</div><div class="preview-value">512 WHP</div></div>
+                    <div><div class="preview-label">Dragy 1/4</div><div class="preview-value">10.842</div></div>
+                  </div>
+                  <div class="preview-card">
+                    <div class="preview-label">Zoomable Evidence</div>
+                    <p class="preview-sub">Dyno sheets and Dragy screenshots stay tied to the build, with viewer controls made for small numbers.</p>
+                  </div>
+                  <div class="preview-pill-row">
+                    <span class="preview-pill">Verified</span>
+                    <span class="preview-pill orange">Dragy Proof</span>
+                    <span class="preview-pill">Photo Credits</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="preview-screen" id="feature-discover" data-preview="discover">
+            <div class="preview-phone">
+              <div class="preview-phone-bar"><span>Discover</span><span>For You</span></div>
+              <div class="preview-phone-content">
+                <div class="preview-body">
+                  <div class="preview-feed-card preview-card">
+                    <div class="preview-thumb"></div>
+                    <div>
+                      <div class="preview-label">Build of the Week</div>
+                      <div class="preview-value">Clean Turbo Setup</div>
+                      <p class="preview-sub">Featured builds, badges, and real updates.</p>
+                    </div>
+                  </div>
+                  <div class="preview-feed-card preview-card">
+                    <div class="preview-thumb"></div>
+                    <div>
+                      <div class="preview-label">Why this?</div>
+                      <div class="preview-value">Popular Nearby</div>
+                      <p class="preview-sub">Ranked and grouped so one builder cannot flood the screen.</p>
+                    </div>
+                  </div>
+                  <div class="preview-pill-row">
+                    <span class="preview-pill">For You</span>
+                    <span class="preview-pill">Recent</span>
+                    <span class="preview-pill orange">Hide</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="preview-screen" id="feature-trust" data-preview="trust">
+            <div class="preview-phone">
+              <div class="preview-phone-bar"><span>Profile</span><span>Trust</span></div>
+              <div class="preview-phone-content">
+                <div class="preview-body">
+                  <div class="preview-card">
+                    <div class="preview-label">Profile Badges</div>
+                    <div class="preview-value">Creator</div>
+                    <div class="preview-pill-row" style="margin-top: 10px;">
+                      <span class="preview-pill orange">Verified</span>
+                      <span class="preview-pill">OG Beta</span>
+                      <span class="preview-pill">First 100</span>
+                      <span class="preview-pill">1,000 HP Club</span>
+                    </div>
+                  </div>
+                  <div class="preview-card">
+                    <div class="preview-label">Marketplace Trust Coming</div>
+                    <p class="preview-sub">Buyer and seller ratings are planned so reputation can follow the person, not just a listing.</p>
+                  </div>
+                  <div class="preview-row">
+                    <div><div class="preview-label">Seller</div><div class="preview-value">98%</div></div>
+                    <div><div class="preview-label">Buyer</div><div class="preview-value">A+</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="preview-screen" id="feature-events" data-preview="events">
+            <div class="preview-phone">
+              <div class="preview-phone-bar"><span>Events</span><span>Nearby</span></div>
+              <div class="preview-phone-content">
+                <div class="preview-map">
+                  <span class="map-pin one"></span>
+                  <span class="map-pin two"></span>
+                  <span class="map-pin three"></span>
+                </div>
+                <div class="preview-body">
+                  <div class="preview-card">
+                    <div class="preview-label">Saturday Meet</div>
+                    <div class="preview-value">8 mi away</div>
+                    <p class="preview-sub">Interested, going, alerts, and location-aware event discovery.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="preview-screen" id="feature-market" data-preview="market">
+            <div class="preview-phone">
+              <div class="preview-phone-bar"><span>Marketplace</span><span>Preview</span></div>
+              <div class="preview-phone-content">
+                <div class="preview-body">
+                  <div class="preview-market-grid">
+                    <div class="market-tile"><div class="preview-label">Turbo Kit</div><div class="market-price">$1,850</div></div>
+                    <div class="market-tile"><div class="preview-label">Wheels</div><div class="market-price">$900</div></div>
+                    <div class="market-tile"><div class="preview-label">Fuel System</div><div class="market-price">$625</div></div>
+                    <div class="market-tile"><div class="preview-label">Built Block</div><div class="market-price">$3,200</div></div>
+                  </div>
+                  <div class="preview-card">
+                    <div class="preview-label">Built Around Trust</div>
+                    <p class="preview-sub">Fitment, local pickup, seller reputation, shops, vendors, and build-linked parts are the direction.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="preview-link-row">
+              <a class="preview-link secondary" href="#ctaWrap">Get Early Marketplace Visibility</a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -948,25 +1468,38 @@
 
   <div class="for-section">
     <div class="for-inner">
-      <p class="section-label reveal">Who It's For</p>
-      <h2 class="section-title reveal">If You Build,<br>You Belong Here</h2>
-      <div class="tags-wrap reveal">
-        <div class="tag active">STI Owners</div>
-        <div class="tag">WRX Builders</div>
-        <div class="tag">Mustang Guys</div>
-        <div class="tag">EVO Heads</div>
-        <div class="tag">Supra Community</div>
-        <div class="tag">Civic Type R</div>
-        <div class="tag">Drag Racers</div>
-        <div class="tag">Track Day Drivers</div>
-        <div class="tag">Daily Drivers</div>
-        <div class="tag">Turbo Builds</div>
-        <div class="tag">NA Builds</div>
-        <div class="tag">Supercharged</div>
-        <div class="tag">Classic Builds</div>
-        <div class="tag">JDM</div>
-        <div class="tag">Domestics</div>
-        <div class="tag">Euro</div>
+      <div class="audience-layout">
+        <div>
+          <p class="section-label reveal">Who It's For</p>
+          <h2 class="section-title reveal">If You Build,<br>You Belong Here</h2>
+          <p class="audience-copy reveal">
+            BoostHub is not locked to one make, scene, or trend. It is for people who care enough
+            to document the setup, prove the numbers, find the local scene, and keep improving the car.
+          </p>
+        </div>
+
+        <div class="audience-grid reveal">
+          <div class="audience-card featured">
+            <div class="audience-label">01</div>
+            <div class="audience-title">Street and Daily Builds</div>
+            <p class="audience-text">Clean daily drivers, weekend cars, first builds, and projects that keep evolving one part at a time.</p>
+          </div>
+          <div class="audience-card">
+            <div class="audience-label">02</div>
+            <div class="audience-title">Dyno and Dragy People</div>
+            <p class="audience-text">Builders who want the receipts attached: sheets, screenshots, trap speeds, revisions, and verified numbers.</p>
+          </div>
+          <div class="audience-card">
+            <div class="audience-label">03</div>
+            <div class="audience-title">Local Scene Builders</div>
+            <p class="audience-text">Meet hosts, cruise regulars, shop customers, photographers, and people looking for what is nearby.</p>
+          </div>
+          <div class="audience-card">
+            <div class="audience-label">04</div>
+            <div class="audience-title">Serious Projects</div>
+            <p class="audience-text">High-horsepower setups, track cars, restorations, shop builds, and rare platforms that deserve more than a caption.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1077,12 +1610,31 @@
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
 
-    document.querySelectorAll('.tag').forEach(tag => {
-      tag.addEventListener('mouseenter', () => {
-        document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
-        tag.classList.add('active');
+    const featureCards = document.querySelectorAll('.feature-card[data-feature]');
+    const previewScreens = document.querySelectorAll('.preview-screen[data-preview]');
+
+    function setFeaturePreview(featureKey) {
+      featureCards.forEach(card => {
+        card.classList.toggle('active', card.dataset.feature === featureKey);
+      });
+      previewScreens.forEach(screen => {
+        screen.classList.toggle('active', screen.dataset.preview === featureKey);
+      });
+    }
+
+    featureCards.forEach(card => {
+      card.addEventListener('click', event => {
+        event.preventDefault();
+        const featureKey = card.dataset.feature;
+        setFeaturePreview(featureKey);
+        if (card.hash) history.replaceState(null, '', card.hash);
       });
     });
+
+    if (window.location.hash) {
+      const initialCard = document.querySelector(`.feature-card[href="${window.location.hash}"]`);
+      if (initialCard?.dataset.feature) setFeaturePreview(initialCard.dataset.feature);
+    }
 
     async function submitSignup(event, nameId, emailId, platformId, btnId, successId, wrapId) {
       event.preventDefault();
