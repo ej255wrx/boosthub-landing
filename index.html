@@ -1208,7 +1208,7 @@
           <option value="Android">Android</option>
           <option value="Both">Both</option>
         </select>
-        <button type="submit" id="heroBtn">Get Launch Updates</button>
+        <button type="submit" id="heroBtn">Marketplace Updates</button>
       </form>
       <p class="success-msg" id="heroSuccess">You're on the list.</p>
       <p class="hero-note">Download links are live now. Join the list for marketplace, ratings, and community feature updates.</p>
@@ -1563,7 +1563,7 @@
           <option value="Android">Android</option>
           <option value="Both">Both</option>
         </select>
-        <button type="submit" id="ctaBtn">Get Launch Updates</button>
+        <button type="submit" id="ctaBtn">Marketplace Updates</button>
       </form>
       <p class="success-msg" id="ctaSuccess" style="font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--green); margin-top: 16px;">You're on the list.</p>
     </div>
@@ -1671,13 +1671,13 @@
           gtag('event', 'beta_signup', { platform_selected: platform });
         } else {
           btn.disabled = false;
-          btn.textContent = 'Get Launch Updates';
+          btn.textContent = 'Marketplace Updates';
           emailEl.style.borderColor = '#ef4444';
           setTimeout(() => emailEl.style.borderColor = '', 1500);
         }
       } catch (err) {
         btn.disabled = false;
-        btn.textContent = 'Get Launch Updates';
+        btn.textContent = 'Marketplace Updates';
       }
     }
   </script>
