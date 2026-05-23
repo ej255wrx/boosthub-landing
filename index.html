@@ -1658,11 +1658,168 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .events-layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .event-calendar-card,
+    .event-list-card {
+      border: 1px solid rgba(59,130,246,0.25);
+      background: rgba(8,10,13,0.52);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .calendar-header {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .calendar-title {
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .calendar-sub {
+      color: #9ca3af;
+      font-size: 12px;
+      font-weight: 800;
+      margin-top: 4px;
+      text-align: center;
+    }
+
+    .calendar-nav {
+      min-width: 58px;
+      min-height: 38px;
+      border: 1px solid rgba(59,130,246,0.34);
+      background: rgba(37,99,235,0.12);
+      color: #dbeafe;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .calendar-weekdays,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .calendar-weekdays {
+      color: #9ca3af;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .calendar-day,
+    .calendar-empty {
+      min-height: 58px;
+      border-radius: 10px;
+    }
+
+    .calendar-empty {
+      background: rgba(255,255,255,0.025);
+    }
+
+    .calendar-day {
+      border: 1px solid rgba(255,255,255,0.09);
+      background: rgba(255,255,255,0.045);
+      color: var(--white);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 8px;
+      text-align: left;
+      transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+    }
+
+    .calendar-day:hover {
+      border-color: rgba(59,130,246,0.5);
+      background: rgba(37,99,235,0.12);
+      transform: translateY(-1px);
+    }
+
+    .calendar-day.has-event {
+      border-color: rgba(34,197,94,0.44);
+      background: rgba(34,197,94,0.12);
+    }
+
+    .calendar-day.selected {
+      border-color: var(--green);
+      background: rgba(34,197,94,0.22);
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.28);
+    }
+
+    .calendar-day-number {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .calendar-dot-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      min-height: 7px;
+    }
+
+    .calendar-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--green);
+    }
+
+    .calendar-more {
+      color: #bbf7d0;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
     .event-form {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr auto;
       gap: 10px;
       margin-bottom: 14px;
+    }
+
+    .event-filter-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .event-filter-label {
+      color: #a7f3d0;
+      font-size: 13px;
+      font-weight: 900;
     }
 
     .status-line {
@@ -1922,7 +2079,8 @@
       .community-grid,
       .launch-roadmap,
       .build-grid,
-      .profile-stat-grid {
+      .profile-stat-grid,
+      .events-layout {
         grid-template-columns: 1fr;
       }
       .app-tab-bar {
@@ -1944,6 +2102,13 @@
       }
       .ranking-stat {
         grid-column: 2;
+      }
+      .calendar-day,
+      .calendar-empty {
+        min-height: 48px;
+      }
+      .calendar-title {
+        font-size: 22px;
       }
       .steps::before { left: 20px; }
       footer { justify-content: center; text-align: center; }
@@ -2188,14 +2353,44 @@
           <div class="result-note" id="eventNote"></div>
         </div>
 
-        <form class="event-form" id="eventForm">
-          <input class="event-input" id="eventName" type="text" placeholder="Meet name" required />
-          <input class="event-input" id="eventCity" type="text" placeholder="City / state" required />
-          <input class="event-input" id="eventDate" type="date" required />
-          <button class="action-button primary" type="submit">Add Event</button>
-        </form>
+        <div class="events-layout">
+          <div class="event-calendar-card" aria-label="Event calendar">
+            <div class="calendar-header">
+              <button class="calendar-nav" id="eventPrevMonth" type="button">Prev</button>
+              <div>
+                <div class="calendar-title" id="eventCalendarTitle"></div>
+                <div class="calendar-sub" id="eventCalendarSub"></div>
+              </div>
+              <button class="calendar-nav" id="eventNextMonth" type="button">Next</button>
+            </div>
+            <div class="calendar-weekdays" aria-hidden="true">
+              <span>Sun</span>
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+            </div>
+            <div class="calendar-grid" id="eventCalendar" aria-label="Event dates"></div>
+          </div>
 
-        <div class="event-results" id="eventResults"></div>
+          <div class="event-list-card">
+            <form class="event-form" id="eventForm">
+              <input class="event-input" id="eventName" type="text" placeholder="Meet name" required />
+              <input class="event-input" id="eventCity" type="text" placeholder="City / state" required />
+              <input class="event-input" id="eventDate" type="date" required />
+              <button class="action-button primary" type="submit">Add Event</button>
+            </form>
+
+            <div class="event-filter-row">
+              <div class="event-filter-label" id="eventFilterLabel">Showing all events</div>
+              <button class="action-button" id="eventClearFilter" type="button">Show All</button>
+            </div>
+
+            <div class="event-results" id="eventResults"></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -3253,25 +3448,113 @@
       const form = document.getElementById('eventForm');
       const results = document.getElementById('eventResults');
       const note = document.getElementById('eventNote');
+      const calendar = document.getElementById('eventCalendar');
+      const calendarTitle = document.getElementById('eventCalendarTitle');
+      const calendarSub = document.getElementById('eventCalendarSub');
+      const prevMonth = document.getElementById('eventPrevMonth');
+      const nextMonth = document.getElementById('eventNextMonth');
+      const clearFilter = document.getElementById('eventClearFilter');
+      const filterLabel = document.getElementById('eventFilterLabel');
+      const dateInput = document.getElementById('eventDate');
       if (!form || !results) return;
 
       function allEvents() {
         return [...baseEvents, ...customEvents].sort((a, b) => a.date.localeCompare(b.date));
       }
 
-      function renderEvents() {
+      function eventDateToObject(date) {
+        return new Date(`${date}T12:00:00`);
+      }
+
+      function dateToIso(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
+      function monthKey(date) {
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      }
+
+      function formatEventDate(date) {
+        return eventDateToObject(date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+      }
+
+      function escapeText(value) {
+        return String(value)
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#039;');
+      }
+
+      const initialEvent = allEvents()[0];
+      let visibleMonth = initialEvent
+        ? eventDateToObject(`${initialEvent.date.slice(0, 7)}-01`)
+        : new Date();
+      let selectedDate = null;
+
+      function renderCalendar() {
+        if (!calendar || !calendarTitle || !calendarSub) return;
         const events = allEvents();
-        note.textContent = `${events.length} event${events.length === 1 ? '' : 's'} available`;
+        const visibleKey = monthKey(visibleMonth);
+        const year = visibleMonth.getFullYear();
+        const month = visibleMonth.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const eventsByDate = events.reduce((grouped, event) => {
+          grouped[event.date] = grouped[event.date] || [];
+          grouped[event.date].push(event);
+          return grouped;
+        }, {});
+        const monthEvents = events.filter(event => event.date.startsWith(visibleKey));
+
+        calendarTitle.textContent = visibleMonth.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+        calendarSub.textContent = selectedDate
+          ? `${formatEventDate(selectedDate)} selected`
+          : `${monthEvents.length} event${monthEvents.length === 1 ? '' : 's'} this month`;
+
+        const blanks = Array.from({ length: firstDay.getDay() }, () => '<div class="calendar-empty" aria-hidden="true"></div>');
+        const days = Array.from({ length: daysInMonth }, (_, index) => {
+          const day = index + 1;
+          const date = dateToIso(new Date(year, month, day));
+          const eventsForDay = eventsByDate[date] || [];
+          const hasEvent = eventsForDay.length > 0;
+          const isSelected = selectedDate === date;
+          const dots = Array.from({ length: Math.min(eventsForDay.length, 3) }, () => '<span class="calendar-dot"></span>').join('');
+          const more = eventsForDay.length > 3 ? '<span class="calendar-more">3+</span>' : '';
+          const label = `${formatEventDate(date)}, ${eventsForDay.length} event${eventsForDay.length === 1 ? '' : 's'}`;
+          return `
+            <button class="calendar-day ${hasEvent ? 'has-event' : ''} ${isSelected ? 'selected' : ''}" type="button" data-calendar-date="${date}" aria-label="${label}">
+              <span class="calendar-day-number">${day}</span>
+              <span class="calendar-dot-row">${dots}${more}</span>
+            </button>
+          `;
+        });
+
+        calendar.innerHTML = [...blanks, ...days].join('');
+      }
+
+      function renderEvents() {
+        const events = allEvents().filter(event => !selectedDate || event.date === selectedDate);
+        note.textContent = selectedDate
+          ? `${events.length} event${events.length === 1 ? '' : 's'} on ${formatEventDate(selectedDate)}`
+          : `${events.length} event${events.length === 1 ? '' : 's'} available`;
+        if (filterLabel) {
+          filterLabel.textContent = selectedDate ? `Showing ${formatEventDate(selectedDate)}` : 'Showing all events';
+        }
         results.innerHTML = events.map(event => {
           const interested = interestedEvents.includes(event.id);
           const count = event.count + (interested ? 1 : 0);
-          const date = new Date(`${event.date}T12:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+          const date = formatEventDate(event.date);
           return `
             <article class="functional-card">
               <div class="event-topline">
                 <div>
-                  <h4 class="event-name">${event.name}</h4>
-                  <p class="event-meta">${event.type} - ${event.city} - ${date}</p>
+                  <h4 class="event-name">${escapeText(event.name)}</h4>
+                  <p class="event-meta">${escapeText(event.type)} - ${escapeText(event.city)} - ${date}</p>
                 </div>
               </div>
               <p class="event-count">${count} interested</p>
@@ -3281,19 +3564,35 @@
               </div>
             </article>
           `;
-        }).join('');
+        }).join('') || '<p class="status-line">No events on this date yet. Add one above and it will appear on the calendar.</p>';
+      }
+
+      function renderEventSuite() {
+        renderCalendar();
+        renderEvents();
       }
 
       form.addEventListener('submit', event => {
         event.preventDefault();
         const name = document.getElementById('eventName').value.trim();
         const city = document.getElementById('eventCity').value.trim();
-        const date = document.getElementById('eventDate').value;
+        const date = dateInput.value;
         if (!name || !city || !date) return;
         customEvents = [...customEvents, { id: `custom-${Date.now()}`, name, city, date, type: 'Community', count: 1 }];
         writeJson('boosthub.customEvents', customEvents);
+        visibleMonth = eventDateToObject(`${date.slice(0, 7)}-01`);
+        selectedDate = date;
         form.reset();
-        renderEvents();
+        dateInput.value = date;
+        renderEventSuite();
+      });
+
+      calendar?.addEventListener('click', event => {
+        const date = event.target.closest?.('[data-calendar-date]')?.dataset.calendarDate;
+        if (!date) return;
+        selectedDate = selectedDate === date ? null : date;
+        dateInput.value = date;
+        renderEventSuite();
       });
 
       results.addEventListener('click', event => {
@@ -3304,7 +3603,7 @@
             ? interestedEvents.filter(id => id !== interestId)
             : [...interestedEvents, interestId];
           writeJson('boosthub.interestedEvents', interestedEvents);
-          renderEvents();
+          renderEventSuite();
         }
         if (shareId) {
           const item = allEvents().find(eventItem => eventItem.id === shareId);
@@ -3315,9 +3614,25 @@
         }
       });
 
-      const dateInput = document.getElementById('eventDate');
+      prevMonth?.addEventListener('click', () => {
+        visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() - 1, 1);
+        selectedDate = null;
+        renderEventSuite();
+      });
+
+      nextMonth?.addEventListener('click', () => {
+        visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + 1, 1);
+        selectedDate = null;
+        renderEventSuite();
+      });
+
+      clearFilter?.addEventListener('click', () => {
+        selectedDate = null;
+        renderEventSuite();
+      });
+
       if (dateInput && !dateInput.value) dateInput.value = '2026-06-28';
-      renderEvents();
+      renderEventSuite();
     }
 
     setupComponentTabs();
