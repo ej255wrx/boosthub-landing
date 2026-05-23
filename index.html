@@ -1190,6 +1190,288 @@
       background: rgba(17,24,39,0.7);
     }
 
+    .app-components-section {
+      border-top: 1px solid var(--border);
+      background:
+        radial-gradient(circle at 18% 16%, rgba(255,106,0,0.1), transparent 30%),
+        radial-gradient(circle at 84% 18%, rgba(37,99,235,0.14), transparent 34%),
+        #080a0d;
+      padding: 100px 24px;
+    }
+
+    .components-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .component-shell {
+      border: 1px solid rgba(59,130,246,0.25);
+      background: rgba(10,14,20,0.9);
+      border-radius: 18px;
+      padding: 18px;
+      margin-top: 24px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.32);
+    }
+
+    .component-title-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    .component-title {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 4vw, 46px);
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .component-copy {
+      color: #9ca3af;
+      font-size: 15px;
+      line-height: 1.65;
+      max-width: 620px;
+      margin-top: 8px;
+    }
+
+    .component-toolbar {
+      display: grid;
+      grid-template-columns: 1.2fr repeat(2, minmax(150px, 0.6fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .component-toolbar.two {
+      grid-template-columns: repeat(2, minmax(160px, 1fr));
+    }
+
+    .component-control,
+    .calc-input,
+    .event-input {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid #263247;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.055);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 12px 13px;
+      outline: none;
+    }
+
+    .component-control:focus,
+    .calc-input:focus,
+    .event-input:focus {
+      border-color: var(--blue-bright);
+    }
+
+    .component-control option {
+      color: var(--white);
+      background: #10141c;
+    }
+
+    .result-note {
+      color: #a7f3d0;
+      font-size: 13px;
+      font-weight: 800;
+      min-height: 20px;
+      margin-bottom: 12px;
+    }
+
+    .functional-grid,
+    .listing-results,
+    .ranking-results,
+    .event-results {
+      display: grid;
+      gap: 12px;
+    }
+
+    .listing-results {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .functional-card {
+      border: 1px solid var(--border);
+      background: rgba(17,24,39,0.76);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .listing-card {
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .listing-topline,
+    .ranking-topline,
+    .event-topline {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .listing-name,
+    .ranking-name,
+    .event-name,
+    .calc-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .listing-price,
+    .ranking-stat {
+      color: var(--green);
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .listing-meta,
+    .ranking-meta,
+    .event-meta,
+    .calc-copy {
+      color: #9ca3af;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .listing-seller,
+    .event-count {
+      color: #dbeafe;
+      font-size: 13px;
+      font-weight: 900;
+      margin-top: 10px;
+    }
+
+    .listing-actions,
+    .event-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .action-button {
+      min-height: 38px;
+      border: 1px solid rgba(59,130,246,0.42);
+      background: rgba(37,99,235,0.16);
+      color: #dbeafe;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 9px 12px;
+    }
+
+    .action-button.primary {
+      border-color: rgba(34,197,94,0.62);
+      background: var(--green);
+      color: #06120b;
+    }
+
+    .action-button.orange {
+      border-color: rgba(255,106,0,0.5);
+      background: rgba(255,106,0,0.14);
+      color: #fed7aa;
+    }
+
+    .action-button.saved,
+    .action-button.active {
+      border-color: rgba(34,197,94,0.64);
+      background: rgba(34,197,94,0.18);
+      color: #bbf7d0;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .calc-fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .calc-output {
+      border: 1px solid rgba(34,197,94,0.32);
+      background: rgba(34,197,94,0.09);
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+
+    .calc-output-label {
+      color: #a7f3d0;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .calc-output-value {
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-weight: 900;
+      margin-top: 4px;
+    }
+
+    .ranking-results {
+      grid-template-columns: 1fr;
+    }
+
+    .ranking-row {
+      display: grid;
+      grid-template-columns: 64px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ranking-position {
+      color: var(--orange);
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 900;
+    }
+
+    .event-results {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .event-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .status-line {
+      color: #bfdbfe;
+      font-size: 13px;
+      font-weight: 800;
+      margin-top: 10px;
+      min-height: 20px;
+    }
+
     .cta-section {
       padding: 120px 24px;
       text-align: center;
@@ -1460,6 +1742,21 @@
       .community-grid,
       .launch-roadmap {
         grid-template-columns: 1fr;
+      }
+      .component-title-row { align-items: flex-start; flex-direction: column; }
+      .component-toolbar,
+      .component-toolbar.two,
+      .listing-results,
+      .calc-grid,
+      .event-results,
+      .event-form {
+        grid-template-columns: 1fr;
+      }
+      .ranking-row {
+        grid-template-columns: 48px minmax(0, 1fr);
+      }
+      .ranking-stat {
+        grid-column: 2;
       }
       .steps::before { left: 20px; }
       footer { justify-content: center; text-align: center; }
@@ -2101,6 +2398,148 @@
     </div>
   </section>
 
+  <section class="app-components-section" id="live-components">
+    <div class="components-inner">
+      <div class="web-product-head reveal">
+        <div>
+          <div class="section-label">Functional Web Components</div>
+          <h2 class="section-title">Use pieces of BoostHub right here.</h2>
+        </div>
+        <p class="web-product-copy">
+          These are not static teasers. They are working browser components: filter marketplace
+          listings, save parts locally, sort a leaderboard, run build calculators, and RSVP to
+          events. The next step is wiring these same surfaces to live accounts and Supabase data.
+        </p>
+      </div>
+
+      <div class="component-shell reveal" aria-labelledby="marketplaceComponentTitle">
+        <div class="component-title-row">
+          <div>
+            <div class="card-kicker green">Marketplace</div>
+            <h3 class="component-title" id="marketplaceComponentTitle">Browse parts with trust signals</h3>
+            <p class="component-copy">Search, filter, save listings, and open a seller email draft.</p>
+          </div>
+          <div class="result-note" id="marketplaceNote"></div>
+        </div>
+
+        <div class="component-toolbar">
+          <input class="component-control" id="marketSearch" type="search" placeholder="Search turbo, wheels, fuel, WRX..." />
+          <select class="component-control" id="marketCategory" aria-label="Marketplace category"></select>
+          <select class="component-control" id="marketTier" aria-label="Seller type"></select>
+        </div>
+
+        <div class="listing-results" id="marketResults"></div>
+        <div class="status-line" id="marketStatus"></div>
+      </div>
+
+      <div class="component-shell reveal" aria-labelledby="rankComponentTitle">
+        <div class="component-title-row">
+          <div>
+            <div class="card-kicker orange">DynoRank</div>
+            <h3 class="component-title" id="rankComponentTitle">Sort builds by numbers</h3>
+            <p class="component-copy">Switch between power, quarter-mile time, and trap speed with drivetrain/proof filters.</p>
+          </div>
+          <div class="result-note" id="rankNote"></div>
+        </div>
+
+        <div class="component-toolbar">
+          <select class="component-control" id="rankMetric" aria-label="Rank metric">
+            <option value="horsepower">Horsepower</option>
+            <option value="quarter">1/4 mile</option>
+            <option value="trap">Trap speed</option>
+          </select>
+          <select class="component-control" id="rankDrivetrain" aria-label="Drivetrain filter">
+            <option value="All">All drivetrains</option>
+            <option value="AWD">AWD</option>
+            <option value="RWD">RWD</option>
+            <option value="FWD">FWD</option>
+          </select>
+          <select class="component-control" id="rankProof" aria-label="Proof filter">
+            <option value="All">All proof states</option>
+            <option value="Verified">Verified only</option>
+          </select>
+        </div>
+
+        <div class="ranking-results" id="rankResults"></div>
+      </div>
+
+      <div class="component-shell reveal" aria-labelledby="toolsComponentTitle">
+        <div class="component-title-row">
+          <div>
+            <div class="card-kicker">Build Tools</div>
+            <h3 class="component-title" id="toolsComponentTitle">Run real calculators</h3>
+            <p class="component-copy">Fuel blend, injector sizing, and tire/speed correction now work on the website.</p>
+          </div>
+        </div>
+
+        <div class="calc-grid">
+          <article class="functional-card">
+            <h4 class="calc-title">Fuel Blend</h4>
+            <p class="calc-copy">Estimate final ethanol percentage after adding fuel.</p>
+            <div class="calc-fields">
+              <input class="calc-input" id="fuelCurrentGallons" type="number" min="0" step="0.1" value="5" aria-label="Current gallons" />
+              <input class="calc-input" id="fuelCurrentEthanol" type="number" min="0" max="100" step="1" value="10" aria-label="Current ethanol percent" />
+              <input class="calc-input" id="fuelAddGallons" type="number" min="0" step="0.1" value="10" aria-label="Gallons to add" />
+              <input class="calc-input" id="fuelAddEthanol" type="number" min="0" max="100" step="1" value="85" aria-label="Added fuel ethanol percent" />
+            </div>
+            <div class="calc-output">
+              <div class="calc-output-label">Final blend</div>
+              <div class="calc-output-value" id="fuelResult">E60</div>
+            </div>
+          </article>
+
+          <article class="functional-card">
+            <h4 class="calc-title">Injector Size</h4>
+            <p class="calc-copy">Estimate injector size from target power, BSFC, injector count, and duty cycle.</p>
+            <div class="calc-fields">
+              <input class="calc-input" id="injHp" type="number" min="1" step="1" value="550" aria-label="Target horsepower" />
+              <input class="calc-input" id="injBsfc" type="number" min="0.1" step="0.01" value="0.65" aria-label="BSFC" />
+              <input class="calc-input" id="injCount" type="number" min="1" step="1" value="4" aria-label="Injector count" />
+              <input class="calc-input" id="injDuty" type="number" min="1" max="100" step="1" value="85" aria-label="Duty cycle percent" />
+            </div>
+            <div class="calc-output">
+              <div class="calc-output-label">Per injector</div>
+              <div class="calc-output-value" id="injectorResult">1104 cc/min</div>
+            </div>
+          </article>
+
+          <article class="functional-card">
+            <h4 class="calc-title">Tire Change</h4>
+            <p class="calc-copy">Compare tire diameter and corrected speed at 60 mph.</p>
+            <div class="calc-fields">
+              <input class="calc-input" id="tireA" type="text" value="245/40/18" aria-label="Current tire size" />
+              <input class="calc-input" id="tireB" type="text" value="255/35/18" aria-label="New tire size" />
+            </div>
+            <div class="calc-output">
+              <div class="calc-output-label">Speed at indicated 60</div>
+              <div class="calc-output-value" id="tireResult">58.9 mph</div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="component-shell reveal" aria-labelledby="eventsComponentTitle">
+        <div class="component-title-row">
+          <div>
+            <div class="card-kicker green">Events</div>
+            <h3 class="component-title" id="eventsComponentTitle">RSVP and add local plans</h3>
+            <p class="component-copy">Interest counts and custom meet ideas are stored in this browser until backend event creation is connected.</p>
+          </div>
+          <div class="result-note" id="eventNote"></div>
+        </div>
+
+        <form class="event-form" id="eventForm">
+          <input class="event-input" id="eventName" type="text" placeholder="Meet name" required />
+          <input class="event-input" id="eventCity" type="text" placeholder="City / state" required />
+          <input class="event-input" id="eventDate" type="date" required />
+          <button class="action-button primary" type="submit">Add Event</button>
+        </form>
+
+        <div class="event-results" id="eventResults"></div>
+      </div>
+    </div>
+  </section>
+
   <section class="cta-section">
     <div class="cta-glow"></div>
     <img class="cta-logo reveal" src="assets/boosthub-logo-square.png" alt="BoostHub logo" />
@@ -2194,6 +2633,365 @@
       const initialCard = document.querySelector(`.feature-card[href="${window.location.hash}"]`);
       if (initialCard?.dataset.feature) setFeaturePreview(initialCard.dataset.feature);
     }
+
+    const marketplaceListings = [
+      {
+        id: 'carbon-hood',
+        title: 'Carbon Fiber VA WRX Hood',
+        price: 850,
+        category: 'Exterior',
+        tier: 'Verified Vendor',
+        seller: 'Midwest Subie Parts',
+        location: 'Chicago, IL',
+        condition: 'Used - excellent',
+        tags: ['WRX', 'VA', 'Carbon'],
+        safety: 'Inventory proof on file',
+        fitment: '2015-2021 Subaru WRX / STI',
+      },
+      {
+        id: 'precision-turbo',
+        title: 'Precision 6266 Turbo Kit',
+        price: 2400,
+        category: 'Turbo',
+        tier: 'Verified Shop',
+        seller: 'Apex Fabrication',
+        location: 'Dallas, TX',
+        condition: 'Used - ready',
+        tags: ['Turbo', 'T4', 'V-band'],
+        safety: 'High-value listing review recommended',
+        fitment: 'Universal fabrication setup',
+      },
+      {
+        id: 'rpf1-set',
+        title: 'Enkei RPF1 18x9.5 +38',
+        price: 1050,
+        category: 'Wheels',
+        tier: 'Private Seller',
+        seller: 'boosted_jay',
+        location: 'Orlando, FL',
+        condition: 'Used - curb rash',
+        tags: ['5x114.3', '18x9.5', 'Track'],
+        safety: 'Private seller limit applies',
+        fitment: 'Common Subaru, Honda, Nissan, Mitsubishi fitments',
+      },
+      {
+        id: 'flex-fuel-return',
+        title: 'Flex Fuel Return System',
+        price: 620,
+        category: 'Fuel',
+        tier: 'Official Partner',
+        seller: 'BoostHub Performance',
+        location: 'Phoenix, AZ',
+        condition: 'New',
+        tags: ['E85', 'AN Lines', 'Subaru'],
+        safety: 'Partner profile admin-controlled',
+        fitment: 'Subaru EJ/FA return-style fuel conversions',
+      },
+      {
+        id: 'oil-cooler-watch',
+        title: 'Oil Cooler Kit - Quick Sale',
+        price: 300,
+        category: 'Engine',
+        tier: 'Private Seller',
+        seller: 'fresh_partout',
+        location: 'Atlanta, GA',
+        condition: 'Used - unknown',
+        tags: ['Cooling', 'Universal', 'Review'],
+        safety: 'Actual-item photo needed before approval',
+        fitment: 'Universal; buyer should verify measurements',
+      },
+    ];
+
+    const rankBuilds = [
+      { id: 'wrx742', name: 'Street-class WRX', owner: 'Midwest Subie', horsepower: 742, quarter: 10.34, trap: 141.2, drivetrain: 'AWD', proof: 'Verified', meta: 'E85 - dyno sheet - Dragy pass' },
+      { id: 'evo981', name: 'Track Evo IX', owner: 'Apex Fabrication', horsepower: 690, quarter: 9.81, trap: 148.5, drivetrain: 'AWD', proof: 'Verified', meta: 'Shop build - Dragy verified' },
+      { id: 'coyote154', name: 'Single turbo Coyote', owner: 'boosted_jay', horsepower: 815, quarter: 10.02, trap: 154.0, drivetrain: 'RWD', proof: 'Verified', meta: 'Turbo V8 - public build' },
+      { id: 'civic620', name: 'K-series Civic', owner: 'garage_mike', horsepower: 620, quarter: 10.78, trap: 136.4, drivetrain: 'FWD', proof: 'Unverified', meta: 'Street tire setup' },
+      { id: 'supra900', name: 'Single turbo Supra', owner: 'BoostHub Performance', horsepower: 912, quarter: 9.62, trap: 158.8, drivetrain: 'RWD', proof: 'Verified', meta: 'Partner test car' },
+    ];
+
+    const baseEvents = [
+      { id: 'friday-roll-in', name: 'Friday Night Roll-in', city: 'Chicago, IL', date: '2026-06-05', type: 'Meet', count: 24 },
+      { id: 'dyno-day', name: 'Dyno Day Waitlist', city: 'Dallas, TX', date: '2026-06-14', type: 'Dyno', count: 17 },
+      { id: 'track-prep', name: 'Track Prep Cruise', city: 'Phoenix, AZ', date: '2026-06-22', type: 'Cruise', count: 31 },
+    ];
+
+    function readJson(key, fallback) {
+      try {
+        return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
+      } catch {
+        return fallback;
+      }
+    }
+
+    function writeJson(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch {
+        // Private browsing can block storage; the component still works for the current page.
+      }
+    }
+
+    let savedListings = readJson('boosthub.savedListings', []);
+    let interestedEvents = readJson('boosthub.interestedEvents', []);
+    let customEvents = readJson('boosthub.customEvents', []);
+
+    function money(value) {
+      return `$${Number(value).toLocaleString()}`;
+    }
+
+    function setupMarketplaceComponent() {
+      const search = document.getElementById('marketSearch');
+      const category = document.getElementById('marketCategory');
+      const tier = document.getElementById('marketTier');
+      const results = document.getElementById('marketResults');
+      const note = document.getElementById('marketplaceNote');
+      const status = document.getElementById('marketStatus');
+      if (!search || !category || !tier || !results) return;
+
+      const categories = ['All', ...new Set(marketplaceListings.map(item => item.category))];
+      const tiers = ['All sellers', ...new Set(marketplaceListings.map(item => item.tier))];
+      category.innerHTML = categories.map(item => `<option value="${item}">${item}</option>`).join('');
+      tier.innerHTML = tiers.map(item => `<option value="${item}">${item}</option>`).join('');
+
+      function renderMarketplace() {
+        const query = search.value.trim().toLowerCase();
+        const selectedCategory = category.value;
+        const selectedTier = tier.value;
+        const visible = marketplaceListings.filter(item => {
+          const searchable = `${item.title} ${item.seller} ${item.category} ${item.tier} ${item.tags.join(' ')} ${item.fitment}`.toLowerCase();
+          return (!query || searchable.includes(query)) &&
+            (selectedCategory === 'All' || item.category === selectedCategory) &&
+            (selectedTier === 'All sellers' || item.tier === selectedTier);
+        });
+
+        note.textContent = `${visible.length} listing${visible.length === 1 ? '' : 's'} shown`;
+        results.innerHTML = visible.map(item => {
+          const saved = savedListings.includes(item.id);
+          return `
+            <article class="functional-card listing-card">
+              <div>
+                <div class="listing-topline">
+                  <h4 class="listing-name">${item.title}</h4>
+                  <div class="listing-price">${money(item.price)}</div>
+                </div>
+                <p class="listing-meta">${item.location} - ${item.condition}</p>
+                <p class="listing-meta">${item.fitment}</p>
+                <p class="listing-seller">${item.tier} - ${item.seller}</p>
+                <div class="market-tags">
+                  ${item.tags.map(tag => `<span class="market-tag">${tag}</span>`).join('')}
+                </div>
+                <p class="status-line">${item.safety}</p>
+              </div>
+              <div class="listing-actions">
+                <button class="action-button ${saved ? 'saved' : ''}" type="button" data-save-listing="${item.id}">${saved ? 'Saved' : 'Save'}</button>
+                <button class="action-button primary" type="button" data-message-listing="${item.id}">Message Seller</button>
+              </div>
+            </article>
+          `;
+        }).join('') || '<p class="status-line">No listings match those filters.</p>';
+      }
+
+      [search, category, tier].forEach(input => input.addEventListener('input', renderMarketplace));
+      results.addEventListener('click', event => {
+        const saveId = event.target.dataset.saveListing;
+        const messageId = event.target.dataset.messageListing;
+        if (saveId) {
+          savedListings = savedListings.includes(saveId)
+            ? savedListings.filter(id => id !== saveId)
+            : [...savedListings, saveId];
+          writeJson('boosthub.savedListings', savedListings);
+          status.textContent = savedListings.includes(saveId) ? 'Listing saved in this browser.' : 'Listing removed from saved.';
+          renderMarketplace();
+        }
+        if (messageId) {
+          const listing = marketplaceListings.find(item => item.id === messageId);
+          if (!listing) return;
+          const subject = encodeURIComponent(`BoostHub listing: ${listing.title}`);
+          const body = encodeURIComponent(`Hi ${listing.seller},\n\nI saw your ${listing.title} on BoostHub and wanted to ask if it is still available.\n\nListing: ${money(listing.price)} - ${listing.location}`);
+          window.location.href = `mailto:marketplace@boosthubapp.com?subject=${subject}&body=${body}`;
+        }
+      });
+
+      renderMarketplace();
+    }
+
+    function setupRankComponent() {
+      const metric = document.getElementById('rankMetric');
+      const drivetrain = document.getElementById('rankDrivetrain');
+      const proof = document.getElementById('rankProof');
+      const results = document.getElementById('rankResults');
+      const note = document.getElementById('rankNote');
+      if (!metric || !drivetrain || !proof || !results) return;
+
+      function renderRankings() {
+        const metricKey = metric.value;
+        const ascending = metricKey === 'quarter';
+        const filtered = rankBuilds
+          .filter(item => drivetrain.value === 'All' || item.drivetrain === drivetrain.value)
+          .filter(item => proof.value === 'All' || item.proof === proof.value)
+          .sort((a, b) => ascending ? a[metricKey] - b[metricKey] : b[metricKey] - a[metricKey]);
+
+        const label = metricKey === 'horsepower' ? 'HP' : metricKey === 'quarter' ? 'sec' : 'MPH';
+        note.textContent = `${filtered.length} build${filtered.length === 1 ? '' : 's'} ranked`;
+        results.innerHTML = filtered.map((item, index) => `
+          <article class="functional-card ranking-row">
+            <div class="ranking-position">#${index + 1}</div>
+            <div>
+              <div class="ranking-topline">
+                <div>
+                  <h4 class="ranking-name">${item.name}</h4>
+                  <p class="ranking-meta">${item.owner} - ${item.drivetrain} - ${item.proof}</p>
+                </div>
+              </div>
+              <p class="ranking-meta">${item.meta}</p>
+            </div>
+            <div class="ranking-stat">${item[metricKey]} ${label}</div>
+          </article>
+        `).join('') || '<p class="status-line">No builds match those filters.</p>';
+      }
+
+      [metric, drivetrain, proof].forEach(input => input.addEventListener('input', renderRankings));
+      renderRankings();
+    }
+
+    function getNumber(id, fallback) {
+      const value = Number(document.getElementById(id)?.value);
+      return Number.isFinite(value) ? value : fallback;
+    }
+
+    function setupCalculators() {
+      const calcInputs = document.querySelectorAll('.calc-input');
+      if (!calcInputs.length) return;
+
+      function updateFuel() {
+        const currentGallons = getNumber('fuelCurrentGallons', 0);
+        const currentE = getNumber('fuelCurrentEthanol', 0);
+        const addGallons = getNumber('fuelAddGallons', 0);
+        const addE = getNumber('fuelAddEthanol', 0);
+        const total = currentGallons + addGallons;
+        const finalE = total > 0 ? ((currentGallons * currentE) + (addGallons * addE)) / total : 0;
+        document.getElementById('fuelResult').textContent = `E${Math.round(finalE)}`;
+      }
+
+      function updateInjector() {
+        const hp = getNumber('injHp', 0);
+        const bsfc = getNumber('injBsfc', 0.65);
+        const count = Math.max(1, getNumber('injCount', 4));
+        const duty = Math.max(1, getNumber('injDuty', 85)) / 100;
+        const lbPerHour = (hp * bsfc) / (count * duty);
+        const ccPerMin = lbPerHour * 10.5;
+        document.getElementById('injectorResult').textContent = `${Math.round(ccPerMin)} cc/min`;
+      }
+
+      function parseTire(value) {
+        const match = String(value).trim().match(/^(\d{3})\/(\d{2})\/(\d{2})$/);
+        if (!match) return null;
+        const width = Number(match[1]);
+        const aspect = Number(match[2]);
+        const wheel = Number(match[3]);
+        const sidewall = width * (aspect / 100) / 25.4;
+        const diameter = wheel + sidewall * 2;
+        return { diameter };
+      }
+
+      function updateTire() {
+        const oldTire = parseTire(document.getElementById('tireA').value);
+        const newTire = parseTire(document.getElementById('tireB').value);
+        const output = document.getElementById('tireResult');
+        if (!oldTire || !newTire) {
+          output.textContent = 'Use 245/40/18';
+          return;
+        }
+        const corrected = 60 * (newTire.diameter / oldTire.diameter);
+        output.textContent = `${corrected.toFixed(1)} mph`;
+      }
+
+      function updateAllCalcs() {
+        updateFuel();
+        updateInjector();
+        updateTire();
+      }
+
+      calcInputs.forEach(input => input.addEventListener('input', updateAllCalcs));
+      updateAllCalcs();
+    }
+
+    function setupEventsComponent() {
+      const form = document.getElementById('eventForm');
+      const results = document.getElementById('eventResults');
+      const note = document.getElementById('eventNote');
+      if (!form || !results) return;
+
+      function allEvents() {
+        return [...baseEvents, ...customEvents].sort((a, b) => a.date.localeCompare(b.date));
+      }
+
+      function renderEvents() {
+        const events = allEvents();
+        note.textContent = `${events.length} event${events.length === 1 ? '' : 's'} available`;
+        results.innerHTML = events.map(event => {
+          const interested = interestedEvents.includes(event.id);
+          const count = event.count + (interested ? 1 : 0);
+          const date = new Date(`${event.date}T12:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+          return `
+            <article class="functional-card">
+              <div class="event-topline">
+                <div>
+                  <h4 class="event-name">${event.name}</h4>
+                  <p class="event-meta">${event.type} - ${event.city} - ${date}</p>
+                </div>
+              </div>
+              <p class="event-count">${count} interested</p>
+              <div class="event-actions">
+                <button class="action-button ${interested ? 'active' : ''}" type="button" data-event-interest="${event.id}">${interested ? 'Interested' : 'I am interested'}</button>
+                <button class="action-button orange" type="button" data-event-share="${event.id}">Copy Details</button>
+              </div>
+            </article>
+          `;
+        }).join('');
+      }
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const name = document.getElementById('eventName').value.trim();
+        const city = document.getElementById('eventCity').value.trim();
+        const date = document.getElementById('eventDate').value;
+        if (!name || !city || !date) return;
+        customEvents = [...customEvents, { id: `custom-${Date.now()}`, name, city, date, type: 'Community', count: 1 }];
+        writeJson('boosthub.customEvents', customEvents);
+        form.reset();
+        renderEvents();
+      });
+
+      results.addEventListener('click', event => {
+        const interestId = event.target.dataset.eventInterest;
+        const shareId = event.target.dataset.eventShare;
+        if (interestId) {
+          interestedEvents = interestedEvents.includes(interestId)
+            ? interestedEvents.filter(id => id !== interestId)
+            : [...interestedEvents, interestId];
+          writeJson('boosthub.interestedEvents', interestedEvents);
+          renderEvents();
+        }
+        if (shareId) {
+          const item = allEvents().find(eventItem => eventItem.id === shareId);
+          if (!item) return;
+          const details = `${item.name} - ${item.city} - ${item.date}`;
+          navigator.clipboard?.writeText(details);
+          document.getElementById('eventNote').textContent = 'Event details copied.';
+        }
+      });
+
+      const dateInput = document.getElementById('eventDate');
+      if (dateInput && !dateInput.value) dateInput.value = '2026-06-28';
+      renderEvents();
+    }
+
+    setupMarketplaceComponent();
+    setupRankComponent();
+    setupCalculators();
+    setupEventsComponent();
 
     async function submitSignup(event, nameId, emailId, platformId, btnId, successId, wrapId) {
       event.preventDefault();
