@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Open BoostHub Link</title>
   <meta name="robots" content="noindex" />
+  <script>
+    if (window.location.pathname.startsWith("/events/")) {
+      const target = new URL("/", window.location.origin);
+      target.searchParams.set("route", window.location.pathname);
+      window.location.replace(target.toString());
+    }
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
