@@ -994,6 +994,202 @@
       background: rgba(59,130,246,0.1);
     }
 
+    .web-product-section {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background:
+        radial-gradient(circle at 18% 12%, rgba(59,130,246,0.14), transparent 34%),
+        radial-gradient(circle at 88% 42%, rgba(34,197,94,0.1), transparent 30%),
+        #090d13;
+      padding: 100px 24px;
+    }
+
+    .web-product-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .web-product-head {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.8fr) minmax(300px, 1.2fr);
+      gap: 28px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+
+    .web-product-copy {
+      color: #a7b0bf;
+      font-size: 17px;
+      line-height: 1.75;
+      max-width: 620px;
+    }
+
+    .web-grid,
+    .market-grid,
+    .trust-grid,
+    .community-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .web-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-bottom: 22px;
+    }
+
+    .web-card,
+    .market-card,
+    .trust-card,
+    .community-card,
+    .launch-card {
+      border: 1px solid var(--border);
+      background: rgba(15,18,23,0.82);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .web-card {
+      min-height: 214px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-kicker {
+      color: var(--blue-bright);
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .card-kicker.orange { color: var(--orange); }
+    .card-kicker.green { color: var(--green); }
+
+    .web-card-title,
+    .market-title,
+    .trust-title,
+    .community-title,
+    .launch-card-title {
+      font-family: var(--font-display);
+      font-size: 27px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .web-card-copy,
+    .market-copy,
+    .trust-copy,
+    .community-copy,
+    .launch-card-copy {
+      color: #9ca3af;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .web-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 18px;
+    }
+
+    .web-pill {
+      border: 1px solid rgba(59,130,246,0.28);
+      background: rgba(59,130,246,0.1);
+      color: #bfdbfe;
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .market-preview {
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .market-card.featured {
+      border-color: rgba(34,197,94,0.44);
+      background: rgba(12,31,21,0.7);
+    }
+
+    .market-meta,
+    .trust-meta {
+      color: #dbeafe;
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .market-price {
+      color: var(--green);
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .market-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 14px;
+    }
+
+    .market-tag {
+      color: #fed7aa;
+      border: 1px solid rgba(255,106,0,0.34);
+      background: rgba(255,106,0,0.11);
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .trust-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 14px;
+    }
+
+    .trust-card {
+      min-height: 160px;
+    }
+
+    .trust-meta { color: var(--green); }
+
+    .community-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 28px;
+    }
+
+    .community-card {
+      min-height: 172px;
+    }
+
+    .launch-roadmap {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .launch-card {
+      background: rgba(17,24,39,0.7);
+    }
+
     .cta-section {
       padding: 120px 24px;
       text-align: center;
@@ -1256,6 +1452,15 @@
       .audience-copy { margin-top: -30px; }
       .audience-grid { grid-template-columns: 1fr; }
       .teaser-grid { grid-template-columns: 1fr; }
+      .web-product-section { padding: 72px 20px; }
+      .web-product-head,
+      .market-preview,
+      .web-grid,
+      .trust-grid,
+      .community-grid,
+      .launch-roadmap {
+        grid-template-columns: 1fr;
+      }
       .steps::before { left: 20px; }
       footer { justify-content: center; text-align: center; }
       .store-badges { flex-direction: column; align-items: center; }
@@ -1736,6 +1941,165 @@
       </div>
     </section>
   </div>
+
+  <section class="web-product-section" id="web-preview">
+    <div class="web-product-inner">
+      <div class="web-product-head reveal">
+        <div>
+          <div class="section-label">Website Expansion</div>
+          <h2 class="section-title">More of the app, now on the web.</h2>
+        </div>
+        <p class="web-product-copy">
+          BoostHub's public website can show the same product story as the app: garages, proof,
+          rankings, events, BoostMap, tools, marketplace trust, groups, messaging, and seller
+          verification. Creation and private account actions stay inside sign-in, while visitors
+          get a real preview of what the community is becoming.
+        </p>
+      </div>
+
+      <div class="web-grid reveal">
+        <article class="web-card">
+          <div>
+            <div class="card-kicker">Garage</div>
+            <h3 class="web-card-title">Public build pages</h3>
+            <p class="web-card-copy">
+              Builder profiles can surface photos, spec sheets, turbo setup, ECU, fuel, dyno proof,
+              Dragy results, gallery notes, and photographer credits.
+            </p>
+          </div>
+          <div class="web-pill-row">
+            <span class="web-pill">Build specs</span>
+            <span class="web-pill">Gallery</span>
+            <span class="web-pill">Verification</span>
+          </div>
+        </article>
+
+        <article class="web-card">
+          <div>
+            <div class="card-kicker orange">DynoRank</div>
+            <h3 class="web-card-title">Leaderboards with receipts</h3>
+            <p class="web-card-copy">
+              Rank by horsepower, torque, 1/4 mile, 1/8 mile, 60 foot, trap speed, and Dragy
+              categories with proof attached to each build.
+            </p>
+          </div>
+          <div class="web-pill-row">
+            <span class="web-pill">Power</span>
+            <span class="web-pill">Trap speed</span>
+            <span class="web-pill">Dragy</span>
+          </div>
+        </article>
+
+        <article class="web-card">
+          <div>
+            <div class="card-kicker green">Events + Map</div>
+            <h3 class="web-card-title">Local discovery</h3>
+            <p class="web-card-copy">
+              Events, RSVP intent, nearby alerts, tracks, shops, raceways, hosted group events, and
+              featured map shops can all point back into the same community graph.
+            </p>
+          </div>
+          <div class="web-pill-row">
+            <span class="web-pill">Meets</span>
+            <span class="web-pill">BoostMap</span>
+            <span class="web-pill">Alerts</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="market-preview reveal">
+        <article class="market-card featured">
+          <div class="card-kicker green">Marketplace trust</div>
+          <h3 class="market-title">Parts, shops, vendors, and partner inventory.</h3>
+          <div class="market-price">$850</div>
+          <p class="market-copy">
+            Listing cards can show price, fitment, location, condition, seller reputation, and
+            safety signals before buyers start a conversation.
+          </p>
+          <div class="market-tags">
+            <span class="market-tag">Verified vendor</span>
+            <span class="market-tag">Inventory proof</span>
+            <span class="market-tag">Report snapshots</span>
+          </div>
+        </article>
+
+        <article class="market-card">
+          <div class="card-kicker">Shop storefronts</div>
+          <h3 class="market-title">Verified businesses get a real web presence.</h3>
+          <p class="market-copy">
+            Shop and vendor pages can show services, location, hours, listings, map placement,
+            trust badges, completed deals, response rate, and message entry points.
+          </p>
+          <div class="market-tags">
+            <span class="market-tag">Verified shop</span>
+            <span class="market-tag">Featured Map Shop</span>
+            <span class="market-tag">Message seller</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="trust-grid reveal">
+        <article class="trust-card">
+          <div class="trust-meta">Step 1</div>
+          <h3 class="trust-title">Email + phone</h3>
+          <p class="trust-copy">Every seller starts with a real account and limited listing access.</p>
+        </article>
+        <article class="trust-card">
+          <div class="trust-meta">Step 2</div>
+          <h3 class="trust-title">Identity check</h3>
+          <p class="trust-copy">Trusted private sellers and higher-risk listings can require ID review.</p>
+        </article>
+        <article class="trust-card">
+          <div class="trust-meta">Step 3</div>
+          <h3 class="trust-title">Business proof</h3>
+          <p class="trust-copy">Shops and vendors submit service area, web presence, and inventory proof.</p>
+        </article>
+        <article class="trust-card">
+          <div class="trust-meta">Step 4</div>
+          <h3 class="trust-title">Manual review</h3>
+          <p class="trust-copy">Paid tools do not buy trust badges or bypass moderation.</p>
+        </article>
+      </div>
+
+      <div class="community-grid reveal">
+        <article class="community-card">
+          <div class="card-kicker">Tools</div>
+          <h3 class="community-title">Build calculators</h3>
+          <p class="community-copy">VIN lookup, fuel mix, injector sizing, tire fitment, boost, RPM, and speed correction.</p>
+        </article>
+        <article class="community-card">
+          <div class="card-kicker orange">Groups</div>
+          <h3 class="community-title">Clubs and platforms</h3>
+          <p class="community-copy">Group pages can show posts, member builds, hosted events, members, and admin roles.</p>
+        </article>
+        <article class="community-card">
+          <div class="card-kicker green">Messages</div>
+          <h3 class="community-title">One inbox</h3>
+          <p class="community-copy">Buyer-seller threads and member conversations can become web-friendly after auth.</p>
+        </article>
+        <article class="community-card">
+          <div class="card-kicker">Badges</div>
+          <h3 class="community-title">Reputation layer</h3>
+          <p class="community-copy">Creator, photographer, verification, shop, and launch badges help members stand out.</p>
+        </article>
+      </div>
+
+      <div class="launch-roadmap reveal">
+        <article class="launch-card">
+          <h3 class="launch-card-title">Public first</h3>
+          <p class="launch-card-copy">Homepage, public builds, profiles, events, rankings, map pages, and marketplace previews.</p>
+        </article>
+        <article class="launch-card">
+          <h3 class="launch-card-title">Then transact</h3>
+          <p class="launch-card-copy">Seller verification, shop dashboards, listings, saved items, reports, and message seller.</p>
+        </article>
+        <article class="launch-card">
+          <h3 class="launch-card-title">Then operate</h3>
+          <p class="launch-card-copy">Admin moderation, paid seller tools, partner placement, alerts, and web inbox workflows.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
   <section class="cta-section">
     <div class="cta-glow"></div>
