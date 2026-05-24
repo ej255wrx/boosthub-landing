@@ -1470,6 +1470,36 @@
       font-weight: 800;
     }
 
+    .account-prompt {
+      border: 1px solid rgba(34,197,94,0.42);
+      background:
+        linear-gradient(135deg, rgba(34,197,94,0.12), rgba(37,99,235,0.08)),
+        rgba(8,10,13,0.62);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 14px;
+    }
+
+    .account-prompt[hidden] {
+      display: none;
+    }
+
+    .account-prompt-title {
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .account-prompt-copy {
+      color: #a7b0bf;
+      font-size: 13px;
+      line-height: 1.55;
+      margin-top: 8px;
+    }
+
     .component-control option {
       color: var(--white);
       background: #10141c;
@@ -2270,7 +2300,7 @@
             <input class="component-control" id="buildPower" type="number" min="0" step="1" placeholder="Horsepower" aria-label="Horsepower" />
             <input class="component-control" id="buildFuel" type="text" placeholder="Fuel / ECU" aria-label="Fuel and ECU" />
             <input class="component-control" id="buildMods" type="text" placeholder="Mods, separated by commas" aria-label="Build modifications" />
-            <button class="action-button primary" type="submit">Save Build Profile</button>
+            <button class="action-button primary" type="submit">Save With Account</button>
           </form>
 
           <article class="functional-card build-preview-card" aria-live="polite">
@@ -2293,7 +2323,20 @@
               </div>
               <div class="profile-chip-list" id="buildPreviewMods"></div>
             </div>
-            <p class="status-line" id="buildStatus">Editing here does not require a login yet.</p>
+            <p class="status-line" id="buildStatus">Preview changes here. A BoostHub account is required to save a real build profile.</p>
+
+            <div class="account-prompt" id="buildAccountPrompt" hidden>
+              <div class="profile-label">Account required</div>
+              <h4 class="account-prompt-title">Create your BoostHub profile to save this build.</h4>
+              <p class="account-prompt-copy">
+                A saved build needs an owner, media, proof, and edit history. Open BoostHub or install the app to create the real profile.
+              </p>
+              <div class="listing-actions">
+                <a class="action-button primary" href="boosthub://garage">Open BoostHub</a>
+                <a class="action-button" href="https://apps.apple.com/us/app/id6761749887">App Store</a>
+                <a class="action-button" href="https://play.google.com/store/apps/details?id=com.boosthubllc.app">Google Play</a>
+              </div>
+            </div>
           </article>
         </div>
       </div>
@@ -3291,7 +3334,6 @@
       fuel: 'E60 / Cobb',
       mods: 'FP Blue turbo, front mount, flex fuel, coilovers',
     };
-    let buildProfile = readJson('boosthub.buildProfile', defaultBuildProfile);
 
     function money(value) {
       return `$${Number(value).toLocaleString()}`;
@@ -3310,6 +3352,7 @@
       const previewFuel = document.getElementById('buildPreviewFuel');
       const previewMods = document.getElementById('buildPreviewMods');
       const status = document.getElementById('buildStatus');
+      const accountPrompt = document.getElementById('buildAccountPrompt');
       const note = document.getElementById('buildNote');
       if (!form || !name || !platform || !power || !fuel || !mods) return;
 
@@ -3337,20 +3380,22 @@
           .join('');
       }
 
-      name.value = buildProfile.name || defaultBuildProfile.name;
-      platform.value = buildProfile.platform || defaultBuildProfile.platform;
-      power.value = buildProfile.power || defaultBuildProfile.power;
-      fuel.value = buildProfile.fuel || defaultBuildProfile.fuel;
-      mods.value = buildProfile.mods || defaultBuildProfile.mods;
+      name.value = defaultBuildProfile.name;
+      platform.value = defaultBuildProfile.platform;
+      power.value = defaultBuildProfile.power;
+      fuel.value = defaultBuildProfile.fuel;
+      mods.value = defaultBuildProfile.mods;
 
       [name, platform, power, fuel, mods].forEach(input => input.addEventListener('input', renderBuild));
       form.addEventListener('submit', event => {
         event.preventDefault();
-        buildProfile = currentProfile();
-        writeJson('boosthub.buildProfile', buildProfile);
-        status.textContent = 'Build profile saved in this browser.';
-        note.textContent = 'Saved locally';
         renderBuild();
+        status.textContent = 'Account required. Open BoostHub or install the app to save this build to a real profile.';
+        note.textContent = 'Account required';
+        if (accountPrompt) {
+          accountPrompt.hidden = false;
+          accountPrompt.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       });
 
       renderBuild();
