@@ -1505,6 +1505,70 @@
       text-transform: uppercase;
     }
 
+    .web-form {
+      display: grid;
+      gap: 10px;
+    }
+
+    .web-form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .web-form-grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .web-form-grid .wide,
+    .web-form .wide {
+      grid-column: 1 / -1;
+    }
+
+    .web-form-title {
+      color: #dbeafe;
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .form-split {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .web-checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #dbeafe;
+      font-size: 13px;
+      font-weight: 800;
+      min-height: 46px;
+    }
+
+    .web-checkbox-row input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--green);
+    }
+
+    .action-button.danger {
+      border-color: rgba(239,68,68,0.5);
+      background: rgba(239,68,68,0.13);
+      color: #fecaca;
+    }
+
+    .action-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
     .component-title-row {
       display: flex;
       align-items: flex-end;
@@ -2438,6 +2502,9 @@
       .build-grid,
       .auth-layout,
       .web-data-grid,
+      .web-form-grid,
+      .web-form-grid.two,
+      .form-split,
       .map-layout,
       .profile-stat-grid,
       .events-layout {
@@ -2605,33 +2672,85 @@
           <div class="result-note" id="profileNote">Account connected</div>
         </div>
 
-        <div class="web-data-grid" id="profileStats"></div>
-        <div class="web-list" id="profileBuildResults"></div>
+        <div class="form-split">
+          <article class="functional-card">
+            <h4 class="web-form-title">Profile setup</h4>
+            <form class="web-form" id="profileForm">
+              <input class="component-control" id="profileDisplayName" type="text" placeholder="Display name" autocomplete="name" />
+              <input class="component-control" id="profileUsername" type="text" placeholder="Username" autocomplete="username" />
+              <textarea class="component-control" id="profileBio" rows="4" placeholder="Short bio / what you build"></textarea>
+              <button class="action-button primary" id="profileSaveButton" type="submit">Save Profile</button>
+              <div class="status-line" id="profileStatus"></div>
+            </form>
+          </article>
+
+          <div>
+            <div class="web-data-grid" id="profileStats"></div>
+            <div class="web-list" id="profileBuildResults"></div>
+          </div>
+        </div>
       </div>
 
       <div class="component-shell reveal" id="panel-build" data-component-panel="build" role="tabpanel" aria-labelledby="tab-build">
         <div class="component-title-row">
           <div>
             <div class="card-kicker green">Build Profile</div>
-            <h3 class="component-title" id="buildComponentTitle">Edit a live build card</h3>
-            <p class="component-copy">Change the setup and watch the member profile preview update. Real profile data stays tied to a signed-in account.</p>
+            <h3 class="component-title" id="buildComponentTitle">Create and edit real builds</h3>
+            <p class="component-copy">Create a garage build or pick an existing one. Saves go to the signed-in BoostHub account.</p>
           </div>
-          <div class="result-note" id="buildNote">Local demo profile</div>
+          <div class="result-note" id="buildNote">Account required</div>
         </div>
 
         <div class="build-grid">
           <form class="build-editor" id="buildForm">
-            <input class="component-control" id="buildName" type="text" placeholder="Build name" aria-label="Build name" />
-            <input class="component-control" id="buildPlatform" type="text" placeholder="Platform" aria-label="Build platform" />
-            <input class="component-control" id="buildPower" type="number" min="0" step="1" placeholder="Horsepower" aria-label="Horsepower" />
-            <input class="component-control" id="buildFuel" type="text" placeholder="Fuel / ECU" aria-label="Fuel and ECU" />
-            <input class="component-control" id="buildMods" type="text" placeholder="Mods, separated by commas" aria-label="Build modifications" />
-            <button class="action-button primary" type="submit">Save With Account</button>
+            <select class="component-control" id="buildPicker" aria-label="Choose build">
+              <option value="">New build</option>
+            </select>
+            <input class="component-control" id="buildName" type="text" placeholder="Build name" aria-label="Build name" required />
+            <input class="component-control" id="buildOwnerName" type="text" placeholder="Owner / shop name" aria-label="Owner or shop name" />
+            <div class="web-form-grid">
+              <input class="component-control" id="buildYear" type="number" min="1900" max="2100" step="1" placeholder="Year" aria-label="Year" />
+              <input class="component-control" id="buildMake" type="text" placeholder="Make" aria-label="Make" />
+              <input class="component-control" id="buildModel" type="text" placeholder="Model" aria-label="Model" />
+            </div>
+            <div class="web-form-grid two">
+              <input class="component-control" id="buildPower" type="number" min="0" step="1" placeholder="Horsepower" aria-label="Horsepower" />
+              <input class="component-control" id="buildTorque" type="number" min="0" step="1" placeholder="Torque" aria-label="Torque" />
+            </div>
+            <div class="web-form-grid two">
+              <input class="component-control" id="buildTurbo" type="text" placeholder="Turbo / power adder" aria-label="Turbo" />
+              <input class="component-control" id="buildEcu" type="text" placeholder="ECU / tuning" aria-label="ECU" />
+            </div>
+            <div class="web-form-grid two">
+              <input class="component-control" id="buildFuel" type="text" placeholder="Fuel" aria-label="Fuel" />
+              <select class="component-control" id="buildDrivetrain" aria-label="Drivetrain">
+                <option value="">Drivetrain</option>
+                <option value="AWD">AWD</option>
+                <option value="RWD">RWD</option>
+                <option value="FWD">FWD</option>
+                <option value="4WD">4WD</option>
+              </select>
+            </div>
+            <div class="web-form-grid">
+              <input class="component-control" id="buildCity" type="text" placeholder="City" aria-label="City" />
+              <input class="component-control" id="buildState" type="text" placeholder="State / region" aria-label="State" />
+              <input class="component-control" id="buildCountry" type="text" placeholder="Country" aria-label="Country" />
+            </div>
+            <textarea class="component-control" id="buildMods" rows="3" placeholder="Mods, separated by commas" aria-label="Build modifications"></textarea>
+            <label class="web-checkbox-row">
+              <input id="buildIsPublic" type="checkbox" checked />
+              Visible to signed-in BoostHub members
+            </label>
+            <div class="listing-actions">
+              <button class="action-button primary" id="buildSaveButton" type="submit">Save Build</button>
+              <button class="action-button" id="buildNewButton" type="button">New Build</button>
+              <button class="action-button danger" id="buildDeleteButton" type="button" hidden>Delete Build</button>
+            </div>
           </form>
 
           <article class="functional-card build-preview-card" aria-live="polite">
             <div>
-              <div class="profile-label">Member profile preview</div>
+              <div class="profile-label">Build preview</div>
               <h4 class="profile-name" id="buildPreviewName"></h4>
               <div class="profile-stat-grid">
                 <div class="profile-stat">
@@ -2649,20 +2768,7 @@
               </div>
               <div class="profile-chip-list" id="buildPreviewMods"></div>
             </div>
-            <p class="status-line" id="buildStatus">Preview changes here. Your signed-in garage loads from the app account.</p>
-
-            <div class="account-prompt" id="buildAccountPrompt" hidden>
-              <div class="profile-label">Account required</div>
-              <h4 class="account-prompt-title">Web build save is account-gated.</h4>
-              <p class="account-prompt-copy">
-                Your account is required before any profile editing appears on the website. Garage builds from the app show in the Garage tab.
-              </p>
-              <div class="listing-actions">
-                <a class="action-button primary" href="boosthub://garage">Open BoostHub</a>
-                <a class="action-button" href="https://apps.apple.com/us/app/id6761749887">App Store</a>
-                <a class="action-button" href="https://play.google.com/store/apps/details?id=com.boosthubllc.app">Google Play</a>
-              </div>
-            </div>
+            <p class="status-line" id="buildStatus">Choose a build or create a new one.</p>
           </article>
         </div>
       </div>
@@ -2688,6 +2794,30 @@
             <option value="general">General</option>
           </select>
         </div>
+
+        <article class="functional-card">
+          <h4 class="web-form-title">Create group</h4>
+          <form class="web-form" id="groupForm">
+            <div class="web-form-grid">
+              <input class="component-control" id="groupName" type="text" placeholder="Group name" required />
+              <select class="component-control" id="groupCategory" required>
+                <option value="club">Club</option>
+                <option value="platform">Platform</option>
+                <option value="event_host">Event host</option>
+                <option value="shop">Shop</option>
+                <option value="general">General</option>
+              </select>
+              <input class="component-control" id="groupCountry" type="text" placeholder="Country" value="United States" />
+            </div>
+            <div class="web-form-grid two">
+              <input class="component-control" id="groupCity" type="text" placeholder="City" />
+              <input class="component-control" id="groupRegion" type="text" placeholder="State / region" />
+            </div>
+            <textarea class="component-control" id="groupDescription" rows="2" placeholder="What this group is for"></textarea>
+            <button class="action-button primary" id="groupSaveButton" type="submit">Create Group</button>
+            <div class="status-line" id="groupStatus"></div>
+          </form>
+        </article>
 
         <article class="public-event-detail" id="sharedGroupDetail" hidden></article>
         <div class="web-data-grid" id="groupsResults"></div>
@@ -2753,6 +2883,37 @@
             <option value="track_lap">Track lap</option>
           </select>
         </div>
+
+        <article class="functional-card">
+          <h4 class="web-form-title">Submit a track time</h4>
+          <form class="web-form" id="trackTimeForm">
+            <div class="web-form-grid">
+              <select class="component-control" id="trackSubmitBuild" required aria-label="Build for track time">
+                <option value="">Choose build</option>
+              </select>
+              <select class="component-control" id="trackSubmitLocation" required aria-label="Track location">
+                <option value="">Choose track</option>
+              </select>
+              <select class="component-control" id="trackSubmitType" required aria-label="Result type">
+                <option value="track_lap">Track lap</option>
+                <option value="quarter_mile">Quarter mile</option>
+                <option value="eighth_mile">Eighth mile</option>
+                <option value="zero_to_sixty">0-60</option>
+                <option value="sixty_to_one_thirty">60-130</option>
+                <option value="hundred_to_two_hundred">100-200</option>
+              </select>
+            </div>
+            <div class="web-form-grid">
+              <input class="component-control" id="trackSubmitElapsed" type="number" min="0.001" step="0.001" placeholder="Elapsed seconds / lap time" required />
+              <input class="component-control" id="trackSubmitTrap" type="number" min="0" step="0.01" placeholder="Trap speed mph, optional" />
+              <input class="component-control" id="trackSubmitProofUrl" type="url" placeholder="Proof image URL, optional if uploading" />
+            </div>
+            <input class="component-control" id="trackSubmitProofFile" type="file" accept="image/*" />
+            <textarea class="component-control" id="trackSubmitNotes" rows="2" placeholder="Notes, conditions, tire, lane, layout"></textarea>
+            <button class="action-button primary" id="trackSubmitButton" type="submit">Save Track Time</button>
+            <div class="status-line" id="trackSubmitStatus"></div>
+          </form>
+        </article>
 
         <div class="map-layout">
           <div class="track-side">
@@ -2875,7 +3036,7 @@
           <div>
             <div class="card-kicker green">Events</div>
             <h3 class="component-title" id="eventsComponentTitle">RSVP and add local plans</h3>
-            <p class="component-copy">Interest counts and custom meet ideas are stored in this browser until backend event creation is connected.</p>
+            <p class="component-copy">Create account-owned events, view shared event details, and RSVP as going or interested from the website.</p>
           </div>
           <div class="result-note" id="eventNote"></div>
         </div>
@@ -3905,6 +4066,85 @@
       return response.json();
     }
 
+    async function supabaseWrite(table, method, payload, params = {}, prefer = 'return=representation') {
+      const url = new URL(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/rest/v1/${table}`);
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') url.searchParams.set(key, value);
+      });
+      const headers = await authHeaders();
+      headers.Prefer = prefer;
+      const response = await fetch(url.toString(), {
+        method,
+        headers,
+        body: payload === undefined ? undefined : JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        const details = await response.json().catch(() => ({}));
+        throw new Error(details.message || details.error_description || `${table} write failed`);
+      }
+      if (response.status === 204) return [];
+      return response.json().catch(() => []);
+    }
+
+    function supabaseInsert(table, payload, params = {}) {
+      return supabaseWrite(table, 'POST', payload, params);
+    }
+
+    function supabaseUpdate(table, filters, payload) {
+      return supabaseWrite(table, 'PATCH', payload, filters);
+    }
+
+    function supabaseDelete(table, filters) {
+      return supabaseWrite(table, 'DELETE', undefined, filters);
+    }
+
+    function supabaseUpsert(table, payload, conflictKey = 'id') {
+      return supabaseWrite(
+        table,
+        'POST',
+        payload,
+        { on_conflict: conflictKey },
+        'resolution=merge-duplicates,return=representation'
+      );
+    }
+
+    function cleanText(value) {
+      const next = String(value || '').trim();
+      return next || null;
+    }
+
+    function cleanNumber(value) {
+      const next = Number(value);
+      return Number.isFinite(next) ? next : null;
+    }
+
+    function slugifyFileName(value) {
+      return String(value || 'proof.jpg')
+        .toLowerCase()
+        .replace(/[^a-z0-9.]+/g, '-')
+        .replace(/-+/g, '-')
+        .slice(0, 80) || 'proof.jpg';
+    }
+
+    async function uploadBuildProofFile(file, buildId) {
+      if (!file || !authUser?.id) return '';
+      const extension = file.name?.includes('.') ? file.name.split('.').pop() : 'jpg';
+      const filePath = `${authUser.id}/track-times/${buildId}-${Date.now()}-${slugifyFileName(file.name || `proof.${extension}`)}`;
+      const headers = await authHeaders();
+      delete headers['Content-Type'];
+      headers['x-upsert'] = 'true';
+      const response = await fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/storage/v1/object/build-photos/${filePath}`, {
+        method: 'POST',
+        headers,
+        body: file,
+      });
+      if (!response.ok) {
+        const details = await response.json().catch(() => ({}));
+        throw new Error(details.message || 'Proof upload failed');
+      }
+      return `${BOOSTHUB_PUBLIC_SUPABASE_URL}/storage/v1/object/public/build-photos/${filePath}`;
+    }
+
     async function fetchAuthUser() {
       if (!isAuthenticated()) return null;
       const response = await fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/auth/v1/user`, {
@@ -4078,37 +4318,63 @@
 
     function setupBuildComponent() {
       const form = document.getElementById('buildForm');
+      const picker = document.getElementById('buildPicker');
       const name = document.getElementById('buildName');
-      const platform = document.getElementById('buildPlatform');
+      const ownerName = document.getElementById('buildOwnerName');
+      const year = document.getElementById('buildYear');
+      const make = document.getElementById('buildMake');
+      const model = document.getElementById('buildModel');
       const power = document.getElementById('buildPower');
+      const torque = document.getElementById('buildTorque');
+      const turbo = document.getElementById('buildTurbo');
+      const ecu = document.getElementById('buildEcu');
       const fuel = document.getElementById('buildFuel');
+      const drivetrain = document.getElementById('buildDrivetrain');
+      const city = document.getElementById('buildCity');
+      const state = document.getElementById('buildState');
+      const country = document.getElementById('buildCountry');
       const mods = document.getElementById('buildMods');
+      const isPublic = document.getElementById('buildIsPublic');
       const previewName = document.getElementById('buildPreviewName');
       const previewPlatform = document.getElementById('buildPreviewPlatform');
       const previewPower = document.getElementById('buildPreviewPower');
       const previewFuel = document.getElementById('buildPreviewFuel');
       const previewMods = document.getElementById('buildPreviewMods');
       const status = document.getElementById('buildStatus');
-      const accountPrompt = document.getElementById('buildAccountPrompt');
       const note = document.getElementById('buildNote');
-      if (!form || !name || !platform || !power || !fuel || !mods) return;
+      const saveButton = document.getElementById('buildSaveButton');
+      const newButton = document.getElementById('buildNewButton');
+      const deleteButton = document.getElementById('buildDeleteButton');
+      if (!form || !picker || !name || !power || !fuel || !mods) return;
 
       function currentProfile() {
         return {
           name: name.value.trim() || defaultBuildProfile.name,
-          platform: platform.value.trim() || defaultBuildProfile.platform,
-          power: Number(power.value || defaultBuildProfile.power),
+          owner_name: ownerName?.value.trim() || '',
+          year: year?.value ? Number(year.value) : null,
+          make: make?.value.trim() || '',
+          model: model?.value.trim() || '',
+          power: Number(power.value || 0),
+          torque: torque?.value ? Number(torque.value) : null,
+          turbo: turbo?.value.trim() || '',
+          ecu: ecu?.value.trim() || '',
           fuel: fuel.value.trim() || defaultBuildProfile.fuel,
+          drivetrain: drivetrain?.value || '',
+          city: city?.value.trim() || '',
+          state: state?.value.trim() || '',
+          country: country?.value.trim() || '',
           mods: mods.value.trim() || defaultBuildProfile.mods,
+          is_public: Boolean(isPublic?.checked),
         };
       }
 
       function renderBuild() {
         const profile = currentProfile();
+        const platform = [profile.year, profile.make, profile.model].filter(Boolean).join(' ') || defaultBuildProfile.platform;
         previewName.textContent = profile.name;
-        previewPlatform.textContent = profile.platform;
-        previewPower.textContent = `${profile.power.toLocaleString()} whp`;
-        previewFuel.textContent = profile.fuel;
+        previewPlatform.textContent = platform;
+        previewPower.textContent = profile.power ? `${profile.power.toLocaleString()} whp` : 'Power TBD';
+        previewFuel.textContent = [profile.fuel, profile.ecu].filter(Boolean).join(' / ') || 'Fuel TBD';
         previewMods.innerHTML = profile.mods
           .split(',')
           .map(mod => mod.trim())
@@ -4117,27 +4383,154 @@
           .join('');
       }
 
-      name.value = defaultBuildProfile.name;
-      platform.value = defaultBuildProfile.platform;
-      power.value = defaultBuildProfile.power;
-      fuel.value = defaultBuildProfile.fuel;
-      mods.value = defaultBuildProfile.mods;
+      function selectedBuild() {
+        return liveGarageBuilds.find(vehicle => vehicle.id === picker.value) || null;
+      }
 
-      [name, platform, power, fuel, mods].forEach(input => input.addEventListener('input', renderBuild));
-      form.addEventListener('submit', event => {
-        event.preventDefault();
+      function setBuildForm(vehicle = null) {
+        picker.value = vehicle?.id || '';
+        name.value = vehicle?.build_name || vehicle?.name || '';
+        if (ownerName) ownerName.value = vehicle?.owner_name || '';
+        if (year) year.value = vehicle?.year || '';
+        if (make) make.value = vehicle?.make || '';
+        if (model) model.value = vehicle?.model || '';
+        power.value = vehicle?.horsepower || '';
+        if (torque) torque.value = vehicle?.torque || '';
+        if (turbo) turbo.value = vehicle?.turbo || '';
+        if (ecu) ecu.value = vehicle?.ecu || '';
+        fuel.value = vehicle?.fuel || vehicle?.fuel_type || '';
+        if (drivetrain) drivetrain.value = vehicle?.drivetrain || '';
+        if (city) city.value = vehicle?.city || '';
+        if (state) state.value = vehicle?.state || '';
+        if (country) country.value = vehicle?.country || '';
+        mods.value = vehicle?.mods || '';
+        if (isPublic) isPublic.checked = vehicle?.is_public !== false;
+        if (deleteButton) deleteButton.hidden = !vehicle?.id;
+        if (status) status.textContent = vehicle?.id ? 'Editing saved build.' : 'Creating a new build.';
+        if (note) note.textContent = isAuthenticated() ? (vehicle?.id ? 'Editing build' : 'New build') : 'Account required';
         renderBuild();
-        status.textContent = isAuthenticated()
-          ? 'Account connected. Live web build editing still uses your BoostHub garage as the source of truth.'
-          : 'Account required. Sign in before saving or editing real build profile data.';
-        note.textContent = isAuthenticated() ? 'Account connected' : 'Account required';
-        if (accountPrompt) {
-          accountPrompt.hidden = false;
-          accountPrompt.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      function refreshBuildPicker() {
+        const currentValue = picker.value;
+        picker.innerHTML = '<option value="">New build</option>' + liveGarageBuilds.map(vehicle => `
+          <option value="${escapeText(vehicle.id)}">${escapeText(buildDisplayName(vehicle))}</option>
+        `).join('');
+        if (currentValue && liveGarageBuilds.some(vehicle => vehicle.id === currentValue)) picker.value = currentValue;
+      }
+
+      function payloadFromForm() {
+        const profile = currentProfile();
+        const buildName = cleanText(profile.name);
+        if (!buildName) throw new Error('Build name is required.');
+        return {
+          user_id: authUser.id,
+          build_name: buildName,
+          name: buildName,
+          owner_name: cleanText(profile.owner_name),
+          year: profile.year,
+          make: cleanText(profile.make),
+          model: cleanText(profile.model),
+          horsepower: cleanNumber(profile.power),
+          torque: cleanNumber(profile.torque),
+          turbo: cleanText(profile.turbo),
+          ecu: cleanText(profile.ecu),
+          fuel: cleanText(profile.fuel),
+          fuel_type: cleanText(profile.fuel),
+          drivetrain: cleanText(profile.drivetrain),
+          city: cleanText(profile.city),
+          state: cleanText(profile.state),
+          country: cleanText(profile.country),
+          mods: cleanText(profile.mods),
+          is_public: profile.is_public,
+        };
+      }
+
+      [
+        name,
+        ownerName,
+        year,
+        make,
+        model,
+        power,
+        torque,
+        turbo,
+        ecu,
+        fuel,
+        drivetrain,
+        city,
+        state,
+        country,
+        mods,
+        isPublic,
+      ].filter(Boolean).forEach(input => input.addEventListener('input', renderBuild));
+
+      picker.addEventListener('input', () => setBuildForm(selectedBuild()));
+
+      form.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (!isAuthenticated() || !authUser?.id) {
+          renderAuthState('Sign in to save builds.');
+          document.getElementById('webAuthPanel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        if (saveButton) saveButton.disabled = true;
+        status.textContent = 'Saving build...';
+
+        try {
+          const selected = selectedBuild();
+          const payload = payloadFromForm();
+          const rows = selected
+            ? await supabaseUpdate('vehicles', { id: `eq.${selected.id}`, user_id: `eq.${authUser.id}` }, payload)
+            : await supabaseInsert('vehicles', payload);
+          const saved = rows[0];
+          if (saved) {
+            liveGarageBuilds = [
+              saved,
+              ...liveGarageBuilds.filter(vehicle => vehicle.id !== saved.id),
+            ];
+            refreshBuildPicker();
+            picker.value = saved.id;
+            setBuildForm(saved);
+            window.dispatchEvent(new CustomEvent('boosthub-garage-updated'));
+          }
+          status.textContent = 'Build saved to your BoostHub account.';
+        } catch (error) {
+          status.textContent = error.message || 'Build could not be saved.';
+        } finally {
+          if (saveButton) saveButton.disabled = false;
         }
       });
 
-      renderBuild();
+      newButton?.addEventListener('click', () => setBuildForm(null));
+
+      deleteButton?.addEventListener('click', async () => {
+        const selected = selectedBuild();
+        if (!selected || !isAuthenticated()) return;
+        deleteButton.disabled = true;
+        status.textContent = 'Deleting build...';
+        try {
+          await supabaseDelete('vehicles', { id: `eq.${selected.id}`, user_id: `eq.${authUser.id}` });
+          liveGarageBuilds = liveGarageBuilds.filter(vehicle => vehicle.id !== selected.id);
+          refreshBuildPicker();
+          setBuildForm(null);
+          window.dispatchEvent(new CustomEvent('boosthub-garage-updated'));
+          status.textContent = 'Build deleted.';
+        } catch (error) {
+          status.textContent = error.message || 'Build could not be deleted.';
+        } finally {
+          deleteButton.disabled = false;
+        }
+      });
+
+      window.addEventListener('boosthub-garage-updated', () => {
+        refreshBuildPicker();
+        if (picker.value) setBuildForm(selectedBuild());
+      });
+
+      refreshBuildPicker();
+      setBuildForm(null);
     }
 
     let liveGarageBuilds = [];
@@ -4174,6 +4567,12 @@
       const stats = document.getElementById('profileStats');
       const results = document.getElementById('profileBuildResults');
       const note = document.getElementById('profileNote');
+      const form = document.getElementById('profileForm');
+      const displayNameInput = document.getElementById('profileDisplayName');
+      const usernameInput = document.getElementById('profileUsername');
+      const bioInput = document.getElementById('profileBio');
+      const status = document.getElementById('profileStatus');
+      const saveButton = document.getElementById('profileSaveButton');
       if (!stats || !results) return;
 
       function renderProfile(profile = null, sharedBuild = null) {
@@ -4182,6 +4581,10 @@
           : liveGarageBuilds;
         const displayName = profile?.display_name || profile?.username || authUser?.email || 'BoostHub member';
         const verifiedCount = builds.filter(vehicle => vehicle.verified).length;
+
+        if (displayNameInput && document.activeElement !== displayNameInput) displayNameInput.value = profile?.display_name || '';
+        if (usernameInput && document.activeElement !== usernameInput) usernameInput.value = profile?.username || '';
+        if (bioInput && document.activeElement !== bioInput) bioInput.value = profile?.bio || '';
 
         stats.innerHTML = `
           <article class="functional-card">
@@ -4214,12 +4617,12 @@
           if (!authUser) await fetchAuthUser();
           const [profiles, builds] = await Promise.all([
             supabaseSelect('profiles', {
-              select: 'id,username,display_name,avatar_url,created_at',
+              select: 'id,username,display_name,bio,avatar_url,created_at',
               id: `eq.${authUser.id}`,
               limit: '1',
             }).catch(() => []),
             supabaseSelect('vehicles', {
-              select: 'id,user_id,owner_name,build_name,name,year,make,model,horsepower,torque,city,state,country,verified,photo_url,is_public,created_at',
+              select: 'id,user_id,owner_name,build_name,name,year,make,model,horsepower,torque,turbo,ecu,fuel,fuel_type,drivetrain,mods,city,state,country,verified,photo_url,is_public,created_at',
               user_id: `eq.${authUser.id}`,
               order: 'created_at.desc',
               limit: '24',
@@ -4228,10 +4631,11 @@
 
           liveProfiles = profiles;
           liveGarageBuilds = builds;
+          window.dispatchEvent(new CustomEvent('boosthub-garage-updated'));
           let sharedBuild = null;
           if (routeState.buildId) {
             const sharedRows = await supabaseSelect('vehicles', {
-              select: 'id,user_id,owner_name,build_name,name,year,make,model,horsepower,torque,city,state,country,verified,photo_url,is_public,created_at',
+              select: 'id,user_id,owner_name,build_name,name,year,make,model,horsepower,torque,turbo,ecu,fuel,fuel_type,drivetrain,mods,city,state,country,verified,photo_url,is_public,created_at',
               id: `eq.${routeState.buildId}`,
               limit: '1',
             }).catch(() => []);
@@ -4245,6 +4649,39 @@
       }
 
       window.addEventListener('boosthub-authenticated', loadProfileData);
+      window.addEventListener('boosthub-garage-updated', () => renderProfile(liveProfiles[0] || null));
+
+      form?.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (!isAuthenticated() || !authUser?.id) {
+          renderAuthState('Sign in to save your profile.');
+          document.getElementById('webAuthPanel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+        const username = usernameInput?.value.trim().toLowerCase().replace(/[^a-z0-9_.-]/g, '') || null;
+        const displayName = cleanText(displayNameInput?.value);
+        const bio = cleanText(bioInput?.value);
+        if (saveButton) saveButton.disabled = true;
+        if (status) status.textContent = 'Saving profile...';
+
+        try {
+          const payload = {
+            id: authUser.id,
+            username,
+            display_name: displayName,
+            bio,
+          };
+          const rows = await supabaseUpsert('profiles', payload, 'id');
+          liveProfiles = rows.length ? rows : [{ ...payload }];
+          renderProfile(liveProfiles[0] || null);
+          if (status) status.textContent = 'Profile saved.';
+        } catch (error) {
+          if (status) status.textContent = error.message || 'Profile could not be saved.';
+        } finally {
+          if (saveButton) saveButton.disabled = false;
+        }
+      });
+
       if (isAuthenticated()) loadProfileData();
       renderProfile();
     }
@@ -4255,7 +4692,24 @@
       const results = document.getElementById('groupsResults');
       const note = document.getElementById('groupsNote');
       const sharedDetail = document.getElementById('sharedGroupDetail');
+      const groupForm = document.getElementById('groupForm');
+      const groupName = document.getElementById('groupName');
+      const groupCategory = document.getElementById('groupCategory');
+      const groupCountry = document.getElementById('groupCountry');
+      const groupCity = document.getElementById('groupCity');
+      const groupRegion = document.getElementById('groupRegion');
+      const groupDescription = document.getElementById('groupDescription');
+      const groupSaveButton = document.getElementById('groupSaveButton');
+      const groupStatus = document.getElementById('groupStatus');
       if (!search || !category || !results) return;
+
+      function groupSlug(value) {
+        return String(value || 'group')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '')
+          .slice(0, 50) || 'group';
+      }
 
       function renderGroups() {
         const query = search.value.trim().toLowerCase();
@@ -4312,6 +4766,52 @@
       }
 
       [search, category].forEach(input => input.addEventListener('input', renderGroups));
+
+      groupForm?.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (!isAuthenticated() || !authUser?.id) {
+          renderAuthState('Sign in to create groups.');
+          document.getElementById('webAuthPanel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        const name = cleanText(groupName?.value);
+        if (!name) return;
+        if (groupSaveButton) groupSaveButton.disabled = true;
+        if (groupStatus) groupStatus.textContent = 'Creating group...';
+
+        try {
+          const rows = await supabaseInsert('community_groups', {
+            name,
+            slug: `${groupSlug(name)}-${Date.now().toString(36)}`,
+            description: cleanText(groupDescription?.value),
+            category: groupCategory?.value || 'club',
+            city: cleanText(groupCity?.value),
+            region: cleanText(groupRegion?.value),
+            country: cleanText(groupCountry?.value) || 'United States',
+            is_public: true,
+            created_by: authUser.id,
+          });
+          const saved = rows[0];
+          if (saved) {
+            await supabaseInsert('community_group_members', {
+              group_id: saved.id,
+              user_id: authUser.id,
+              role: 'owner',
+            }).catch(() => []);
+            liveGroups = [saved, ...liveGroups.filter(group => group.id !== saved.id)];
+            renderGroups();
+          }
+          groupForm.reset();
+          if (groupCountry) groupCountry.value = 'United States';
+          if (groupStatus) groupStatus.textContent = 'Group created.';
+        } catch (error) {
+          if (groupStatus) groupStatus.textContent = error.message || 'Group could not be created.';
+        } finally {
+          if (groupSaveButton) groupSaveButton.disabled = false;
+        }
+      });
+
       window.addEventListener('boosthub-authenticated', loadGroups);
       if (isAuthenticated()) loadGroups();
     }
@@ -4433,6 +4933,17 @@
       const list = document.getElementById('tracksList');
       const times = document.getElementById('trackTimesResults');
       const note = document.getElementById('tracksNote');
+      const submitForm = document.getElementById('trackTimeForm');
+      const submitBuild = document.getElementById('trackSubmitBuild');
+      const submitLocation = document.getElementById('trackSubmitLocation');
+      const submitType = document.getElementById('trackSubmitType');
+      const submitElapsed = document.getElementById('trackSubmitElapsed');
+      const submitTrap = document.getElementById('trackSubmitTrap');
+      const submitProofUrl = document.getElementById('trackSubmitProofUrl');
+      const submitProofFile = document.getElementById('trackSubmitProofFile');
+      const submitNotes = document.getElementById('trackSubmitNotes');
+      const submitButton = document.getElementById('trackSubmitButton');
+      const submitStatus = document.getElementById('trackSubmitStatus');
       if (!search || !locationFilter || !typeFilter || !list || !times) return;
 
       function trackLocations() {
@@ -4451,6 +4962,25 @@
       function resultVehicle(result) {
         const vehicle = result.vehicles || {};
         return buildDisplayName(vehicle);
+      }
+
+      function hydrateTrackSubmitOptions() {
+        if (submitBuild) {
+          const currentBuild = submitBuild.value;
+          submitBuild.innerHTML = '<option value="">Choose build</option>' + liveGarageBuilds.map(vehicle => `
+            <option value="${escapeText(vehicle.id)}">${escapeText(buildDisplayName(vehicle))}</option>
+          `).join('');
+          if (currentBuild && liveGarageBuilds.some(vehicle => vehicle.id === currentBuild)) submitBuild.value = currentBuild;
+        }
+
+        if (submitLocation) {
+          const tracks = trackLocations();
+          const currentLocation = submitLocation.value || locationFilter.value || routeState.trackId || '';
+          submitLocation.innerHTML = '<option value="">Choose track</option>' + tracks.map(location => `
+            <option value="${escapeText(location.id)}">${escapeText(location.name)}</option>
+          `).join('');
+          if (currentLocation && tracks.some(track => track.id === currentLocation)) submitLocation.value = currentLocation;
+        }
       }
 
       function renderTracks() {
@@ -4495,6 +5025,8 @@
             </article>
           `;
         }).join('') : '<div class="web-empty">No submitted times match this track filter yet.</div>';
+
+        hydrateTrackSubmitOptions();
       }
 
       async function loadTrackData() {
@@ -4528,12 +5060,73 @@
         const id = event.target.closest?.('[data-track-id]')?.dataset.trackId;
         if (!id) return;
         locationFilter.value = id;
+        if (submitLocation) submitLocation.value = id;
         history.replaceState(null, '', `/tracks/${encodeURIComponent(id)}`);
         renderTracks();
       });
+
+      submitForm?.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (!isAuthenticated() || !authUser?.id) {
+          renderAuthState('Sign in to submit track times.');
+          document.getElementById('webAuthPanel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        const buildId = submitBuild?.value || '';
+        const locationId = submitLocation?.value || '';
+        const resultType = submitType?.value || 'track_lap';
+        const elapsed = Number(submitElapsed?.value || 0);
+        const trap = submitTrap?.value ? Number(submitTrap.value) : null;
+        const proofUrlValue = submitProofUrl?.value.trim() || '';
+        const proofFile = submitProofFile?.files?.[0] || null;
+
+        if (!buildId || !locationId || !elapsed || elapsed <= 0) {
+          if (submitStatus) submitStatus.textContent = 'Choose a build, track, and valid elapsed time.';
+          return;
+        }
+
+        if (!proofUrlValue && !proofFile) {
+          if (submitStatus) submitStatus.textContent = 'Add a proof image URL or upload a proof screenshot.';
+          return;
+        }
+
+        if (submitButton) submitButton.disabled = true;
+        if (submitStatus) submitStatus.textContent = proofFile ? 'Uploading proof...' : 'Saving track time...';
+
+        try {
+          const screenshotUrl = proofFile ? await uploadBuildProofFile(proofFile, buildId) : proofUrlValue;
+          if (submitStatus) submitStatus.textContent = 'Saving track time...';
+          await supabaseInsert('build_dragy_results', {
+            build_id: buildId,
+            user_id: authUser.id,
+            result_type: resultType,
+            elapsed_seconds: elapsed,
+            trap_speed_mph: Number.isFinite(trap) ? trap : null,
+            screenshot_url: screenshotUrl,
+            notes: cleanText(submitNotes?.value),
+            boostmap_location_id: locationId,
+          });
+          if (submitStatus) submitStatus.textContent = 'Track time saved.';
+          if (submitElapsed) submitElapsed.value = '';
+          if (submitTrap) submitTrap.value = '';
+          if (submitProofUrl) submitProofUrl.value = '';
+          if (submitProofFile) submitProofFile.value = '';
+          if (submitNotes) submitNotes.value = '';
+          locationFilter.value = locationId;
+          await loadTrackData();
+        } catch (error) {
+          if (submitStatus) submitStatus.textContent = error.message || 'Track time could not be saved.';
+        } finally {
+          if (submitButton) submitButton.disabled = false;
+        }
+      });
+
       window.addEventListener('boosthub-authenticated', loadTrackData);
       window.addEventListener('boosthub-map-loaded', renderTracks);
+      window.addEventListener('boosthub-garage-updated', hydrateTrackSubmitOptions);
       if (isAuthenticated()) loadTrackData();
+      hydrateTrackSubmitOptions();
     }
 
     function setupMarketplaceComponent() {
@@ -4904,6 +5497,7 @@
       let publicEvents = baseEvents.map(normalizeStaticEvent);
       let focusedEventId = routeState.eventId || '';
       let liveLoadState = focusedEventId ? 'loading' : 'idle';
+      let liveUserRsvps = {};
 
       function allEvents() {
         return [
@@ -4947,6 +5541,31 @@
         return `${window.location.origin}/events/${encodeURIComponent(event.id)}`;
       }
 
+      async function saveEventRsvp(eventId, statusValue) {
+        if (!isAuthenticated() || !authUser?.id) {
+          renderAuthState('Sign in to RSVP to events.');
+          document.getElementById('webAuthPanel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        const existing = liveUserRsvps[eventId];
+        if (existing) {
+          await supabaseUpdate('event_rsvps', {
+            event_id: `eq.${eventId}`,
+            user_id: `eq.${authUser.id}`,
+          }, { status: statusValue });
+        } else {
+          await supabaseInsert('event_rsvps', {
+            event_id: eventId,
+            user_id: authUser.id,
+            status: statusValue,
+          });
+        }
+
+        liveUserRsvps[eventId] = statusValue;
+        await loadLiveEvents();
+      }
+
       function renderPublicEventDetail() {
         if (!publicEventDetail) return;
         if (!focusedEventId) {
@@ -4976,12 +5595,16 @@
           return;
         }
 
+        const userStatus = liveUserRsvps[event.id] || '';
         publicEventDetail.innerHTML = `
           <div class="public-event-label">${event.source === 'live' ? 'BoostHub member event' : 'Member event preview'}</div>
           <h4 class="public-event-title">${escapeText(event.name)}</h4>
           <p class="public-event-meta">${escapeText(getEventSchedule(event))}<br>${escapeText(event.city)}</p>
           ${event.description ? `<p class="public-event-copy">${escapeText(event.description).slice(0, 520)}</p>` : ''}
+          <p class="event-count">${event.goingCount || 0} going - ${event.interestedCount || 0} interested</p>
           <div class="event-actions">
+            <button class="action-button primary ${userStatus === 'going' ? 'active' : ''}" type="button" data-event-rsvp="${event.id}" data-event-status="going">Going</button>
+            <button class="action-button ${userStatus === 'interested' ? 'active' : ''}" type="button" data-event-rsvp="${event.id}" data-event-status="interested">${userStatus === 'interested' ? 'Interested' : 'Interested'}</button>
             <a class="action-button primary" href="boosthub://events/${encodeURIComponent(event.id)}">Open In App</a>
             ${event.eventUrl ? `<a class="action-button orange" href="${escapeText(event.eventUrl)}" target="_blank" rel="noopener">Event Site</a>` : ''}
             <button class="action-button" type="button" data-event-share="${event.id}">Copy Share Link</button>
@@ -5043,7 +5666,8 @@
         }
         results.innerHTML = events.map(event => {
           const interested = interestedEvents.includes(event.id);
-          const count = event.count + (interested ? 1 : 0);
+          const userStatus = liveUserRsvps[event.id] || '';
+          const count = event.count + (interested && !userStatus ? 1 : 0);
           const focused = event.id === focusedEventId;
           return `
             <article class="functional-card ${focused ? 'event-card-focused' : ''}">
@@ -5053,10 +5677,11 @@
                   <p class="event-meta">${escapeText(event.type)} - ${escapeText(event.city)} - ${escapeText(getEventSchedule(event))}</p>
                 </div>
               </div>
-              <p class="event-count">${count} interested</p>
+              <p class="event-count">${event.goingCount || 0} going - ${event.interestedCount || count || 0} interested</p>
               <div class="event-actions">
                 <button class="action-button ${focused ? 'active' : ''}" type="button" data-event-open="${event.id}">${focused ? 'Viewing' : 'View Event'}</button>
-                <button class="action-button ${interested ? 'active' : ''}" type="button" data-event-interest="${event.id}">${interested ? 'Interested' : 'I am interested'}</button>
+                <button class="action-button primary ${userStatus === 'going' ? 'active' : ''}" type="button" data-event-rsvp="${event.id}" data-event-status="going">${userStatus === 'going' ? 'Going' : 'Going'}</button>
+                <button class="action-button ${userStatus === 'interested' || interested ? 'active' : ''}" type="button" data-event-rsvp="${event.id}" data-event-status="interested">${userStatus === 'interested' || interested ? 'Interested' : 'Interested'}</button>
                 <button class="action-button orange" type="button" data-event-share="${event.id}">Copy Link</button>
               </div>
             </article>
@@ -5081,13 +5706,26 @@
         const city = document.getElementById('eventCity').value.trim();
         const date = dateInput.value;
         if (!name || !city || !date) return;
-        customEvents = [...customEvents, { id: `custom-${Date.now()}`, name, city, date, type: 'Community', count: 1 }];
-        writeJson('boosthub.customEvents', customEvents);
-        visibleMonth = eventDateToObject(`${date.slice(0, 7)}-01`);
-        selectedDate = date;
-        form.reset();
-        dateInput.value = date;
-        renderEventSuite();
+        note.textContent = 'Creating event...';
+        supabaseInsert('events', {
+          host_user_id: authUser.id,
+          title: name,
+          city,
+          starts_at: `${date}T18:00:00`,
+        })
+          .then(async rows => {
+            const saved = rows[0];
+            focusedEventId = saved?.id || focusedEventId;
+            visibleMonth = eventDateToObject(`${date.slice(0, 7)}-01`);
+            selectedDate = date;
+            form.reset();
+            dateInput.value = date;
+            note.textContent = 'Event created.';
+            await loadLiveEvents();
+          })
+          .catch(error => {
+            note.textContent = error.message || 'Event could not be created.';
+          });
       });
 
       calendar?.addEventListener('click', event => {
@@ -5101,6 +5739,8 @@
       results.addEventListener('click', event => {
         const openId = event.target.dataset.eventOpen;
         const interestId = event.target.dataset.eventInterest;
+        const rsvpId = event.target.dataset.eventRsvp;
+        const rsvpStatus = event.target.dataset.eventStatus;
         const shareId = event.target.dataset.eventShare;
         if (openId) {
           const item = allEvents().find(eventItem => eventItem.id === openId);
@@ -5123,6 +5763,16 @@
           writeJson('boosthub.interestedEvents', interestedEvents);
           renderEventSuite();
         }
+        if (rsvpId && rsvpStatus) {
+          note.textContent = 'Saving RSVP...';
+          saveEventRsvp(rsvpId, rsvpStatus)
+            .then(() => {
+              note.textContent = rsvpStatus === 'going' ? 'RSVP saved: going.' : 'RSVP saved: interested.';
+            })
+            .catch(error => {
+              note.textContent = error.message || 'RSVP could not be saved.';
+            });
+        }
         if (shareId) {
           const item = allEvents().find(eventItem => eventItem.id === shareId);
           if (!item) return;
@@ -5133,6 +5783,19 @@
 
       publicEventDetail?.addEventListener('click', event => {
         const shareId = event.target.dataset.eventShare;
+        const rsvpId = event.target.dataset.eventRsvp;
+        const rsvpStatus = event.target.dataset.eventStatus;
+        if (rsvpId && rsvpStatus) {
+          note.textContent = 'Saving RSVP...';
+          saveEventRsvp(rsvpId, rsvpStatus)
+            .then(() => {
+              note.textContent = rsvpStatus === 'going' ? 'RSVP saved: going.' : 'RSVP saved: interested.';
+            })
+            .catch(error => {
+              note.textContent = error.message || 'RSVP could not be saved.';
+            });
+          return;
+        }
         if (!shareId) return;
         const item = allEvents().find(eventItem => eventItem.id === shareId);
         if (!item) return;
@@ -5171,13 +5834,19 @@
           const eventFields = 'id,title,description,location_name,city,state,event_url,starts_at,ends_at,host_user_id';
           const [eventsResponse, rsvpsResponse] = await Promise.all([
             fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/rest/v1/events?select=${eventFields}&order=starts_at.asc`, { headers }),
-            fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/rest/v1/event_rsvps?select=event_id,status`, { headers }),
+            fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/rest/v1/event_rsvps?select=event_id,user_id,status`, { headers }),
           ]);
 
           if (!eventsResponse.ok) throw new Error('Events fetch failed');
 
           const liveRows = await eventsResponse.json();
           const rsvpRows = rsvpsResponse.ok ? await rsvpsResponse.json() : [];
+          liveUserRsvps = rsvpRows
+            .filter(row => row.user_id === authUser?.id)
+            .reduce((items, row) => {
+              items[row.event_id] = row.status;
+              return items;
+            }, {});
           const rsvpCounts = rsvpRows.reduce((counts, row) => {
             counts[row.event_id] = counts[row.event_id] || { going: 0, interested: 0 };
             if (row.status === 'interested') counts[row.event_id].interested += 1;
@@ -5185,19 +5854,16 @@
             return counts;
           }, {});
           const live = liveRows.map(row => normalizeLiveEvent(row, rsvpCounts));
+          publicEvents = live;
+          liveLoadState = 'ready';
 
           if (live.length) {
-            publicEvents = live;
-            liveLoadState = 'ready';
-
             const requestedEvent = focusedEventId ? findEventById(focusedEventId) : null;
             const targetEvent = requestedEvent || pickDefaultEvent(allEvents());
             if (targetEvent) {
               visibleMonth = eventDateToObject(`${targetEvent.date.slice(0, 7)}-01`);
               if (requestedEvent) selectedDate = requestedEvent.date;
             }
-          } else {
-            liveLoadState = 'ready';
           }
         } catch {
           liveLoadState = 'error';
