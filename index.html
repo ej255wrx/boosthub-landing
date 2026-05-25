@@ -17,6 +17,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1876,7 +1878,7 @@
 
     .calc-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 12px;
     }
 
@@ -1961,6 +1963,74 @@
 
     .public-event-detail[hidden] {
       display: none;
+    }
+
+    .detail-photo {
+      width: 100%;
+      max-height: 360px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      margin-bottom: 14px;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .detail-section-title {
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1;
+      margin-top: 18px;
+      text-transform: uppercase;
+    }
+
+    .group-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .group-tab {
+      min-height: 34px;
+      border: 1px solid rgba(59,130,246,0.34);
+      background: rgba(37,99,235,0.12);
+      color: #dbeafe;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      padding: 8px 10px;
+      text-transform: uppercase;
+    }
+
+    .group-tab.active {
+      border-color: rgba(34,197,94,0.62);
+      background: rgba(34,197,94,0.18);
+      color: #bbf7d0;
+    }
+
+    .group-detail-grid {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.75fr) minmax(0, 1.25fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
     }
 
     .public-event-label {
@@ -2159,6 +2229,57 @@
       align-items: start;
     }
 
+    .map-layout-wide {
+      grid-template-columns: minmax(270px, 0.62fr) minmax(0, 1.38fr);
+    }
+
+    .map-main {
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .web-map-canvas {
+      min-height: 440px;
+      width: 100%;
+      border: 1px solid rgba(59,130,246,0.25);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #10141c;
+      position: relative;
+      z-index: 1;
+    }
+
+    .web-map-canvas.is-empty {
+      display: grid;
+      place-items: center;
+      color: #9ca3af;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .leaflet-container {
+      background: #10141c;
+      color: #111827;
+      font-family: var(--font-body);
+    }
+
+    .map-popup-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .map-popup-meta {
+      color: #374151;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
     .map-side,
     .track-side {
       border: 1px solid rgba(59,130,246,0.25);
@@ -2247,6 +2368,17 @@
       font-weight: 800;
       margin-top: 10px;
       min-height: 20px;
+    }
+
+    .seller-panel {
+      margin-bottom: 14px;
+    }
+
+    .seller-status-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 12px 0;
     }
 
     .cta-section {
@@ -2506,9 +2638,15 @@
       .web-form-grid.two,
       .form-split,
       .map-layout,
+      .group-detail-grid,
+      .detail-grid,
+      .seller-status-grid,
       .profile-stat-grid,
       .events-layout {
         grid-template-columns: 1fr;
+      }
+      .web-map-canvas {
+        min-height: 320px;
       }
       .app-tab-bar {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2687,6 +2825,7 @@
           <div>
             <div class="web-data-grid" id="profileStats"></div>
             <div class="web-list" id="profileBuildResults"></div>
+            <article class="public-event-detail" id="buildDetail" hidden></article>
           </div>
         </div>
       </div>
@@ -2850,11 +2989,14 @@
           </select>
         </div>
 
-        <div class="map-layout">
+        <div class="map-layout map-layout-wide">
           <div class="map-side">
             <div class="map-pin-list" id="mapResults"></div>
           </div>
-          <article class="functional-card location-detail" id="mapLocationDetail"></article>
+          <div class="map-main">
+            <div class="web-map-canvas is-empty" id="boostMapCanvas">Map loads after locations are available.</div>
+            <article class="functional-card location-detail" id="mapLocationDetail"></article>
+          </div>
         </div>
       </div>
 
@@ -2915,12 +3057,15 @@
           </form>
         </article>
 
-        <div class="map-layout">
+        <div class="map-layout map-layout-wide">
           <div class="track-side">
             <div class="map-pin-list" id="tracksList"></div>
           </div>
-          <div class="track-side">
+          <div class="map-main">
+            <div class="web-map-canvas is-empty" id="tracksMapCanvas">Track map loads after track locations are available.</div>
+            <div class="track-side">
             <div class="track-time-grid" id="trackTimesResults"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -2930,10 +3075,47 @@
           <div>
             <div class="card-kicker green">Marketplace</div>
             <h3 class="component-title" id="marketplaceComponentTitle">Browse parts with trust signals</h3>
-            <p class="component-copy">Search, filter, save listings, and open a seller email draft.</p>
+            <p class="component-copy">Search live account-gated listings and start the seller verification process from the website.</p>
           </div>
           <div class="result-note" id="marketplaceNote"></div>
         </div>
+
+        <article class="functional-card seller-panel" id="marketSellerPanel">
+          <div class="listing-topline">
+            <div>
+              <div class="profile-label">Seller account</div>
+              <h4 class="web-row-title" id="sellerPanelTitle">Start seller verification</h4>
+              <p class="web-row-meta" id="sellerPanelCopy">Create a seller profile and submit verification details for review.</p>
+            </div>
+            <button class="action-button primary" id="sellerVerificationToggle" type="button">Start Verification</button>
+          </div>
+          <div class="seller-status-grid" id="sellerStatusGrid"></div>
+          <form class="web-form" id="sellerVerificationForm" hidden>
+            <div class="web-form-grid">
+              <input class="component-control" id="sellerDisplayName" type="text" placeholder="Seller display name" required />
+              <select class="component-control" id="sellerRequestedTier" required>
+                <option value="trusted_private">Trusted private seller</option>
+                <option value="verified_shop">Verified shop</option>
+                <option value="verified_vendor">Verified vendor</option>
+                <option value="official_partner">Official partner</option>
+              </select>
+              <input class="component-control" id="sellerContactName" type="text" placeholder="Contact name" />
+            </div>
+            <div class="web-form-grid">
+              <input class="component-control" id="sellerBusinessName" type="text" placeholder="Business name, if any" />
+              <input class="component-control" id="sellerBusinessEmail" type="email" placeholder="Business email" />
+              <input class="component-control" id="sellerBusinessPhone" type="tel" placeholder="Phone" />
+            </div>
+            <div class="web-form-grid two">
+              <input class="component-control" id="sellerBusinessWebsite" type="url" placeholder="Website / social link" />
+              <input class="component-control" id="sellerServiceArea" type="text" placeholder="Service area / shipping area" />
+            </div>
+            <textarea class="component-control" id="sellerInventorySummary" rows="2" placeholder="What do you sell or plan to list?"></textarea>
+            <textarea class="component-control" id="sellerApplicantNotes" rows="2" placeholder="Anything the BoostHub review team should know?"></textarea>
+            <button class="action-button primary" id="sellerVerificationSubmit" type="submit">Submit Verification Request</button>
+            <div class="status-line" id="sellerVerificationStatus"></div>
+          </form>
+        </article>
 
         <div class="component-toolbar">
           <input class="component-control" id="marketSearch" type="search" placeholder="Search turbo, wheels, fuel, WRX..." />
@@ -3026,6 +3208,32 @@
             <div class="calc-output">
               <div class="calc-output-label">Speed at indicated 60</div>
               <div class="calc-output-value" id="tireResult">58.9 mph</div>
+            </div>
+          </article>
+
+          <article class="functional-card">
+            <h4 class="calc-title">Boost Ratio</h4>
+            <p class="calc-copy">Convert boost pressure to pressure ratio for turbo map checks.</p>
+            <div class="calc-fields">
+              <input class="calc-input" id="boostPsi" type="number" min="0" step="0.1" value="24" aria-label="Boost PSI" />
+              <input class="calc-input" id="atmoPsi" type="number" min="1" step="0.1" value="14.7" aria-label="Atmospheric PSI" />
+            </div>
+            <div class="calc-output">
+              <div class="calc-output-label">Pressure ratio</div>
+              <div class="calc-output-value" id="boostRatioResult">2.63 PR</div>
+            </div>
+          </article>
+
+          <article class="functional-card">
+            <h4 class="calc-title">ET Power</h4>
+            <p class="calc-copy">Estimate wheel horsepower from weight and quarter-mile ET.</p>
+            <div class="calc-fields">
+              <input class="calc-input" id="etWeight" type="number" min="1" step="10" value="3400" aria-label="Race weight" />
+              <input class="calc-input" id="etSeconds" type="number" min="1" step="0.01" value="10.8" aria-label="Quarter-mile ET" />
+            </div>
+            <div class="calc-output">
+              <div class="calc-output-label">Estimated power</div>
+              <div class="calc-output-value" id="etPowerResult">586 whp</div>
             </div>
           </article>
         </div>
@@ -3780,7 +3988,7 @@
           : profileName ? 'profile'
             : groupId ? 'groups'
               : listingId ? 'marketplace'
-                : trackId ? 'tracks'
+                : trackId ? (matchedKind === 'map' ? 'map' : 'tracks')
                   : '';
 
       if (routedPath && routePath.startsWith('/')) {
@@ -3817,6 +4025,9 @@
           panel.hidden = !isActive;
           if (isActive) panel.classList.add('visible');
         });
+        setTimeout(() => {
+          Object.values(mapInstances || {}).forEach(map => map?.invalidateSize?.());
+        }, 80);
       }
 
       tabs.forEach((tab, index) => {
@@ -3849,7 +4060,7 @@
       };
       const routeTab = {
         events: 'events',
-        build: 'build',
+        build: 'profile',
         profile: 'profile',
         groups: 'groups',
         marketplace: 'marketplace',
@@ -3980,6 +4191,30 @@
     function formatShortDate(value) {
       if (!value) return 'Date not set';
       return new Date(value).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function formatCurrencyFromCents(value, currency = 'USD') {
+      const amount = Math.round(Number(value || 0)) / 100;
+      return new Intl.NumberFormat(undefined, {
+        style: 'currency',
+        currency: currency || 'USD',
+        maximumFractionDigits: amount % 1 ? 2 : 0,
+      }).format(amount);
+    }
+
+    function hasCoordinates(location) {
+      return Number.isFinite(Number(location?.latitude)) && Number.isFinite(Number(location?.longitude));
+    }
+
+    function mapPoint(location) {
+      return [Number(location.latitude), Number(location.longitude)];
+    }
+
+    function externalMapUrl(location) {
+      if (hasCoordinates(location)) {
+        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location.latitude},${location.longitude}`)}`;
+      }
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(formatLocation([location?.name, location?.address, location?.city, location?.state, location?.country]))}`;
     }
 
     const AUTH_STORAGE_KEY = 'boosthub.webSession';
@@ -4198,7 +4433,7 @@
     function dispatchAuthReady() {
       const routeTab = {
         events: 'events',
-        build: 'build',
+        build: 'profile',
         profile: 'profile',
         groups: 'groups',
         marketplace: 'marketplace',
@@ -4529,6 +4764,14 @@
         if (picker.value) setBuildForm(selectedBuild());
       });
 
+      window.addEventListener('boosthub-edit-build', event => {
+        const id = event.detail?.id;
+        const build = liveGarageBuilds.find(vehicle => vehicle.id === id);
+        if (!build) return;
+        refreshBuildPicker();
+        setBuildForm(build);
+      });
+
       refreshBuildPicker();
       setBuildForm(null);
     }
@@ -4539,6 +4782,62 @@
     let liveMapLocations = [];
     let liveTrackTimes = [];
     let selectedMapLocationId = routeState.trackId || '';
+    const mapInstances = {};
+
+    function ensureLeafletMap(elementId) {
+      const element = document.getElementById(elementId);
+      if (!element || !window.L) return null;
+      element.classList.remove('is-empty');
+      if (mapInstances[elementId]) {
+        setTimeout(() => mapInstances[elementId].invalidateSize(), 50);
+        return mapInstances[elementId];
+      }
+      const map = L.map(elementId, {
+        scrollWheelZoom: false,
+        worldCopyJump: true,
+      }).setView([39.5, -98.35], 4);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors',
+      }).addTo(map);
+      mapInstances[elementId] = map;
+      setTimeout(() => map.invalidateSize(), 50);
+      return map;
+    }
+
+    function renderLeafletMarkers(elementId, locations, selectedId, onSelect) {
+      const element = document.getElementById(elementId);
+      const map = ensureLeafletMap(elementId);
+      if (!element || !map) return;
+      if (map._boosthubLayer) map.removeLayer(map._boosthubLayer);
+      const layer = L.layerGroup().addTo(map);
+      map._boosthubLayer = layer;
+
+      const points = locations.filter(hasCoordinates);
+      if (!points.length) {
+        element.classList.add('is-empty');
+        return;
+      }
+
+      element.classList.remove('is-empty');
+      points.forEach(location => {
+        const marker = L.marker(mapPoint(location)).addTo(layer);
+        marker.bindPopup(`
+          <div class="map-popup-title">${escapeText(location.name)}</div>
+          <div class="map-popup-meta">${escapeText(formatLocation([location.city, location.state, location.country]))}</div>
+        `);
+        marker.on('click', () => onSelect(location.id));
+        if (location.id === selectedId) marker.openPopup();
+      });
+
+      if (selectedId) {
+        const selected = points.find(location => location.id === selectedId);
+        if (selected) map.setView(mapPoint(selected), Math.max(map.getZoom(), 12), { animate: true });
+      } else {
+        map.fitBounds(points.map(mapPoint), { padding: [28, 28], maxZoom: 8 });
+      }
+      setTimeout(() => map.invalidateSize(), 50);
+    }
 
     function buildDisplayName(vehicle) {
       return vehicle?.build_name || vehicle?.name || [vehicle?.year, vehicle?.make, vehicle?.model].filter(Boolean).join(' ') || 'Untitled Build';
@@ -4552,11 +4851,16 @@
       const verified = vehicle.verified ? '<span class="web-stat-pill">Verified</span>' : '';
       const power = vehicle.horsepower ? `${Number(vehicle.horsepower).toLocaleString()} whp` : 'Power not set';
       return `
-        <article class="functional-card web-row">
+        <article class="functional-card web-row" data-build-card="${escapeText(vehicle.id)}">
           <div class="web-row-main">
             <h4 class="web-row-title">${escapeText(buildDisplayName(vehicle))}</h4>
             <p class="web-row-meta">${escapeText(buildPlatform(vehicle))}<br>${escapeText(vehicle.owner_name || 'BoostHub member')} - ${escapeText(formatLocation([vehicle.city, vehicle.state, vehicle.country]))}</p>
             ${verified}
+            <div class="listing-actions">
+              <button class="action-button primary" type="button" data-build-open="${escapeText(vehicle.id)}">View Build</button>
+              ${vehicle.user_id === authUser?.id ? `<button class="action-button" type="button" data-build-edit="${escapeText(vehicle.id)}">Edit</button>` : ''}
+              <button class="action-button" type="button" data-build-share="${escapeText(vehicle.id)}">Copy Link</button>
+            </div>
           </div>
           <div class="listing-price">${index === 0 && routeState.buildId === vehicle.id ? 'Shared' : power}</div>
         </article>
@@ -4573,7 +4877,68 @@
       const bioInput = document.getElementById('profileBio');
       const status = document.getElementById('profileStatus');
       const saveButton = document.getElementById('profileSaveButton');
+      const buildDetail = document.getElementById('buildDetail');
       if (!stats || !results) return;
+      let activeBuildDetailId = routeState.buildId || '';
+
+      function buildModsList(vehicle) {
+        return String(vehicle?.mods || '')
+          .split(',')
+          .map(item => item.trim())
+          .filter(Boolean);
+      }
+
+      function renderBuildDetail(vehicle) {
+        if (!buildDetail) return;
+        if (!vehicle) {
+          buildDetail.hidden = true;
+          buildDetail.innerHTML = '';
+          return;
+        }
+
+        const mods = buildModsList(vehicle);
+        const isOwner = vehicle.user_id === authUser?.id;
+        buildDetail.hidden = false;
+        buildDetail.innerHTML = `
+          ${vehicle.photo_url ? `<img class="detail-photo" src="${escapeText(vehicle.photo_url)}" alt="${escapeText(buildDisplayName(vehicle))}" />` : ''}
+          <div class="public-event-label">${isOwner ? 'Your build' : 'Member build'}</div>
+          <h4 class="public-event-title">${escapeText(buildDisplayName(vehicle))}</h4>
+          <p class="public-event-meta">${escapeText(buildPlatform(vehicle))}<br>${escapeText(vehicle.owner_name || 'BoostHub member')} - ${escapeText(formatLocation([vehicle.city, vehicle.state, vehicle.country]))}</p>
+          <div class="detail-grid">
+            <div class="profile-stat">
+              <div class="profile-stat-label">Power</div>
+              <div class="profile-stat-value">${vehicle.horsepower ? `${Number(vehicle.horsepower).toLocaleString()} whp` : 'TBD'}</div>
+            </div>
+            <div class="profile-stat">
+              <div class="profile-stat-label">Torque</div>
+              <div class="profile-stat-value">${vehicle.torque ? `${Number(vehicle.torque).toLocaleString()} wtq` : 'TBD'}</div>
+            </div>
+            <div class="profile-stat">
+              <div class="profile-stat-label">Drivetrain</div>
+              <div class="profile-stat-value">${escapeText(vehicle.drivetrain || 'TBD')}</div>
+            </div>
+            <div class="profile-stat">
+              <div class="profile-stat-label">Proof</div>
+              <div class="profile-stat-value">${vehicle.verified ? 'Verified' : 'Open'}</div>
+            </div>
+          </div>
+          <p class="public-event-copy">${escapeText([
+            vehicle.turbo ? `Turbo / power adder: ${vehicle.turbo}` : '',
+            vehicle.ecu ? `ECU / tune: ${vehicle.ecu}` : '',
+            vehicle.fuel || vehicle.fuel_type ? `Fuel: ${vehicle.fuel || vehicle.fuel_type}` : '',
+          ].filter(Boolean).join('\n'))}</p>
+          ${mods.length ? `
+            <div class="detail-section-title">Mod list</div>
+            <div class="profile-chip-list">${mods.map(mod => `<span class="profile-chip">${escapeText(mod)}</span>`).join('')}</div>
+          ` : ''}
+          <div class="listing-actions">
+            ${isOwner ? `<button class="action-button primary" type="button" data-build-edit="${escapeText(vehicle.id)}">Edit Build</button>` : ''}
+            <button class="action-button" type="button" data-build-share="${escapeText(vehicle.id)}">Copy Share Link</button>
+            <a class="action-button" href="boosthub://builds/${encodeURIComponent(vehicle.id)}">Open In App</a>
+          </div>
+        `;
+        buildDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
 
       function renderProfile(profile = null, sharedBuild = null) {
         const builds = sharedBuild
@@ -4608,6 +4973,11 @@
         results.innerHTML = builds.length
           ? builds.map(renderMiniBuildCard).join('')
           : '<div class="web-empty">No garage builds are visible for this account yet.</div>';
+
+        const activeBuild = activeBuildDetailId
+          ? builds.find(vehicle => vehicle.id === activeBuildDetailId)
+          : null;
+        renderBuildDetail(activeBuild || null);
       }
 
       async function loadProfileData() {
@@ -4640,6 +5010,7 @@
               limit: '1',
             }).catch(() => []);
             sharedBuild = sharedRows[0] || null;
+            if (sharedBuild) activeBuildDetailId = sharedBuild.id;
           }
           renderProfile(profiles[0] || null, sharedBuild);
         } catch {
@@ -4648,6 +5019,51 @@
         }
       }
 
+      async function openBuildById(id, updateUrl = true) {
+        if (!id || !isAuthenticated()) return;
+        activeBuildDetailId = id;
+        let build = liveGarageBuilds.find(vehicle => vehicle.id === id) || null;
+        if (!build) {
+          const rows = await supabaseSelect('vehicles', {
+            select: 'id,user_id,owner_name,build_name,name,year,make,model,horsepower,torque,turbo,ecu,fuel,fuel_type,drivetrain,mods,city,state,country,verified,photo_url,is_public,created_at',
+            id: `eq.${id}`,
+            limit: '1',
+          }).catch(() => []);
+          build = rows[0] || null;
+        }
+        if (updateUrl && build) history.replaceState(null, '', `/build/${encodeURIComponent(build.id)}`);
+        renderProfile(liveProfiles[0] || null, build && !liveGarageBuilds.some(vehicle => vehicle.id === build.id) ? build : null);
+        if (!build && status) status.textContent = 'Build could not be opened for this account.';
+      }
+
+      function copyBuildLink(id) {
+        const link = `${window.location.origin}/build/${encodeURIComponent(id)}`;
+        navigator.clipboard?.writeText(link).catch(() => {});
+        if (status) status.textContent = 'Build link copied.';
+      }
+
+      function editBuild(id) {
+        window.boosthubActivateTab?.('build');
+        window.dispatchEvent(new CustomEvent('boosthub-edit-build', { detail: { id } }));
+      }
+
+      results.addEventListener('click', event => {
+        const openId = event.target.closest?.('[data-build-open]')?.dataset.buildOpen;
+        const shareId = event.target.closest?.('[data-build-share]')?.dataset.buildShare;
+        const editId = event.target.closest?.('[data-build-edit]')?.dataset.buildEdit;
+        if (openId) openBuildById(openId);
+        if (shareId) copyBuildLink(shareId);
+        if (editId) editBuild(editId);
+      });
+
+      buildDetail?.addEventListener('click', event => {
+        const shareId = event.target.closest?.('[data-build-share]')?.dataset.buildShare;
+        const editId = event.target.closest?.('[data-build-edit]')?.dataset.buildEdit;
+        if (shareId) copyBuildLink(shareId);
+        if (editId) editBuild(editId);
+      });
+
+      window.boosthubOpenBuild = openBuildById;
       window.addEventListener('boosthub-authenticated', loadProfileData);
       window.addEventListener('boosthub-garage-updated', () => renderProfile(liveProfiles[0] || null));
 
@@ -4703,6 +5119,10 @@
       const groupStatus = document.getElementById('groupStatus');
       if (!search || !category || !results) return;
 
+      let activeGroupId = routeState.groupId || '';
+      let activeGroupTab = 'posts';
+      let groupDetailData = { group: null, members: [], posts: [], builds: [], events: [] };
+
       function groupSlug(value) {
         return String(value || 'group')
           .toLowerCase()
@@ -4711,7 +5131,20 @@
           .slice(0, 50) || 'group';
       }
 
-      function renderGroups() {
+      function isGroupMember() {
+        return groupDetailData.members.some(member => member.user_id === authUser?.id);
+      }
+
+      function isGroupManager() {
+        return groupDetailData.group?.created_by === authUser?.id ||
+          groupDetailData.members.some(member => member.user_id === authUser?.id && ['owner', 'admin'].includes(member.role));
+      }
+
+      function groupMemberName(member) {
+        return member.profiles?.display_name || member.profiles?.username || (member.user_id === authUser?.id ? 'You' : 'BoostHub member');
+      }
+
+      function renderGroupList() {
         const query = search.value.trim().toLowerCase();
         const selectedCategory = category.value;
         const visible = liveGroups.filter(group => {
@@ -4719,23 +5152,6 @@
           return (!query || searchable.includes(query)) &&
             (selectedCategory === 'All' || group.category === selectedCategory);
         });
-        const focusedGroup = routeState.groupId
-          ? liveGroups.find(group => group.id === routeState.groupId || group.slug === routeState.groupId)
-          : null;
-
-        if (sharedDetail) {
-          sharedDetail.hidden = !routeState.groupId;
-          sharedDetail.innerHTML = focusedGroup ? `
-            <div class="public-event-label">Shared group</div>
-            <h4 class="public-event-title">${escapeText(focusedGroup.name)}</h4>
-            <p class="public-event-meta">${escapeText(labelize(focusedGroup.category))} - ${escapeText(formatLocation([focusedGroup.city, focusedGroup.region, focusedGroup.country]))}</p>
-            ${focusedGroup.description ? `<p class="public-event-copy">${escapeText(focusedGroup.description).slice(0, 420)}</p>` : ''}
-          ` : `
-            <div class="public-event-label">Shared group</div>
-            <h4 class="public-event-title">Group not found</h4>
-            <p class="public-event-copy">This shared group could not be loaded for the signed-in account.</p>
-          `;
-        }
 
         if (note) note.textContent = `${visible.length} group${visible.length === 1 ? '' : 's'} shown`;
         results.innerHTML = visible.length ? visible.map(group => `
@@ -4744,9 +5160,188 @@
             <h4 class="web-row-title">${escapeText(group.name)}</h4>
             <p class="web-row-meta">${escapeText(formatLocation([group.city, group.region, group.country]))}</p>
             ${group.description ? `<p class="status-line">${escapeText(group.description).slice(0, 180)}</p>` : ''}
-            <span class="web-stat-pill">${group.is_public ? 'Visible to members' : 'Private'}</span>
+            <div class="listing-actions">
+              <button class="action-button primary" type="button" data-group-open="${escapeText(group.id)}">Open Group</button>
+              <button class="action-button" type="button" data-group-share="${escapeText(group.slug || group.id)}">Copy Link</button>
+            </div>
           </article>
         `).join('') : '<div class="web-empty">No groups match those filters.</div>';
+      }
+
+      function renderGroupPanelContent() {
+        if (activeGroupTab === 'members') {
+          return groupDetailData.members.length ? groupDetailData.members.map(member => `
+            <article class="functional-card">
+              <h4 class="web-row-title">${escapeText(groupMemberName(member))}</h4>
+              <p class="web-row-meta">${escapeText(labelize(member.role))} - Joined ${escapeText(formatShortDate(member.created_at))}</p>
+            </article>
+          `).join('') : '<div class="web-empty">No members loaded yet.</div>';
+        }
+
+        if (activeGroupTab === 'builds') {
+          return `
+            ${isGroupMember() ? `
+              <form class="web-form" id="groupBuildForm">
+                <div class="web-form-grid two">
+                  <select class="component-control" id="groupBuildSelect" required>
+                    <option value="">Choose one of your garage builds</option>
+                    ${liveGarageBuilds.map(vehicle => `<option value="${escapeText(vehicle.id)}">${escapeText(buildDisplayName(vehicle))}</option>`).join('')}
+                  </select>
+                  <button class="action-button primary" type="submit">Add Build</button>
+                </div>
+                <div class="status-line" id="groupBuildStatus"></div>
+              </form>
+            ` : '<p class="status-line">Join this group to add one of your builds manually.</p>'}
+            <div class="mini-list">
+              ${groupDetailData.builds.length ? groupDetailData.builds.map(item => {
+                const vehicle = item.vehicles || {};
+                return `
+                  <article class="functional-card web-row">
+                    <div>
+                      <h4 class="web-row-title">${escapeText(buildDisplayName(vehicle))}</h4>
+                      <p class="web-row-meta">${escapeText(buildPlatform(vehicle))}</p>
+                    </div>
+                    <button class="action-button" type="button" data-build-open="${escapeText(item.build_id)}">View Build</button>
+                  </article>
+                `;
+              }).join('') : '<div class="web-empty">No builds have been added to this group yet.</div>'}
+            </div>
+          `;
+        }
+
+        if (activeGroupTab === 'events') {
+          return groupDetailData.events.length ? groupDetailData.events.map(item => `
+            <article class="functional-card">
+              <h4 class="web-row-title">${escapeText(item.title)}</h4>
+              <p class="web-row-meta">${escapeText(formatShortDate(item.event_at))} - ${escapeText(item.location_name || 'Location TBD')}</p>
+              ${item.description ? `<p class="status-line">${escapeText(item.description).slice(0, 220)}</p>` : ''}
+            </article>
+          `).join('') : '<div class="web-empty">No group events have been added yet.</div>';
+        }
+
+        return `
+          ${isGroupMember() ? `
+            <form class="web-form" id="groupPostForm">
+              <textarea class="component-control" id="groupPostBody" rows="3" placeholder="Post an update to this group" required></textarea>
+              <button class="action-button primary" type="submit">Post Update</button>
+              <div class="status-line" id="groupPostStatus"></div>
+            </form>
+          ` : '<p class="status-line">Join this group to post updates.</p>'}
+          <div class="mini-list">
+            ${groupDetailData.posts.length ? groupDetailData.posts.map(post => `
+              <article class="functional-card">
+                <p class="public-event-copy">${escapeText(post.body)}</p>
+                <p class="web-row-meta">${escapeText(post.profiles?.display_name || post.profiles?.username || 'BoostHub member')} - ${escapeText(formatShortDate(post.created_at))}</p>
+              </article>
+            `).join('') : '<div class="web-empty">No posts yet.</div>'}
+          </div>
+        `;
+      }
+
+      function renderGroupDetail() {
+        if (!sharedDetail) return;
+        const group = groupDetailData.group;
+        sharedDetail.hidden = !activeGroupId;
+        if (!activeGroupId) return;
+
+        if (!group) {
+          sharedDetail.innerHTML = `
+            <div class="public-event-label">Group</div>
+            <h4 class="public-event-title">Loading group...</h4>
+            <p class="public-event-copy">BoostHub is opening this group for the signed-in account.</p>
+          `;
+          return;
+        }
+
+        const member = isGroupMember();
+        sharedDetail.innerHTML = `
+          <div class="public-event-label">${member ? 'Group member' : 'Community group'}</div>
+          <h4 class="public-event-title">${escapeText(group.name)}</h4>
+          <p class="public-event-meta">${escapeText(labelize(group.category))} - ${escapeText(formatLocation([group.city, group.region, group.country]))}</p>
+          ${group.description ? `<p class="public-event-copy">${escapeText(group.description).slice(0, 520)}</p>` : ''}
+          <div class="detail-grid">
+            <div class="profile-stat"><div class="profile-stat-label">Members</div><div class="profile-stat-value">${groupDetailData.members.length}</div></div>
+            <div class="profile-stat"><div class="profile-stat-label">Builds</div><div class="profile-stat-value">${groupDetailData.builds.length}</div></div>
+            <div class="profile-stat"><div class="profile-stat-label">Posts</div><div class="profile-stat-value">${groupDetailData.posts.length}</div></div>
+            <div class="profile-stat"><div class="profile-stat-label">Events</div><div class="profile-stat-value">${groupDetailData.events.length}</div></div>
+          </div>
+          <div class="listing-actions">
+            ${member ? `<button class="action-button danger" type="button" data-group-leave="${escapeText(group.id)}">Leave Group</button>` : `<button class="action-button primary" type="button" data-group-join="${escapeText(group.id)}">Join Group</button>`}
+            <button class="action-button" type="button" data-group-share="${escapeText(group.slug || group.id)}">Copy Link</button>
+            <a class="action-button" href="boosthub://groups/${encodeURIComponent(group.id)}">Open In App</a>
+          </div>
+          <div class="group-tabs" role="tablist" aria-label="Group sections">
+            ${['posts', 'builds', 'events', 'members'].map(tab => `<button class="group-tab ${activeGroupTab === tab ? 'active' : ''}" type="button" data-group-tab="${tab}">${labelize(tab)}</button>`).join('')}
+          </div>
+          <div class="group-detail-grid">
+            <article class="functional-card">
+              <div class="profile-label">Member tools</div>
+              <p class="web-row-meta">${isGroupManager() ? 'You can manage this group.' : member ? 'You can post and add your own builds.' : 'Join to post or add a build.'}</p>
+              <p class="status-line">Builds are manual-add only; your garage is not auto-filled into a group.</p>
+            </article>
+            <div id="groupTabContent">${renderGroupPanelContent()}</div>
+          </div>
+        `;
+      }
+
+      async function loadGroupDetail(groupKey, updateUrl = true) {
+        if (!isAuthenticated() || !groupKey) return;
+        activeGroupId = groupKey;
+        groupDetailData = { group: null, members: [], posts: [], builds: [], events: [] };
+        renderGroupDetail();
+
+        let group = liveGroups.find(item => item.id === groupKey || item.slug === groupKey) || null;
+        if (!group) {
+          const isUuidKey = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(groupKey);
+          const rows = await supabaseSelect('community_groups', {
+            select: 'id,name,slug,description,category,city,region,country,is_public,created_by,created_at',
+            ...(isUuidKey ? { or: `(id.eq.${groupKey},slug.eq.${groupKey})` } : { slug: `eq.${groupKey}` }),
+            limit: '1',
+          }).catch(() => []);
+          group = rows[0] || null;
+          if (group) liveGroups = [group, ...liveGroups.filter(item => item.id !== group.id)];
+        }
+
+        if (!group) {
+          sharedDetail.innerHTML = `
+            <div class="public-event-label">Group</div>
+            <h4 class="public-event-title">Group not found</h4>
+            <p class="public-event-copy">This group could not be loaded for this account.</p>
+          `;
+          return;
+        }
+
+        const [members, posts, builds, events] = await Promise.all([
+          supabaseSelect('community_group_members', {
+            select: 'group_id,user_id,role,created_at,profiles(username,display_name)',
+            group_id: `eq.${group.id}`,
+            order: 'created_at.asc',
+            limit: '80',
+          }).catch(() => []),
+          supabaseSelect('community_group_posts', {
+            select: 'id,group_id,user_id,body,image_url,created_at,profiles(username,display_name)',
+            group_id: `eq.${group.id}`,
+            order: 'created_at.desc',
+            limit: '30',
+          }).catch(() => []),
+          supabaseSelect('community_group_builds', {
+            select: 'group_id,build_id,added_by,created_at,vehicles(id,user_id,owner_name,build_name,name,year,make,model,horsepower,drivetrain,verified)',
+            group_id: `eq.${group.id}`,
+            order: 'created_at.desc',
+            limit: '40',
+          }).catch(() => []),
+          supabaseSelect('community_group_events', {
+            select: 'id,group_id,title,description,location_name,event_at,created_at',
+            group_id: `eq.${group.id}`,
+            order: 'event_at.asc',
+            limit: '30',
+          }).catch(() => []),
+        ]);
+
+        groupDetailData = { group, members, posts, builds, events };
+        if (updateUrl) history.replaceState(null, '', `/groups/${encodeURIComponent(group.slug || group.id)}`);
+        renderGroupList();
+        renderGroupDetail();
       }
 
       async function loadGroups() {
@@ -4754,18 +5349,107 @@
         results.innerHTML = '<div class="web-empty">Loading groups...</div>';
         try {
           liveGroups = await supabaseSelect('community_groups', {
-            select: 'id,name,slug,description,category,city,region,country,is_public,created_at',
+            select: 'id,name,slug,description,category,city,region,country,is_public,created_by,created_at',
             order: 'created_at.desc',
-            limit: '60',
+            limit: '80',
           });
-          renderGroups();
+          renderGroupList();
+          if (activeGroupId) loadGroupDetail(activeGroupId, false);
         } catch {
           if (note) note.textContent = 'Could not load groups';
           results.innerHTML = '<div class="web-empty">Groups could not be loaded for this account.</div>';
         }
       }
 
-      [search, category].forEach(input => input.addEventListener('input', renderGroups));
+      async function joinGroup(groupId) {
+        await supabaseInsert('community_group_members', {
+          group_id: groupId,
+          user_id: authUser.id,
+          role: 'member',
+        }).catch(() => []);
+        await loadGroupDetail(groupId, false);
+      }
+
+      async function leaveGroup(groupId) {
+        await supabaseDelete('community_group_members', {
+          group_id: `eq.${groupId}`,
+          user_id: `eq.${authUser.id}`,
+        }).catch(() => []);
+        await loadGroupDetail(groupId, false);
+      }
+
+      [search, category].forEach(input => input.addEventListener('input', renderGroupList));
+
+      results.addEventListener('click', event => {
+        const openId = event.target.closest?.('[data-group-open]')?.dataset.groupOpen;
+        const shareId = event.target.closest?.('[data-group-share]')?.dataset.groupShare;
+        if (openId) loadGroupDetail(openId);
+        if (shareId) {
+          navigator.clipboard?.writeText(`${window.location.origin}/groups/${encodeURIComponent(shareId)}`).catch(() => {});
+          if (groupStatus) groupStatus.textContent = 'Group link copied.';
+        }
+      });
+
+      sharedDetail?.addEventListener('click', async event => {
+        const tab = event.target.closest?.('[data-group-tab]')?.dataset.groupTab;
+        const joinId = event.target.closest?.('[data-group-join]')?.dataset.groupJoin;
+        const leaveId = event.target.closest?.('[data-group-leave]')?.dataset.groupLeave;
+        const shareId = event.target.closest?.('[data-group-share]')?.dataset.groupShare;
+        const buildId = event.target.closest?.('[data-build-open]')?.dataset.buildOpen;
+        if (tab) {
+          activeGroupTab = tab;
+          renderGroupDetail();
+        }
+        if (joinId) await joinGroup(joinId);
+        if (leaveId) await leaveGroup(leaveId);
+        if (shareId) {
+          navigator.clipboard?.writeText(`${window.location.origin}/groups/${encodeURIComponent(shareId)}`).catch(() => {});
+          if (groupStatus) groupStatus.textContent = 'Group link copied.';
+        }
+        if (buildId) {
+          window.boosthubActivateTab?.('profile');
+          window.boosthubOpenBuild?.(buildId);
+        }
+      });
+
+      sharedDetail?.addEventListener('submit', async event => {
+        const postForm = event.target.closest?.('#groupPostForm');
+        const buildForm = event.target.closest?.('#groupBuildForm');
+        if (!postForm && !buildForm) return;
+        event.preventDefault();
+        if (!groupDetailData.group) return;
+
+        if (postForm) {
+          const body = cleanText(document.getElementById('groupPostBody')?.value);
+          const statusEl = document.getElementById('groupPostStatus');
+          if (!body) return;
+          if (statusEl) statusEl.textContent = 'Posting...';
+          await supabaseInsert('community_group_posts', {
+            group_id: groupDetailData.group.id,
+            user_id: authUser.id,
+            body,
+          });
+          if (statusEl) statusEl.textContent = 'Posted.';
+          await loadGroupDetail(groupDetailData.group.id, false);
+        }
+
+        if (buildForm) {
+          const buildId = document.getElementById('groupBuildSelect')?.value || '';
+          const statusEl = document.getElementById('groupBuildStatus');
+          if (!buildId) return;
+          if (statusEl) statusEl.textContent = 'Adding build...';
+          await supabaseInsert('community_group_builds', {
+            group_id: groupDetailData.group.id,
+            build_id: buildId,
+            added_by: authUser.id,
+          }).catch(error => {
+            if (statusEl) statusEl.textContent = error.message || 'Build could not be added.';
+            throw error;
+          });
+          if (statusEl) statusEl.textContent = 'Build added.';
+          await loadGroupDetail(groupDetailData.group.id, false);
+        }
+      });
 
       groupForm?.addEventListener('submit', async event => {
         event.preventDefault();
@@ -4800,7 +5484,8 @@
               role: 'owner',
             }).catch(() => []);
             liveGroups = [saved, ...liveGroups.filter(group => group.id !== saved.id)];
-            renderGroups();
+            renderGroupList();
+            await loadGroupDetail(saved.id);
           }
           groupForm.reset();
           if (groupCountry) groupCountry.value = 'United States';
@@ -4813,6 +5498,7 @@
       });
 
       window.addEventListener('boosthub-authenticated', loadGroups);
+      window.addEventListener('boosthub-garage-updated', renderGroupDetail);
       if (isAuthenticated()) loadGroups();
     }
 
@@ -4823,7 +5509,8 @@
       const results = document.getElementById('mapResults');
       const detail = document.getElementById('mapLocationDetail');
       const note = document.getElementById('mapNote');
-      if (!search || !category || !country || !results || !detail) return;
+      const canvas = document.getElementById('boostMapCanvas');
+      if (!search || !category || !country || !results || !detail || !canvas) return;
 
       function categoryLabel(value) {
         return labelize(value || 'location');
@@ -4860,6 +5547,8 @@
           </div>
           <div class="listing-actions">
             ${location.website_url ? `<a class="action-button primary" href="${escapeText(location.website_url)}" target="_blank" rel="noopener">Official Website</a>` : ''}
+            <a class="action-button orange" href="${escapeText(externalMapUrl(location))}" target="_blank" rel="noopener">Open Map</a>
+            <button class="action-button" type="button" data-map-track-times="${escapeText(location.id)}">Track Times</button>
             <a class="action-button" href="boosthub://map/${encodeURIComponent(location.id)}">Open In App</a>
           </div>
         `;
@@ -4892,6 +5581,11 @@
           </button>
         `).join('') : '<div class="web-empty">No map locations match those filters.</div>';
         renderLocationDetail(selected);
+        renderLeafletMarkers('boostMapCanvas', visible, selectedMapLocationId, id => {
+          selectedMapLocationId = id;
+          history.replaceState(null, '', `/map/${encodeURIComponent(id)}`);
+          renderMap();
+        });
       }
 
       async function loadMapLocations() {
@@ -4921,6 +5615,14 @@
         if (selected) history.replaceState(null, '', `/map/${encodeURIComponent(id)}`);
         renderMap();
       });
+      detail.addEventListener('click', event => {
+        const id = event.target.closest?.('[data-map-track-times]')?.dataset.mapTrackTimes;
+        if (!id) return;
+        window.boosthubActivateTab?.('tracks');
+        const trackFilter = document.getElementById('tracksLocationFilter');
+        if (trackFilter) trackFilter.value = id;
+        window.dispatchEvent(new CustomEvent('boosthub-track-selected', { detail: { id } }));
+      });
       window.addEventListener('boosthub-authenticated', loadMapLocations);
       if (isAuthenticated()) loadMapLocations();
       renderLocationDetail(null);
@@ -4933,6 +5635,7 @@
       const list = document.getElementById('tracksList');
       const times = document.getElementById('trackTimesResults');
       const note = document.getElementById('tracksNote');
+      const canvas = document.getElementById('tracksMapCanvas');
       const submitForm = document.getElementById('trackTimeForm');
       const submitBuild = document.getElementById('trackSubmitBuild');
       const submitLocation = document.getElementById('trackSubmitLocation');
@@ -4944,7 +5647,7 @@
       const submitNotes = document.getElementById('trackSubmitNotes');
       const submitButton = document.getElementById('trackSubmitButton');
       const submitStatus = document.getElementById('trackSubmitStatus');
-      if (!search || !locationFilter || !typeFilter || !list || !times) return;
+      if (!search || !locationFilter || !typeFilter || !list || !times || !canvas) return;
 
       function trackLocations() {
         return liveMapLocations.filter(location => ['track', 'raceway'].includes(location.category));
@@ -5027,6 +5730,12 @@
         }).join('') : '<div class="web-empty">No submitted times match this track filter yet.</div>';
 
         hydrateTrackSubmitOptions();
+        renderLeafletMarkers('tracksMapCanvas', visibleTracks, locationFilter.value === 'All' ? '' : locationFilter.value, id => {
+          locationFilter.value = id;
+          if (submitLocation) submitLocation.value = id;
+          history.replaceState(null, '', `/tracks/${encodeURIComponent(id)}`);
+          renderTracks();
+        });
       }
 
       async function loadTrackData() {
@@ -5125,6 +5834,13 @@
       window.addEventListener('boosthub-authenticated', loadTrackData);
       window.addEventListener('boosthub-map-loaded', renderTracks);
       window.addEventListener('boosthub-garage-updated', hydrateTrackSubmitOptions);
+      window.addEventListener('boosthub-track-selected', event => {
+        const id = event.detail?.id;
+        if (!id) return;
+        locationFilter.value = id;
+        if (submitLocation) submitLocation.value = id;
+        renderTracks();
+      });
       if (isAuthenticated()) loadTrackData();
       hydrateTrackSubmitOptions();
     }
@@ -5136,9 +5852,28 @@
       const results = document.getElementById('marketResults');
       const note = document.getElementById('marketplaceNote');
       const status = document.getElementById('marketStatus');
+      const sellerTitle = document.getElementById('sellerPanelTitle');
+      const sellerCopy = document.getElementById('sellerPanelCopy');
+      const sellerStatusGrid = document.getElementById('sellerStatusGrid');
+      const sellerToggle = document.getElementById('sellerVerificationToggle');
+      const sellerForm = document.getElementById('sellerVerificationForm');
+      const sellerSubmit = document.getElementById('sellerVerificationSubmit');
+      const sellerStatus = document.getElementById('sellerVerificationStatus');
+      const sellerDisplayName = document.getElementById('sellerDisplayName');
+      const sellerRequestedTier = document.getElementById('sellerRequestedTier');
+      const sellerContactName = document.getElementById('sellerContactName');
+      const sellerBusinessName = document.getElementById('sellerBusinessName');
+      const sellerBusinessEmail = document.getElementById('sellerBusinessEmail');
+      const sellerBusinessPhone = document.getElementById('sellerBusinessPhone');
+      const sellerBusinessWebsite = document.getElementById('sellerBusinessWebsite');
+      const sellerServiceArea = document.getElementById('sellerServiceArea');
+      const sellerInventorySummary = document.getElementById('sellerInventorySummary');
+      const sellerApplicantNotes = document.getElementById('sellerApplicantNotes');
       if (!search || !category || !tier || !results) return;
 
-      let activeListings = marketplaceListings;
+      let activeListings = [];
+      let activeSellerAccount = null;
+      let activeSellerRequests = [];
 
       function hydrateMarketplaceFilters() {
         const selectedCategory = category.value || 'All';
@@ -5152,6 +5887,12 @@
       }
 
       function renderMarketplace() {
+        if (!isAuthenticated()) {
+          note.textContent = 'Account required';
+          results.innerHTML = '<div class="web-empty">Sign in to browse BoostHub marketplace listings.</div>';
+          return;
+        }
+
         const query = search.value.trim().toLowerCase();
         const selectedCategory = category.value;
         const selectedTier = tier.value;
@@ -5170,7 +5911,7 @@
               <div>
                 <div class="listing-topline">
                   <h4 class="listing-name">${item.title}</h4>
-                  <div class="listing-price">${money(item.price)}</div>
+                  <div class="listing-price">${item.priceLabel || money(item.price)}</div>
                 </div>
                 <p class="listing-meta">${item.location} - ${item.condition}</p>
                 <p class="listing-meta">${item.fitment}</p>
@@ -5183,48 +5924,177 @@
               <div class="listing-actions">
                 <button class="action-button ${saved ? 'saved' : ''}" type="button" data-save-listing="${item.id}">${saved ? 'Saved' : 'Save'}</button>
                 <button class="action-button primary" type="button" data-message-listing="${item.id}">Message Seller</button>
+                <button class="action-button" type="button" data-listing-open="${item.id}">View Details</button>
               </div>
             </article>
           `;
-        }).join('') || '<p class="status-line">No listings match those filters.</p>';
+        }).join('') || '<div class="web-empty">No live marketplace listings match those filters yet.</div>';
+      }
+
+      async function ensureProfileRecord(displayName) {
+        if (!authUser?.id) return;
+        await supabaseUpsert('profiles', {
+          id: authUser.id,
+          display_name: displayName || authUser.email?.split('@')[0] || 'BoostHub seller',
+        }, 'id').catch(() => []);
+      }
+
+      function renderSellerPanel() {
+        const latestRequest = activeSellerRequests[0] || null;
+        if (sellerTitle) sellerTitle.textContent = activeSellerAccount ? 'Seller verification' : 'Start seller verification';
+        if (sellerCopy) {
+          sellerCopy.textContent = activeSellerAccount
+            ? `Seller account created. Latest request: ${latestRequest ? labelize(latestRequest.status) : 'No request submitted yet'}.`
+            : 'Create a seller profile and submit verification details for review.';
+        }
+        if (sellerToggle) sellerToggle.textContent = latestRequest ? 'Submit Another Request' : 'Start Verification';
+        if (sellerDisplayName && !sellerDisplayName.value) {
+          sellerDisplayName.value = activeSellerAccount?.display_name || liveProfiles[0]?.display_name || authUser?.email?.split('@')[0] || '';
+        }
+        if (sellerStatusGrid) {
+          sellerStatusGrid.innerHTML = `
+            <article class="profile-stat">
+              <div class="profile-stat-label">Tier</div>
+              <div class="profile-stat-value">${escapeText(labelize(activeSellerAccount?.seller_tier || 'Not started'))}</div>
+            </article>
+            <article class="profile-stat">
+              <div class="profile-stat-label">Verification</div>
+              <div class="profile-stat-value">${escapeText(labelize(activeSellerAccount?.verification_status || latestRequest?.status || 'Not started'))}</div>
+            </article>
+            <article class="profile-stat">
+              <div class="profile-stat-label">Trust</div>
+              <div class="profile-stat-value">${escapeText(labelize(activeSellerAccount?.trust_level || 'New'))}</div>
+            </article>
+            <article class="profile-stat">
+              <div class="profile-stat-label">Limit</div>
+              <div class="profile-stat-value">${activeSellerAccount?.active_listing_limit ?? 0}</div>
+            </article>
+          `;
+        }
+      }
+
+      async function loadSellerAccount() {
+        if (!isAuthenticated() || !authUser?.id) return;
+        const sellers = await supabaseSelect('marketplace_seller_accounts', {
+          select: 'id,user_id,display_name,seller_tier,verification_status,trust_level,trust_score,active_listing_limit,monthly_listing_limit,created_at',
+          user_id: `eq.${authUser.id}`,
+          limit: '1',
+        }).catch(() => []);
+        activeSellerAccount = sellers[0] || null;
+
+        if (activeSellerAccount) {
+          activeSellerRequests = await supabaseSelect('marketplace_seller_verification_requests', {
+            select: 'id,seller_id,requested_tier,status,contact_name,business_name,business_email,business_website,created_at',
+            seller_id: `eq.${activeSellerAccount.id}`,
+            order: 'created_at.desc',
+            limit: '5',
+          }).catch(() => []);
+        } else {
+          activeSellerRequests = [];
+        }
+        renderSellerPanel();
       }
 
       async function loadLiveMarketplace() {
         if (!isAuthenticated()) return;
         try {
           const rows = await supabaseSelect('marketplace_listings', {
-            select: 'id,title,description,category,condition,price_cents,currency,location_city,location_region,location_country,status,safety_status,created_at',
+            select: 'id,title,description,category,condition,price_cents,currency,location_city,location_region,location_country,status,safety_status,seller_id,owner_user_id,created_at,marketplace_seller_accounts(display_name,seller_tier,verification_status,trust_level,trust_score)',
             status: 'eq.active',
             order: 'created_at.desc',
             limit: '36',
           });
-          if (Array.isArray(rows) && rows.length) {
-            activeListings = rows.map(row => ({
+          activeListings = Array.isArray(rows) ? rows.map(row => {
+            const seller = row.marketplace_seller_accounts || {};
+            return {
               id: row.id,
               title: row.title || 'Marketplace Listing',
               price: Math.round(Number(row.price_cents || 0) / 100),
+              priceLabel: row.price_cents == null ? 'Price TBD' : formatCurrencyFromCents(row.price_cents, row.currency),
               category: row.category || 'Parts',
-              tier: row.safety_status ? labelize(row.safety_status) : 'BoostHub Seller',
-              seller: 'BoostHub member',
+              tier: seller.seller_tier ? labelize(seller.seller_tier) : (row.safety_status ? labelize(row.safety_status) : 'BoostHub Seller'),
+              seller: seller.display_name || 'BoostHub member',
               location: formatLocation([row.location_city, row.location_region, row.location_country]),
               condition: row.condition || 'Condition not set',
-              tags: [row.category, row.condition].filter(Boolean).map(labelize),
+              tags: [row.category, row.condition, seller.trust_level].filter(Boolean).map(labelize),
               safety: row.safety_status ? `Safety status: ${labelize(row.safety_status)}` : 'Account-gated listing',
               fitment: row.description || 'Open in BoostHub for full fitment details',
-            }));
-            if (status) status.textContent = 'Live marketplace listings loaded for this account.';
-            hydrateMarketplaceFilters();
-            renderMarketplace();
-          }
-        } catch {
-          if (status) status.textContent = 'Marketplace web listings will load here after seller tables are deployed.';
+            };
+          }) : [];
+          if (status) status.textContent = activeListings.length ? 'Live marketplace listings loaded.' : 'No live listings yet. Seller verification is ready.';
+          hydrateMarketplaceFilters();
+          renderMarketplace();
+        } catch (error) {
+          activeListings = [];
+          hydrateMarketplaceFilters();
+          renderMarketplace();
+          if (status) status.textContent = error.message || 'Live marketplace could not be loaded.';
         }
       }
 
       [search, category, tier].forEach(input => input.addEventListener('input', renderMarketplace));
+      sellerToggle?.addEventListener('click', () => {
+        if (!isAuthenticated()) {
+          renderAuthState('Sign in to start seller verification.');
+          document.getElementById('webAuthPanel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+        if (sellerForm) sellerForm.hidden = !sellerForm.hidden;
+      });
+
+      sellerForm?.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (!isAuthenticated() || !authUser?.id) {
+          renderAuthState('Sign in to start seller verification.');
+          return;
+        }
+
+        const displayName = cleanText(sellerDisplayName?.value);
+        if (!displayName) return;
+        if (sellerSubmit) sellerSubmit.disabled = true;
+        if (sellerStatus) sellerStatus.textContent = 'Submitting verification request...';
+
+        try {
+          await ensureProfileRecord(displayName);
+          if (!activeSellerAccount) {
+            const sellerRows = await supabaseInsert('marketplace_seller_accounts', {
+              user_id: authUser.id,
+              display_name: displayName,
+              seller_tier: 'private_seller',
+              verification_status: 'not_started',
+              trust_level: 'new_private',
+            });
+            activeSellerAccount = sellerRows[0] || null;
+          }
+
+          if (!activeSellerAccount?.id) throw new Error('Seller account could not be created.');
+
+          await supabaseInsert('marketplace_seller_verification_requests', {
+            seller_id: activeSellerAccount.id,
+            requested_tier: sellerRequestedTier?.value || 'trusted_private',
+            contact_name: cleanText(sellerContactName?.value),
+            business_name: cleanText(sellerBusinessName?.value),
+            business_email: cleanText(sellerBusinessEmail?.value),
+            business_phone: cleanText(sellerBusinessPhone?.value),
+            business_website: cleanText(sellerBusinessWebsite?.value),
+            service_area: cleanText(sellerServiceArea?.value),
+            inventory_summary: cleanText(sellerInventorySummary?.value),
+            applicant_notes: cleanText(sellerApplicantNotes?.value),
+          });
+          await loadSellerAccount();
+          if (sellerForm) sellerForm.hidden = true;
+          if (sellerStatus) sellerStatus.textContent = 'Verification request submitted.';
+        } catch (error) {
+          if (sellerStatus) sellerStatus.textContent = error.message || 'Verification request could not be submitted.';
+        } finally {
+          if (sellerSubmit) sellerSubmit.disabled = false;
+        }
+      });
+
       results.addEventListener('click', event => {
         const saveId = event.target.dataset.saveListing;
         const messageId = event.target.dataset.messageListing;
+        const openId = event.target.dataset.listingOpen;
         if (saveId) {
           savedListings = savedListings.includes(saveId)
             ? savedListings.filter(id => id !== saveId)
@@ -5237,15 +6107,28 @@
           const listing = activeListings.find(item => item.id === messageId);
           if (!listing) return;
           const subject = encodeURIComponent(`BoostHub listing: ${listing.title}`);
-          const body = encodeURIComponent(`Hi ${listing.seller},\n\nI saw your ${listing.title} on BoostHub and wanted to ask if it is still available.\n\nListing: ${money(listing.price)} - ${listing.location}`);
+          const body = encodeURIComponent(`Hi ${listing.seller},\n\nI saw your ${listing.title} on BoostHub and wanted to ask if it is still available.\n\nListing: ${listing.priceLabel || money(listing.price)} - ${listing.location}`);
           window.location.href = `mailto:marketplace@boosthubapp.com?subject=${subject}&body=${body}`;
+        }
+        if (openId) {
+          const listing = activeListings.find(item => item.id === openId);
+          if (!listing) return;
+          history.replaceState(null, '', `/marketplace/${encodeURIComponent(listing.id)}`);
+          status.textContent = `${listing.title}: ${listing.priceLabel || money(listing.price)} - ${listing.condition} - ${listing.fitment}`;
         }
       });
 
       hydrateMarketplaceFilters();
+      renderSellerPanel();
       renderMarketplace();
-      window.addEventListener('boosthub-authenticated', loadLiveMarketplace);
-      if (isAuthenticated()) loadLiveMarketplace();
+      window.addEventListener('boosthub-authenticated', () => {
+        loadSellerAccount();
+        loadLiveMarketplace();
+      });
+      if (isAuthenticated()) {
+        loadSellerAccount();
+        loadLiveMarketplace();
+      }
     }
 
     function setupRankComponent() {
@@ -5269,7 +6152,7 @@
         const label = metricKey === 'horsepower' ? 'HP' : metricKey === 'quarter' ? 'sec' : 'MPH';
         note.textContent = `${filtered.length} build${filtered.length === 1 ? '' : 's'} ranked`;
         results.innerHTML = filtered.map((item, index) => `
-          <article class="functional-card ranking-row">
+          <article class="functional-card ranking-row" data-rank-build="${escapeText(item.id)}">
             <div class="ranking-position">#${index + 1}</div>
             <div>
               <div class="ranking-topline">
@@ -5279,6 +6162,9 @@
                 </div>
               </div>
               <p class="ranking-meta">${item.meta}</p>
+              <div class="listing-actions">
+                <button class="action-button" type="button" data-rank-open="${escapeText(item.id)}">View Build</button>
+              </div>
             </div>
             <div class="ranking-stat">${item[metricKey]} ${label}</div>
           </article>
@@ -5317,6 +6203,13 @@
       }
 
       [metric, drivetrain, proof].forEach(input => input.addEventListener('input', renderRankings));
+      results.addEventListener('click', event => {
+        const buildId = event.target.closest?.('[data-rank-open]')?.dataset.rankOpen ||
+          event.target.closest?.('[data-rank-build]')?.dataset.rankBuild;
+        if (!buildId) return;
+        window.boosthubActivateTab?.('profile');
+        window.boosthubOpenBuild?.(buildId);
+      });
       renderRankings();
       window.addEventListener('boosthub-authenticated', loadLiveRankings);
       if (isAuthenticated()) loadLiveRankings();
@@ -5374,10 +6267,27 @@
         output.textContent = `${corrected.toFixed(1)} mph`;
       }
 
+      function updateBoostRatio() {
+        const boostPsi = Math.max(0, getNumber('boostPsi', 0));
+        const atmoPsi = Math.max(1, getNumber('atmoPsi', 14.7));
+        const output = document.getElementById('boostRatioResult');
+        if (output) output.textContent = `${((boostPsi + atmoPsi) / atmoPsi).toFixed(2)} PR`;
+      }
+
+      function updateEtPower() {
+        const weight = Math.max(1, getNumber('etWeight', 0));
+        const et = Math.max(1, getNumber('etSeconds', 0));
+        const output = document.getElementById('etPowerResult');
+        const power = weight / Math.pow(et / 5.825, 3);
+        if (output) output.textContent = `${Math.round(power)} whp`;
+      }
+
       function updateAllCalcs() {
         updateFuel();
         updateInjector();
         updateTire();
+        updateBoostRatio();
+        updateEtPower();
       }
 
       calcInputs.forEach(input => input.addEventListener('input', updateAllCalcs));
