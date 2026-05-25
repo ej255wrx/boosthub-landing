@@ -89,8 +89,10 @@
     .nav-logo .accent { color: var(--blue-bright); }
 
     .nav-badge {
+      border: 0;
       background: var(--blue);
       color: white;
+      cursor: pointer;
       font-family: var(--font-display);
       font-size: 13px;
       font-weight: 700;
@@ -108,6 +110,21 @@
       background: var(--green);
       color: #06120b;
       transform: translateY(-1px);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-auth-status {
+      color: #a7b0bf;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .launch-download {
@@ -1286,7 +1303,7 @@
 
     .app-tab-bar {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
       gap: 8px;
       margin: 18px 0 14px;
       padding: 8px;
@@ -1328,6 +1345,164 @@
 
     .component-shell[hidden] {
       display: none;
+    }
+
+    .workspace-locked .app-tab-bar,
+    .workspace-locked .component-shell {
+      display: none !important;
+    }
+
+    .auth-panel {
+      border: 1px solid rgba(34,197,94,0.38);
+      background:
+        linear-gradient(135deg, rgba(34,197,94,0.13), rgba(37,99,235,0.08)),
+        rgba(10,14,20,0.92);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+    }
+
+    .auth-panel[hidden] {
+      display: none;
+    }
+
+    .auth-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.65fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .auth-copy {
+      color: #a7b0bf;
+      font-size: 15px;
+      line-height: 1.65;
+      max-width: 680px;
+      margin-top: 10px;
+    }
+
+    .auth-mode-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .auth-mode-button {
+      min-height: 38px;
+      border: 1px solid rgba(59,130,246,0.34);
+      background: rgba(37,99,235,0.12);
+      color: #dbeafe;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      padding: 9px 12px;
+      text-transform: uppercase;
+    }
+
+    .auth-mode-button.active {
+      border-color: rgba(34,197,94,0.58);
+      background: rgba(34,197,94,0.18);
+      color: #bbf7d0;
+    }
+
+    .auth-form {
+      display: grid;
+      gap: 10px;
+    }
+
+    .auth-field[hidden] {
+      display: none;
+    }
+
+    .auth-message {
+      color: #bfdbfe;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.5;
+      min-height: 20px;
+    }
+
+    .auth-lock-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .auth-lock-item {
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      border-radius: 10px;
+      color: #dbeafe;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 10px 12px;
+    }
+
+    .web-data-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .web-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .web-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .web-row-main {
+      min-width: 0;
+    }
+
+    .web-row-title {
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .web-row-meta {
+      color: #9ca3af;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 7px;
+    }
+
+    .web-empty {
+      border: 1px dashed rgba(59,130,246,0.34);
+      background: rgba(37,99,235,0.08);
+      border-radius: 12px;
+      color: #bfdbfe;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.55;
+      padding: 14px;
+    }
+
+    .web-stat-pill {
+      border: 1px solid rgba(34,197,94,0.4);
+      background: rgba(34,197,94,0.12);
+      border-radius: 999px;
+      color: #bbf7d0;
+      display: inline-flex;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      margin-top: 10px;
+      padding: 6px 9px;
+      text-transform: uppercase;
     }
 
     .component-title-row {
@@ -1913,6 +2088,95 @@
       font-weight: 900;
     }
 
+    .map-layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .map-side,
+    .track-side {
+      border: 1px solid rgba(59,130,246,0.25);
+      background: rgba(8,10,13,0.52);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .map-pin-list {
+      display: grid;
+      gap: 10px;
+      max-height: 560px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .map-pin-card {
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.045);
+      border-radius: 12px;
+      cursor: pointer;
+      padding: 12px;
+      text-align: left;
+      transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+      width: 100%;
+    }
+
+    .map-pin-card:hover,
+    .map-pin-card.active {
+      border-color: rgba(34,197,94,0.5);
+      background: rgba(34,197,94,0.12);
+      transform: translateY(-1px);
+    }
+
+    .map-pin-name {
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .map-pin-meta {
+      color: #9ca3af;
+      font-size: 12px;
+      line-height: 1.45;
+      margin-top: 6px;
+    }
+
+    .location-detail {
+      min-height: 260px;
+    }
+
+    .track-time-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .track-time-row {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .track-time-rank {
+      color: var(--orange);
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .track-time-value {
+      color: var(--green);
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
     .status-line {
       color: #bfdbfe;
       font-size: 13px;
@@ -2113,6 +2377,8 @@
     @media (max-width: 640px) {
       nav { padding: 16px 20px; }
       .nav-badge { display: none; }
+      .nav-actions .nav-badge { display: inline-flex; }
+      .nav-auth-status { display: none; }
       .launch-download {
         margin-top: 67px;
         padding: 14px 14px 16px;
@@ -2170,6 +2436,9 @@
       .community-grid,
       .launch-roadmap,
       .build-grid,
+      .auth-layout,
+      .web-data-grid,
+      .map-layout,
       .profile-stat-grid,
       .events-layout {
         grid-template-columns: 1fr;
@@ -2194,6 +2463,10 @@
       .ranking-stat {
         grid-column: 2;
       }
+      .web-row,
+      .track-time-row {
+        grid-template-columns: 1fr;
+      }
       .calendar-day,
       .calendar-empty {
         min-height: 48px;
@@ -2207,14 +2480,17 @@
     }
   </style>
 </head>
-<body>
+<body class="workspace-locked">
 
   <nav>
     <div class="nav-logo">
       <img src="assets/boosthub-logo-square.png" alt="" />
       <span>Boost<span class="accent">Hub</span></span>
     </div>
-    <a class="nav-badge" href="#live-components">Web App Tabs</a>
+    <div class="nav-actions">
+      <span class="nav-auth-status" id="webAuthStatus">Account required</span>
+      <button class="nav-badge" id="webAuthNavButton" type="button">Sign In</button>
+    </div>
   </nav>
 
   <section class="launch-download" aria-label="Download BoostHub">
@@ -2267,20 +2543,70 @@
       <div class="web-product-head reveal">
         <div>
           <div class="section-label">BoostHub Web App</div>
-          <h2 class="section-title">App tabs, working on the website.</h2>
+          <h2 class="section-title">BoostHub web workspace.</h2>
         </div>
         <p class="web-product-copy">
-          The web page now opens like a compact BoostHub workspace: build profile, marketplace,
-          DynoRank, calculators, and events live behind tabs instead of being buried below the page.
+          Shared events, builds, groups, track times, marketplace, map locations, rankings, and tools
+          stay behind a BoostHub account on the website, matching the app's member-first flow.
         </p>
       </div>
 
+      <article class="auth-panel reveal" id="webAuthPanel" aria-live="polite">
+        <div class="auth-layout">
+          <div>
+            <div class="card-kicker green">Account Required</div>
+            <h3 class="component-title" id="webAuthTitle">Sign in to continue</h3>
+            <p class="auth-copy" id="webAuthCopy">
+              BoostHub web content is private to signed-in members. Shared links open here, then unlock
+              the matching event, build, group, listing, or track page after account sign-in.
+            </p>
+            <div class="auth-lock-list">
+              <div class="auth-lock-item">Events, RSVPs, garage builds, and groups require an account.</div>
+              <div class="auth-lock-item">Boost Map tracks and track-time leaderboards require an account.</div>
+              <div class="auth-lock-item">Marketplace saves, seller messaging, and profile editing require an account.</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="auth-mode-row" role="tablist" aria-label="Account access">
+              <button class="auth-mode-button active" id="authModeSignIn" type="button" data-auth-mode="signin">Sign In</button>
+              <button class="auth-mode-button" id="authModeSignUp" type="button" data-auth-mode="signup">Create Account</button>
+            </div>
+            <form class="auth-form" id="webAuthForm">
+              <input class="component-control auth-field" id="webAuthName" type="text" placeholder="Display name" autocomplete="name" hidden />
+              <input class="component-control" id="webAuthEmail" type="email" placeholder="Email" autocomplete="email" required />
+              <input class="component-control" id="webAuthPassword" type="password" placeholder="Password" autocomplete="current-password" required minlength="6" />
+              <button class="action-button primary" id="webAuthSubmit" type="submit">Sign In</button>
+              <div class="auth-message" id="webAuthMessage"></div>
+            </form>
+          </div>
+        </div>
+      </article>
+
       <div class="app-tab-bar reveal" role="tablist" aria-label="BoostHub web app tabs">
-        <button class="app-tab active" id="tab-build" type="button" role="tab" data-component-tab="build" aria-controls="panel-build" aria-selected="true">Build Profile</button>
+        <button class="app-tab active" id="tab-profile" type="button" role="tab" data-component-tab="profile" aria-controls="panel-profile" aria-selected="true">Garage</button>
+        <button class="app-tab" id="tab-build" type="button" role="tab" data-component-tab="build" aria-controls="panel-build" aria-selected="false">Build Profile</button>
+        <button class="app-tab" id="tab-groups" type="button" role="tab" data-component-tab="groups" aria-controls="panel-groups" aria-selected="false">Groups</button>
+        <button class="app-tab" id="tab-map" type="button" role="tab" data-component-tab="map" aria-controls="panel-map" aria-selected="false">Boost Map</button>
+        <button class="app-tab" id="tab-tracks" type="button" role="tab" data-component-tab="tracks" aria-controls="panel-tracks" aria-selected="false">Tracks</button>
         <button class="app-tab" id="tab-marketplace" type="button" role="tab" data-component-tab="marketplace" aria-controls="panel-marketplace" aria-selected="false">Marketplace</button>
         <button class="app-tab" id="tab-rank" type="button" role="tab" data-component-tab="rank" aria-controls="panel-rank" aria-selected="false">DynoRank</button>
         <button class="app-tab" id="tab-tools" type="button" role="tab" data-component-tab="tools" aria-controls="panel-tools" aria-selected="false">Build Tools</button>
         <button class="app-tab" id="tab-events" type="button" role="tab" data-component-tab="events" aria-controls="panel-events" aria-selected="false">Events</button>
+      </div>
+
+      <div class="component-shell reveal" id="panel-profile" data-component-panel="profile" role="tabpanel" aria-labelledby="tab-profile">
+        <div class="component-title-row">
+          <div>
+            <div class="card-kicker green">Garage</div>
+            <h3 class="component-title" id="profileComponentTitle">Your BoostHub garage</h3>
+            <p class="component-copy">Signed-in profile details and saved builds from the app appear here.</p>
+          </div>
+          <div class="result-note" id="profileNote">Account connected</div>
+        </div>
+
+        <div class="web-data-grid" id="profileStats"></div>
+        <div class="web-list" id="profileBuildResults"></div>
       </div>
 
       <div class="component-shell reveal" id="panel-build" data-component-panel="build" role="tabpanel" aria-labelledby="tab-build">
@@ -2288,7 +2614,7 @@
           <div>
             <div class="card-kicker green">Build Profile</div>
             <h3 class="component-title" id="buildComponentTitle">Edit a live build card</h3>
-            <p class="component-copy">Change the setup and watch the public profile preview update. Save keeps it in this browser.</p>
+            <p class="component-copy">Change the setup and watch the member profile preview update. Real profile data stays tied to a signed-in account.</p>
           </div>
           <div class="result-note" id="buildNote">Local demo profile</div>
         </div>
@@ -2305,7 +2631,7 @@
 
           <article class="functional-card build-preview-card" aria-live="polite">
             <div>
-              <div class="profile-label">Public profile preview</div>
+              <div class="profile-label">Member profile preview</div>
               <h4 class="profile-name" id="buildPreviewName"></h4>
               <div class="profile-stat-grid">
                 <div class="profile-stat">
@@ -2323,13 +2649,13 @@
               </div>
               <div class="profile-chip-list" id="buildPreviewMods"></div>
             </div>
-            <p class="status-line" id="buildStatus">Preview changes here. A BoostHub account is required to save a real build profile.</p>
+            <p class="status-line" id="buildStatus">Preview changes here. Your signed-in garage loads from the app account.</p>
 
             <div class="account-prompt" id="buildAccountPrompt" hidden>
               <div class="profile-label">Account required</div>
-              <h4 class="account-prompt-title">Create your BoostHub profile to save this build.</h4>
+              <h4 class="account-prompt-title">Web build save is account-gated.</h4>
               <p class="account-prompt-copy">
-                A saved build needs an owner, media, proof, and edit history. Open BoostHub or install the app to create the real profile.
+                Your account is required before any profile editing appears on the website. Garage builds from the app show in the Garage tab.
               </p>
               <div class="listing-actions">
                 <a class="action-button primary" href="boosthub://garage">Open BoostHub</a>
@@ -2338,6 +2664,103 @@
               </div>
             </div>
           </article>
+        </div>
+      </div>
+
+      <div class="component-shell reveal" id="panel-groups" data-component-panel="groups" role="tabpanel" aria-labelledby="tab-groups" hidden>
+        <div class="component-title-row">
+          <div>
+            <div class="card-kicker green">Groups</div>
+            <h3 class="component-title" id="groupsComponentTitle">Community groups</h3>
+            <p class="component-copy">Signed-in members can browse app groups, open shared groups, and see their basic group details on the web.</p>
+          </div>
+          <div class="result-note" id="groupsNote"></div>
+        </div>
+
+        <div class="component-toolbar two">
+          <input class="component-control" id="groupsSearch" type="search" placeholder="Search groups, city, platform..." />
+          <select class="component-control" id="groupsCategory" aria-label="Group category">
+            <option value="All">All groups</option>
+            <option value="club">Clubs</option>
+            <option value="platform">Platform groups</option>
+            <option value="event_host">Event hosts</option>
+            <option value="shop">Shops</option>
+            <option value="general">General</option>
+          </select>
+        </div>
+
+        <article class="public-event-detail" id="sharedGroupDetail" hidden></article>
+        <div class="web-data-grid" id="groupsResults"></div>
+      </div>
+
+      <div class="component-shell reveal" id="panel-map" data-component-panel="map" role="tabpanel" aria-labelledby="tab-map" hidden>
+        <div class="component-title-row">
+          <div>
+            <div class="card-kicker orange">Boost Map</div>
+            <h3 class="component-title" id="mapComponentTitle">Tracks, shops, dynos, meets</h3>
+            <p class="component-copy">App locations load on the web after sign-in, including the new raceways and road courses.</p>
+          </div>
+          <div class="result-note" id="mapNote"></div>
+        </div>
+
+        <div class="component-toolbar">
+          <input class="component-control" id="mapSearch" type="search" placeholder="Search locations, city, country..." />
+          <select class="component-control" id="mapCategory" aria-label="Location category">
+            <option value="All">All locations</option>
+            <option value="track">Tracks</option>
+            <option value="raceway">Raceways</option>
+            <option value="dyno">Dynos</option>
+            <option value="shop">Shops</option>
+            <option value="dealer">Dealers</option>
+            <option value="meet_spot">Meet spots</option>
+            <option value="other">Other</option>
+          </select>
+          <select class="component-control" id="mapCountry" aria-label="Location country">
+            <option value="All">All countries</option>
+          </select>
+        </div>
+
+        <div class="map-layout">
+          <div class="map-side">
+            <div class="map-pin-list" id="mapResults"></div>
+          </div>
+          <article class="functional-card location-detail" id="mapLocationDetail"></article>
+        </div>
+      </div>
+
+      <div class="component-shell reveal" id="panel-tracks" data-component-panel="tracks" role="tabpanel" aria-labelledby="tab-tracks" hidden>
+        <div class="component-title-row">
+          <div>
+            <div class="card-kicker orange">Tracks</div>
+            <h3 class="component-title" id="tracksComponentTitle">Track times and locations</h3>
+            <p class="component-copy">Raceway locations and user-submitted times can be compared by track and result type.</p>
+          </div>
+          <div class="result-note" id="tracksNote"></div>
+        </div>
+
+        <div class="component-toolbar">
+          <input class="component-control" id="tracksSearch" type="search" placeholder="Search tracks or country..." />
+          <select class="component-control" id="tracksLocationFilter" aria-label="Track location">
+            <option value="All">All tracks</option>
+          </select>
+          <select class="component-control" id="tracksResultType" aria-label="Track result type">
+            <option value="All">All result types</option>
+            <option value="quarter_mile">Quarter mile</option>
+            <option value="eighth_mile">Eighth mile</option>
+            <option value="zero_to_sixty">0-60</option>
+            <option value="sixty_to_one_thirty">60-130</option>
+            <option value="hundred_to_two_hundred">100-200</option>
+            <option value="track_lap">Track lap</option>
+          </select>
+        </div>
+
+        <div class="map-layout">
+          <div class="track-side">
+            <div class="map-pin-list" id="tracksList"></div>
+          </div>
+          <div class="track-side">
+            <div class="track-time-grid" id="trackTimesResults"></div>
+          </div>
         </div>
       </div>
 
@@ -2524,19 +2947,19 @@
       <span class="proof-pill">Dragy Results</span>
       <span class="proof-pill">Nearby Events</span>
       <span class="proof-pill">Marketplace Tools</span>
-      <a class="proof-pill proof-link" href="#live-components">Web App Tabs</a>
+      <a class="proof-pill proof-link" href="#live-components">Web Workspace</a>
     </div>
 
     <div class="hero-actions">
-      <a class="hero-action primary" href="#live-components">Open Web App Tabs</a>
+      <a class="hero-action primary" href="#live-components">Open Web Workspace</a>
       <a class="hero-action secondary" href="#web-preview">See Web Roadmap</a>
     </div>
 
     <div class="web-callout">
-      <span class="web-callout-label">Web Tabs Live Above</span>
+      <span class="web-callout-label">Member Workspace Live Above</span>
       <p class="web-callout-copy">
-        The full desktop app is still being built, but the website now starts with app-style
-        tabs for build profiles, marketplace, DynoRank, calculators, and events.
+        The website now starts with account-gated app-style tabs for garage builds, groups,
+        Boost Map, tracks, marketplace, DynoRank, calculators, and events.
       </p>
     </div>
 
@@ -2909,10 +3332,10 @@
           <h2 class="section-title">More of the app, now on the web.</h2>
         </div>
         <p class="web-product-copy">
-          BoostHub's public website can show the same product story as the app: garages, proof,
+          BoostHub's website can show the same product story as the app: garages, proof,
           rankings, events, BoostMap, tools, marketplace trust, groups, messaging, and seller
-          verification. Creation and private account actions stay inside sign-in, while visitors
-          get a real preview of what the community is becoming.
+          verification. App-like pages stay inside sign-in so member data is not treated like a
+          public preview.
         </p>
       </div>
 
@@ -2920,7 +3343,7 @@
         <article class="web-card">
           <div>
             <div class="card-kicker">Garage</div>
-            <h3 class="web-card-title">Public build pages</h3>
+            <h3 class="web-card-title">Member build pages</h3>
             <p class="web-card-copy">
               Builder profiles can surface photos, spec sheets, turbo setup, ECU, fuel, dyno proof,
               Dragy results, gallery notes, and photographer credits.
@@ -3045,8 +3468,8 @@
 
       <div class="launch-roadmap reveal">
         <article class="launch-card">
-          <h3 class="launch-card-title">Public first</h3>
-          <p class="launch-card-copy">Homepage, public builds, profiles, events, rankings, map pages, and marketplace previews.</p>
+          <h3 class="launch-card-title">Account first</h3>
+          <p class="launch-card-copy">Homepage entry, then signed-in builds, profiles, events, rankings, map pages, and marketplace previews.</p>
         </article>
         <article class="launch-card">
           <h3 class="launch-card-title">Then transact</h3>
@@ -3167,8 +3590,37 @@
       const routePath = routedPath || (
         currentPath !== '/' && currentPath !== '/index.html' ? currentPath : ''
       );
-      const eventFromRoute = routePath.match(/^\/events\/([^/?#]+)/)?.[1] || '';
-      const eventId = params.get('event') || eventFromRoute;
+      const routeMatch = routePath.match(/^\/(events|event|build|builds|u|profile|group|groups|marketplace|listing|tracks|track|map)\/([^/?#]+)/);
+      const routeKindMap = {
+        event: 'events',
+        events: 'events',
+        build: 'build',
+        builds: 'build',
+        u: 'profile',
+        profile: 'profile',
+        group: 'groups',
+        groups: 'groups',
+        marketplace: 'marketplace',
+        listing: 'marketplace',
+        tracks: 'tracks',
+        track: 'tracks',
+        map: 'map',
+      };
+      const matchedKind = routeMatch ? routeKindMap[routeMatch[1]] : '';
+      const matchedId = routeMatch ? decodeURIComponent(routeMatch[2]) : '';
+      const eventId = params.get('event') || (matchedKind === 'events' ? matchedId : '');
+      const buildId = params.get('build') || (matchedKind === 'build' ? matchedId : '');
+      const profileName = params.get('u') || (matchedKind === 'profile' ? matchedId : '');
+      const groupId = params.get('group') || (matchedKind === 'groups' ? matchedId : '');
+      const listingId = params.get('listing') || (matchedKind === 'marketplace' ? matchedId : '');
+      const trackId = params.get('track') || (matchedKind === 'tracks' || matchedKind === 'map' ? matchedId : '');
+      const routeKind = eventId ? 'events'
+        : buildId ? 'build'
+          : profileName ? 'profile'
+            : groupId ? 'groups'
+              : listingId ? 'marketplace'
+                : trackId ? 'tracks'
+                  : '';
 
       if (routedPath && routePath.startsWith('/')) {
         history.replaceState(null, '', routePath);
@@ -3176,6 +3628,12 @@
 
       return {
         eventId: eventId ? decodeURIComponent(eventId) : '',
+        buildId: buildId ? decodeURIComponent(buildId) : '',
+        profileName: profileName ? decodeURIComponent(profileName) : '',
+        groupId: groupId ? decodeURIComponent(groupId) : '',
+        listingId: listingId ? decodeURIComponent(listingId) : '',
+        trackId: trackId ? decodeURIComponent(trackId) : '',
+        routeKind,
         routePath,
       };
     }
@@ -3217,13 +3675,28 @@
       });
 
       const hashMap = {
+        '#garage': 'profile',
         '#builds': 'build',
+        '#groups': 'groups',
+        '#map': 'map',
+        '#boostmap': 'map',
+        '#tracks': 'tracks',
         '#marketplace': 'marketplace',
         '#dynorank': 'rank',
         '#tools': 'tools',
         '#events': 'events',
       };
-      activate(routeState.eventId ? 'events' : hashMap[window.location.hash] || 'build');
+      const routeTab = {
+        events: 'events',
+        build: 'build',
+        profile: 'profile',
+        groups: 'groups',
+        marketplace: 'marketplace',
+        tracks: 'tracks',
+        map: 'map',
+      }[routeState.routeKind];
+      window.boosthubActivateTab = activate;
+      activate(routeTab || hashMap[window.location.hash] || 'profile');
     }
 
     const marketplaceListings = [
@@ -3324,6 +3797,270 @@
       }
     }
 
+    function escapeText(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function labelize(value) {
+      return String(value || '')
+        .replaceAll('_', ' ')
+        .replace(/\b\w/g, letter => letter.toUpperCase());
+    }
+
+    function formatLocation(parts) {
+      return parts.filter(Boolean).join(', ') || 'Location not set';
+    }
+
+    function formatShortDate(value) {
+      if (!value) return 'Date not set';
+      return new Date(value).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    const AUTH_STORAGE_KEY = 'boosthub.webSession';
+    let authSession = readJson(AUTH_STORAGE_KEY, null);
+    let authUser = null;
+    let currentAuthMode = 'signin';
+
+    function normalizeAuthSession(payload) {
+      if (!payload?.access_token) return null;
+      const expiresAt = payload.expires_at || Math.floor(Date.now() / 1000) + Number(payload.expires_in || 3600);
+      return {
+        access_token: payload.access_token,
+        refresh_token: payload.refresh_token || authSession?.refresh_token || '',
+        token_type: payload.token_type || 'bearer',
+        expires_at: expiresAt,
+        user: payload.user || authSession?.user || null,
+      };
+    }
+
+    function saveAuthSession(payload) {
+      const nextSession = normalizeAuthSession(payload);
+      if (!nextSession) return false;
+      authSession = nextSession;
+      authUser = nextSession.user || authUser;
+      writeJson(AUTH_STORAGE_KEY, nextSession);
+      return true;
+    }
+
+    function clearAuthSession() {
+      authSession = null;
+      authUser = null;
+      try {
+        localStorage.removeItem(AUTH_STORAGE_KEY);
+      } catch {
+        // Storage can be unavailable in private browsing.
+      }
+    }
+
+    function isAuthenticated() {
+      return Boolean(authSession?.access_token);
+    }
+
+    async function ensureFreshSession() {
+      if (!authSession?.access_token) throw new Error('Sign in required');
+      const expiresAtMs = Number(authSession.expires_at || 0) * 1000;
+      if (expiresAtMs && expiresAtMs - Date.now() > 60000) return authSession;
+      if (!authSession.refresh_token) return authSession;
+
+      const response = await fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
+        method: 'POST',
+        headers: {
+          apikey: BOOSTHUB_PUBLIC_SUPABASE_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refresh_token: authSession.refresh_token }),
+      });
+
+      if (!response.ok) {
+        clearAuthSession();
+        throw new Error('Session expired');
+      }
+
+      const payload = await response.json();
+      saveAuthSession(payload);
+      return authSession;
+    }
+
+    async function authHeaders() {
+      await ensureFreshSession();
+      return {
+        apikey: BOOSTHUB_PUBLIC_SUPABASE_KEY,
+        Authorization: `Bearer ${authSession.access_token}`,
+        'Content-Type': 'application/json',
+      };
+    }
+
+    async function supabaseSelect(table, params = {}) {
+      const url = new URL(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/rest/v1/${table}`);
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') url.searchParams.set(key, value);
+      });
+      const response = await fetch(url.toString(), { headers: await authHeaders() });
+      if (!response.ok) throw new Error(`${table} fetch failed`);
+      return response.json();
+    }
+
+    async function fetchAuthUser() {
+      if (!isAuthenticated()) return null;
+      const response = await fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/auth/v1/user`, {
+        headers: await authHeaders(),
+      });
+      if (!response.ok) {
+        clearAuthSession();
+        throw new Error('Could not load account');
+      }
+      authUser = await response.json();
+      if (authSession) {
+        authSession.user = authUser;
+        writeJson(AUTH_STORAGE_KEY, authSession);
+      }
+      return authUser;
+    }
+
+    function authRouteCopy() {
+      if (!routeState.routeKind) return 'BoostHub web content is private to signed-in members.';
+      const labels = {
+        events: 'shared event',
+        build: 'shared build',
+        profile: 'shared profile',
+        groups: 'shared group',
+        marketplace: 'shared marketplace listing',
+        tracks: 'shared track page',
+        map: 'shared map location',
+      };
+      return `Sign in or create an account to view this ${labels[routeState.routeKind] || 'shared BoostHub link'} on the website.`;
+    }
+
+    function renderAuthState(message = '') {
+      const panel = document.getElementById('webAuthPanel');
+      const status = document.getElementById('webAuthStatus');
+      const navButton = document.getElementById('webAuthNavButton');
+      const authTitle = document.getElementById('webAuthTitle');
+      const authCopy = document.getElementById('webAuthCopy');
+      const messageEl = document.getElementById('webAuthMessage');
+      const signedIn = isAuthenticated();
+
+      document.body.classList.toggle('workspace-locked', !signedIn);
+      document.body.classList.toggle('workspace-ready', signedIn);
+      if (panel) panel.hidden = signedIn;
+      if (status) status.textContent = signedIn ? `Signed in${authUser?.email ? ` as ${authUser.email}` : ''}` : 'Account required';
+      if (navButton) navButton.textContent = signedIn ? 'Sign Out' : 'Sign In';
+      if (authTitle) authTitle.textContent = currentAuthMode === 'signup' ? 'Create your account' : 'Sign in to continue';
+      if (authCopy) authCopy.textContent = authRouteCopy();
+      if (messageEl && message) messageEl.textContent = message;
+    }
+
+    function dispatchAuthReady() {
+      const routeTab = {
+        events: 'events',
+        build: 'build',
+        profile: 'profile',
+        groups: 'groups',
+        marketplace: 'marketplace',
+        tracks: 'tracks',
+        map: 'map',
+      }[routeState.routeKind];
+      if (routeTab && window.boosthubActivateTab) window.boosthubActivateTab(routeTab);
+      window.dispatchEvent(new CustomEvent('boosthub-authenticated'));
+    }
+
+    function setupAuthGate() {
+      const form = document.getElementById('webAuthForm');
+      const email = document.getElementById('webAuthEmail');
+      const password = document.getElementById('webAuthPassword');
+      const name = document.getElementById('webAuthName');
+      const submit = document.getElementById('webAuthSubmit');
+      const message = document.getElementById('webAuthMessage');
+      const modeButtons = Array.from(document.querySelectorAll('[data-auth-mode]'));
+      const navButton = document.getElementById('webAuthNavButton');
+      const panel = document.getElementById('webAuthPanel');
+      if (!form || !email || !password || !submit) return;
+
+      function setMode(mode) {
+        currentAuthMode = mode;
+        modeButtons.forEach(button => button.classList.toggle('active', button.dataset.authMode === mode));
+        if (name) name.hidden = mode !== 'signup';
+        password.autocomplete = mode === 'signup' ? 'new-password' : 'current-password';
+        submit.textContent = mode === 'signup' ? 'Create Account' : 'Sign In';
+        if (message) message.textContent = '';
+        renderAuthState();
+      }
+
+      modeButtons.forEach(button => button.addEventListener('click', () => setMode(button.dataset.authMode)));
+
+      navButton?.addEventListener('click', () => {
+        if (isAuthenticated()) {
+          clearAuthSession();
+          renderAuthState('Signed out.');
+          return;
+        }
+        panel?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        email.focus();
+      });
+
+      form.addEventListener('submit', async event => {
+        event.preventDefault();
+        const emailValue = email.value.trim();
+        const passwordValue = password.value;
+        const displayName = name?.value.trim() || '';
+        if (!emailValue || !passwordValue) return;
+
+        submit.disabled = true;
+        if (message) message.textContent = currentAuthMode === 'signup' ? 'Creating account...' : 'Signing in...';
+
+        try {
+          const endpoint = currentAuthMode === 'signup'
+            ? `${BOOSTHUB_PUBLIC_SUPABASE_URL}/auth/v1/signup`
+            : `${BOOSTHUB_PUBLIC_SUPABASE_URL}/auth/v1/token?grant_type=password`;
+          const body = currentAuthMode === 'signup'
+            ? { email: emailValue, password: passwordValue, data: { display_name: displayName || emailValue.split('@')[0] } }
+            : { email: emailValue, password: passwordValue };
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+              apikey: BOOSTHUB_PUBLIC_SUPABASE_KEY,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+          });
+          const payload = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(payload.msg || payload.error_description || payload.message || 'Account request failed');
+
+          if (!saveAuthSession(payload)) {
+            setMode('signin');
+            if (message) message.textContent = 'Account created. Check your email, then sign in here.';
+            return;
+          }
+
+          await fetchAuthUser();
+          renderAuthState('Signed in.');
+          dispatchAuthReady();
+        } catch (error) {
+          if (message) message.textContent = error.message || 'Could not complete account request.';
+        } finally {
+          submit.disabled = false;
+        }
+      });
+
+      setMode('signin');
+
+      if (isAuthenticated()) {
+        fetchAuthUser()
+          .then(() => {
+            renderAuthState();
+            dispatchAuthReady();
+          })
+          .catch(() => renderAuthState('Your session expired. Please sign in again.'));
+      } else {
+        renderAuthState();
+      }
+    }
+
     let savedListings = readJson('boosthub.savedListings', []);
     let interestedEvents = readJson('boosthub.interestedEvents', []);
     let customEvents = readJson('boosthub.customEvents', []);
@@ -3390,8 +4127,10 @@
       form.addEventListener('submit', event => {
         event.preventDefault();
         renderBuild();
-        status.textContent = 'Account required. Open BoostHub or install the app to save this build to a real profile.';
-        note.textContent = 'Account required';
+        status.textContent = isAuthenticated()
+          ? 'Account connected. Live web build editing still uses your BoostHub garage as the source of truth.'
+          : 'Account required. Sign in before saving or editing real build profile data.';
+        note.textContent = isAuthenticated() ? 'Account connected' : 'Account required';
         if (accountPrompt) {
           accountPrompt.hidden = false;
           accountPrompt.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -3399,6 +4138,402 @@
       });
 
       renderBuild();
+    }
+
+    let liveGarageBuilds = [];
+    let liveProfiles = [];
+    let liveGroups = [];
+    let liveMapLocations = [];
+    let liveTrackTimes = [];
+    let selectedMapLocationId = routeState.trackId || '';
+
+    function buildDisplayName(vehicle) {
+      return vehicle?.build_name || vehicle?.name || [vehicle?.year, vehicle?.make, vehicle?.model].filter(Boolean).join(' ') || 'Untitled Build';
+    }
+
+    function buildPlatform(vehicle) {
+      return [vehicle?.year, vehicle?.make, vehicle?.model].filter(Boolean).join(' ') || 'Platform not set';
+    }
+
+    function renderMiniBuildCard(vehicle, index = 0) {
+      const verified = vehicle.verified ? '<span class="web-stat-pill">Verified</span>' : '';
+      const power = vehicle.horsepower ? `${Number(vehicle.horsepower).toLocaleString()} whp` : 'Power not set';
+      return `
+        <article class="functional-card web-row">
+          <div class="web-row-main">
+            <h4 class="web-row-title">${escapeText(buildDisplayName(vehicle))}</h4>
+            <p class="web-row-meta">${escapeText(buildPlatform(vehicle))}<br>${escapeText(vehicle.owner_name || 'BoostHub member')} - ${escapeText(formatLocation([vehicle.city, vehicle.state, vehicle.country]))}</p>
+            ${verified}
+          </div>
+          <div class="listing-price">${index === 0 && routeState.buildId === vehicle.id ? 'Shared' : power}</div>
+        </article>
+      `;
+    }
+
+    function setupProfileComponent() {
+      const stats = document.getElementById('profileStats');
+      const results = document.getElementById('profileBuildResults');
+      const note = document.getElementById('profileNote');
+      if (!stats || !results) return;
+
+      function renderProfile(profile = null, sharedBuild = null) {
+        const builds = sharedBuild
+          ? [sharedBuild, ...liveGarageBuilds.filter(vehicle => vehicle.id !== sharedBuild.id)]
+          : liveGarageBuilds;
+        const displayName = profile?.display_name || profile?.username || authUser?.email || 'BoostHub member';
+        const verifiedCount = builds.filter(vehicle => vehicle.verified).length;
+
+        stats.innerHTML = `
+          <article class="functional-card">
+            <div class="profile-label">Signed in as</div>
+            <h4 class="web-row-title">${escapeText(displayName)}</h4>
+            <p class="web-row-meta">${escapeText(authUser?.email || 'Email hidden')}</p>
+          </article>
+          <article class="functional-card">
+            <div class="profile-label">Garage builds</div>
+            <div class="listing-price">${builds.length}</div>
+            <p class="web-row-meta">${verifiedCount} verified build${verifiedCount === 1 ? '' : 's'}</p>
+          </article>
+          <article class="functional-card">
+            <div class="profile-label">Shared link</div>
+            <div class="listing-price">${sharedBuild ? 'Open' : routeState.profileName ? 'Profile' : 'Ready'}</div>
+            <p class="web-row-meta">${sharedBuild ? 'Showing the shared build first.' : 'Garage loads from your app account.'}</p>
+          </article>
+        `;
+
+        note.textContent = `${builds.length} build${builds.length === 1 ? '' : 's'} loaded`;
+        results.innerHTML = builds.length
+          ? builds.map(renderMiniBuildCard).join('')
+          : '<div class="web-empty">No garage builds are visible for this account yet.</div>';
+      }
+
+      async function loadProfileData() {
+        if (!isAuthenticated()) return;
+        results.innerHTML = '<div class="web-empty">Loading garage...</div>';
+        try {
+          if (!authUser) await fetchAuthUser();
+          const [profiles, builds] = await Promise.all([
+            supabaseSelect('profiles', {
+              select: 'id,username,display_name,avatar_url,created_at',
+              id: `eq.${authUser.id}`,
+              limit: '1',
+            }).catch(() => []),
+            supabaseSelect('vehicles', {
+              select: 'id,user_id,owner_name,build_name,name,year,make,model,horsepower,torque,city,state,country,verified,photo_url,is_public,created_at',
+              user_id: `eq.${authUser.id}`,
+              order: 'created_at.desc',
+              limit: '24',
+            }).catch(() => []),
+          ]);
+
+          liveProfiles = profiles;
+          liveGarageBuilds = builds;
+          let sharedBuild = null;
+          if (routeState.buildId) {
+            const sharedRows = await supabaseSelect('vehicles', {
+              select: 'id,user_id,owner_name,build_name,name,year,make,model,horsepower,torque,city,state,country,verified,photo_url,is_public,created_at',
+              id: `eq.${routeState.buildId}`,
+              limit: '1',
+            }).catch(() => []);
+            sharedBuild = sharedRows[0] || null;
+          }
+          renderProfile(profiles[0] || null, sharedBuild);
+        } catch {
+          note.textContent = 'Could not load garage';
+          results.innerHTML = '<div class="web-empty">Garage data could not be loaded for this account.</div>';
+        }
+      }
+
+      window.addEventListener('boosthub-authenticated', loadProfileData);
+      if (isAuthenticated()) loadProfileData();
+      renderProfile();
+    }
+
+    function setupGroupsComponent() {
+      const search = document.getElementById('groupsSearch');
+      const category = document.getElementById('groupsCategory');
+      const results = document.getElementById('groupsResults');
+      const note = document.getElementById('groupsNote');
+      const sharedDetail = document.getElementById('sharedGroupDetail');
+      if (!search || !category || !results) return;
+
+      function renderGroups() {
+        const query = search.value.trim().toLowerCase();
+        const selectedCategory = category.value;
+        const visible = liveGroups.filter(group => {
+          const searchable = `${group.name} ${group.description || ''} ${group.city || ''} ${group.region || ''} ${group.country || ''} ${group.category}`.toLowerCase();
+          return (!query || searchable.includes(query)) &&
+            (selectedCategory === 'All' || group.category === selectedCategory);
+        });
+        const focusedGroup = routeState.groupId
+          ? liveGroups.find(group => group.id === routeState.groupId || group.slug === routeState.groupId)
+          : null;
+
+        if (sharedDetail) {
+          sharedDetail.hidden = !routeState.groupId;
+          sharedDetail.innerHTML = focusedGroup ? `
+            <div class="public-event-label">Shared group</div>
+            <h4 class="public-event-title">${escapeText(focusedGroup.name)}</h4>
+            <p class="public-event-meta">${escapeText(labelize(focusedGroup.category))} - ${escapeText(formatLocation([focusedGroup.city, focusedGroup.region, focusedGroup.country]))}</p>
+            ${focusedGroup.description ? `<p class="public-event-copy">${escapeText(focusedGroup.description).slice(0, 420)}</p>` : ''}
+          ` : `
+            <div class="public-event-label">Shared group</div>
+            <h4 class="public-event-title">Group not found</h4>
+            <p class="public-event-copy">This shared group could not be loaded for the signed-in account.</p>
+          `;
+        }
+
+        if (note) note.textContent = `${visible.length} group${visible.length === 1 ? '' : 's'} shown`;
+        results.innerHTML = visible.length ? visible.map(group => `
+          <article class="functional-card">
+            <div class="profile-label">${escapeText(labelize(group.category))}</div>
+            <h4 class="web-row-title">${escapeText(group.name)}</h4>
+            <p class="web-row-meta">${escapeText(formatLocation([group.city, group.region, group.country]))}</p>
+            ${group.description ? `<p class="status-line">${escapeText(group.description).slice(0, 180)}</p>` : ''}
+            <span class="web-stat-pill">${group.is_public ? 'Visible to members' : 'Private'}</span>
+          </article>
+        `).join('') : '<div class="web-empty">No groups match those filters.</div>';
+      }
+
+      async function loadGroups() {
+        if (!isAuthenticated()) return;
+        results.innerHTML = '<div class="web-empty">Loading groups...</div>';
+        try {
+          liveGroups = await supabaseSelect('community_groups', {
+            select: 'id,name,slug,description,category,city,region,country,is_public,created_at',
+            order: 'created_at.desc',
+            limit: '60',
+          });
+          renderGroups();
+        } catch {
+          if (note) note.textContent = 'Could not load groups';
+          results.innerHTML = '<div class="web-empty">Groups could not be loaded for this account.</div>';
+        }
+      }
+
+      [search, category].forEach(input => input.addEventListener('input', renderGroups));
+      window.addEventListener('boosthub-authenticated', loadGroups);
+      if (isAuthenticated()) loadGroups();
+    }
+
+    function setupMapComponent() {
+      const search = document.getElementById('mapSearch');
+      const category = document.getElementById('mapCategory');
+      const country = document.getElementById('mapCountry');
+      const results = document.getElementById('mapResults');
+      const detail = document.getElementById('mapLocationDetail');
+      const note = document.getElementById('mapNote');
+      if (!search || !category || !country || !results || !detail) return;
+
+      function categoryLabel(value) {
+        return labelize(value || 'location');
+      }
+
+      function locationLine(location) {
+        return formatLocation([location.city, location.state, location.country]);
+      }
+
+      function renderLocationDetail(location) {
+        if (!location) {
+          detail.innerHTML = '<div class="web-empty">Select a location to view details.</div>';
+          return;
+        }
+        detail.innerHTML = `
+          <div class="profile-label">${escapeText(categoryLabel(location.category))}</div>
+          <h4 class="profile-name">${escapeText(location.name)}</h4>
+          <p class="public-event-meta">${escapeText(locationLine(location))}</p>
+          ${location.address ? `<p class="web-row-meta">${escapeText(location.address)}</p>` : ''}
+          ${location.description ? `<p class="public-event-copy">${escapeText(location.description).slice(0, 520)}</p>` : ''}
+          <div class="profile-stat-grid">
+            <div class="profile-stat">
+              <div class="profile-stat-label">Latitude</div>
+              <div class="profile-stat-value">${location.latitude ? Number(location.latitude).toFixed(3) : 'N/A'}</div>
+            </div>
+            <div class="profile-stat">
+              <div class="profile-stat-label">Longitude</div>
+              <div class="profile-stat-value">${location.longitude ? Number(location.longitude).toFixed(3) : 'N/A'}</div>
+            </div>
+            <div class="profile-stat">
+              <div class="profile-stat-label">Times</div>
+              <div class="profile-stat-value">${liveTrackTimes.filter(time => time.boostmap_location_id === location.id).length}</div>
+            </div>
+          </div>
+          <div class="listing-actions">
+            ${location.website_url ? `<a class="action-button primary" href="${escapeText(location.website_url)}" target="_blank" rel="noopener">Official Website</a>` : ''}
+            <a class="action-button" href="boosthub://map/${encodeURIComponent(location.id)}">Open In App</a>
+          </div>
+        `;
+      }
+
+      function filteredLocations() {
+        const query = search.value.trim().toLowerCase();
+        return liveMapLocations.filter(location => {
+          const searchable = `${location.name} ${location.category} ${location.address || ''} ${location.city || ''} ${location.state || ''} ${location.country || ''}`.toLowerCase();
+          return (!query || searchable.includes(query)) &&
+            (category.value === 'All' || location.category === category.value) &&
+            (country.value === 'All' || location.country === country.value);
+        });
+      }
+
+      function renderMap() {
+        const countries = ['All', ...Array.from(new Set(liveMapLocations.map(location => location.country).filter(Boolean))).sort()];
+        const currentCountry = country.value || 'All';
+        country.innerHTML = countries.map(item => `<option value="${escapeText(item)}">${escapeText(item === 'All' ? 'All countries' : item)}</option>`).join('');
+        country.value = countries.includes(currentCountry) ? currentCountry : 'All';
+
+        const visible = filteredLocations();
+        const selected = visible.find(location => location.id === selectedMapLocationId) || visible[0] || null;
+        selectedMapLocationId = selected?.id || '';
+        if (note) note.textContent = `${visible.length} location${visible.length === 1 ? '' : 's'} shown`;
+        results.innerHTML = visible.length ? visible.map(location => `
+          <button class="map-pin-card ${location.id === selectedMapLocationId ? 'active' : ''}" type="button" data-location-id="${location.id}">
+            <div class="map-pin-name">${escapeText(location.name)}</div>
+            <div class="map-pin-meta">${escapeText(categoryLabel(location.category))} - ${escapeText(locationLine(location))}</div>
+          </button>
+        `).join('') : '<div class="web-empty">No map locations match those filters.</div>';
+        renderLocationDetail(selected);
+      }
+
+      async function loadMapLocations() {
+        if (!isAuthenticated()) return;
+        results.innerHTML = '<div class="web-empty">Loading Boost Map...</div>';
+        try {
+          liveMapLocations = await supabaseSelect('boostmap_locations', {
+            select: 'id,name,category,address,city,state,country,latitude,longitude,description,website_url,is_public,created_at',
+            order: 'name.asc',
+            limit: '250',
+          });
+          renderMap();
+          window.dispatchEvent(new CustomEvent('boosthub-map-loaded'));
+        } catch {
+          if (note) note.textContent = 'Could not load map';
+          results.innerHTML = '<div class="web-empty">Boost Map locations could not be loaded for this account.</div>';
+          renderLocationDetail(null);
+        }
+      }
+
+      [search, category, country].forEach(input => input.addEventListener('input', renderMap));
+      results.addEventListener('click', event => {
+        const id = event.target.closest?.('[data-location-id]')?.dataset.locationId;
+        if (!id) return;
+        selectedMapLocationId = id;
+        const selected = liveMapLocations.find(location => location.id === id);
+        if (selected) history.replaceState(null, '', `/map/${encodeURIComponent(id)}`);
+        renderMap();
+      });
+      window.addEventListener('boosthub-authenticated', loadMapLocations);
+      if (isAuthenticated()) loadMapLocations();
+      renderLocationDetail(null);
+    }
+
+    function setupTracksComponent() {
+      const search = document.getElementById('tracksSearch');
+      const locationFilter = document.getElementById('tracksLocationFilter');
+      const typeFilter = document.getElementById('tracksResultType');
+      const list = document.getElementById('tracksList');
+      const times = document.getElementById('trackTimesResults');
+      const note = document.getElementById('tracksNote');
+      if (!search || !locationFilter || !typeFilter || !list || !times) return;
+
+      function trackLocations() {
+        return liveMapLocations.filter(location => ['track', 'raceway'].includes(location.category));
+      }
+
+      function resultLabel(result) {
+        return labelize(result.result_type || 'track_time');
+      }
+
+      function resultSeconds(value) {
+        const number = Number(value);
+        return Number.isFinite(number) ? `${number.toFixed(3)}s` : 'No time';
+      }
+
+      function resultVehicle(result) {
+        const vehicle = result.vehicles || {};
+        return buildDisplayName(vehicle);
+      }
+
+      function renderTracks() {
+        const tracks = trackLocations();
+        const currentLocation = locationFilter.value || routeState.trackId || 'All';
+        locationFilter.innerHTML = '<option value="All">All tracks</option>' + tracks.map(location => `
+          <option value="${escapeText(location.id)}">${escapeText(location.name)}</option>
+        `).join('');
+        locationFilter.value = currentLocation !== 'All' && tracks.some(track => track.id === currentLocation) ? currentLocation : 'All';
+
+        const query = search.value.trim().toLowerCase();
+        const visibleTracks = tracks.filter(location => {
+          const searchable = `${location.name} ${location.city || ''} ${location.state || ''} ${location.country || ''}`.toLowerCase();
+          return !query || searchable.includes(query);
+        });
+        const filteredTimes = liveTrackTimes
+          .filter(result => locationFilter.value === 'All' || result.boostmap_location_id === locationFilter.value)
+          .filter(result => typeFilter.value === 'All' || result.result_type === typeFilter.value)
+          .sort((a, b) => Number(a.elapsed_seconds || 999999) - Number(b.elapsed_seconds || 999999));
+
+        if (note) note.textContent = `${visibleTracks.length} track${visibleTracks.length === 1 ? '' : 's'} / ${filteredTimes.length} time${filteredTimes.length === 1 ? '' : 's'}`;
+        list.innerHTML = visibleTracks.length ? visibleTracks.map(location => {
+          const count = liveTrackTimes.filter(result => result.boostmap_location_id === location.id).length;
+          return `
+            <button class="map-pin-card ${location.id === locationFilter.value ? 'active' : ''}" type="button" data-track-id="${location.id}">
+              <div class="map-pin-name">${escapeText(location.name)}</div>
+              <div class="map-pin-meta">${escapeText(formatLocation([location.city, location.state, location.country]))} - ${count} time${count === 1 ? '' : 's'}</div>
+            </button>
+          `;
+        }).join('') : '<div class="web-empty">No track locations match those filters.</div>';
+
+        times.innerHTML = filteredTimes.length ? filteredTimes.slice(0, 40).map((result, index) => {
+          const location = liveMapLocations.find(item => item.id === result.boostmap_location_id);
+          return `
+            <article class="functional-card track-time-row">
+              <div class="track-time-rank">#${index + 1}</div>
+              <div>
+                <h4 class="web-row-title">${escapeText(resultVehicle(result))}</h4>
+                <p class="web-row-meta">${escapeText(resultLabel(result))} - ${escapeText(location?.name || 'Track location')} ${result.verified ? '- Verified' : ''}</p>
+              </div>
+              <div class="track-time-value">${resultSeconds(result.elapsed_seconds)}</div>
+            </article>
+          `;
+        }).join('') : '<div class="web-empty">No submitted times match this track filter yet.</div>';
+      }
+
+      async function loadTrackData() {
+        if (!isAuthenticated()) return;
+        list.innerHTML = '<div class="web-empty">Loading tracks...</div>';
+        try {
+          if (!liveMapLocations.length) {
+            liveMapLocations = await supabaseSelect('boostmap_locations', {
+              select: 'id,name,category,address,city,state,country,latitude,longitude,description,website_url,is_public,created_at',
+              order: 'name.asc',
+              limit: '250',
+            });
+          }
+          liveTrackTimes = await supabaseSelect('build_dragy_results', {
+            select: 'id,result_type,elapsed_seconds,trap_speed_mph,boostmap_location_id,verified,created_at,vehicles(id,build_name,name,year,make,model,owner_name,verified)',
+            boostmap_location_id: 'not.is.null',
+            order: 'elapsed_seconds.asc',
+            limit: '120',
+          }).catch(() => []);
+          if (routeState.trackId) locationFilter.value = routeState.trackId;
+          renderTracks();
+        } catch {
+          if (note) note.textContent = 'Could not load tracks';
+          list.innerHTML = '<div class="web-empty">Track locations could not be loaded for this account.</div>';
+          times.innerHTML = '<div class="web-empty">Track times could not be loaded.</div>';
+        }
+      }
+
+      [search, locationFilter, typeFilter].forEach(input => input.addEventListener('input', renderTracks));
+      list.addEventListener('click', event => {
+        const id = event.target.closest?.('[data-track-id]')?.dataset.trackId;
+        if (!id) return;
+        locationFilter.value = id;
+        history.replaceState(null, '', `/tracks/${encodeURIComponent(id)}`);
+        renderTracks();
+      });
+      window.addEventListener('boosthub-authenticated', loadTrackData);
+      window.addEventListener('boosthub-map-loaded', renderTracks);
+      if (isAuthenticated()) loadTrackData();
     }
 
     function setupMarketplaceComponent() {
@@ -3410,16 +4545,24 @@
       const status = document.getElementById('marketStatus');
       if (!search || !category || !tier || !results) return;
 
-      const categories = ['All', ...new Set(marketplaceListings.map(item => item.category))];
-      const tiers = ['All sellers', ...new Set(marketplaceListings.map(item => item.tier))];
-      category.innerHTML = categories.map(item => `<option value="${item}">${item}</option>`).join('');
-      tier.innerHTML = tiers.map(item => `<option value="${item}">${item}</option>`).join('');
+      let activeListings = marketplaceListings;
+
+      function hydrateMarketplaceFilters() {
+        const selectedCategory = category.value || 'All';
+        const selectedTier = tier.value || 'All sellers';
+        const categories = ['All', ...new Set(activeListings.map(item => item.category).filter(Boolean))];
+        const tiers = ['All sellers', ...new Set(activeListings.map(item => item.tier).filter(Boolean))];
+        category.innerHTML = categories.map(item => `<option value="${escapeText(item)}">${escapeText(item)}</option>`).join('');
+        tier.innerHTML = tiers.map(item => `<option value="${escapeText(item)}">${escapeText(item)}</option>`).join('');
+        category.value = categories.includes(selectedCategory) ? selectedCategory : 'All';
+        tier.value = tiers.includes(selectedTier) ? selectedTier : 'All sellers';
+      }
 
       function renderMarketplace() {
         const query = search.value.trim().toLowerCase();
         const selectedCategory = category.value;
         const selectedTier = tier.value;
-        const visible = marketplaceListings.filter(item => {
+        const visible = activeListings.filter(item => {
           const searchable = `${item.title} ${item.seller} ${item.category} ${item.tier} ${item.tags.join(' ')} ${item.fitment}`.toLowerCase();
           return (!query || searchable.includes(query)) &&
             (selectedCategory === 'All' || item.category === selectedCategory) &&
@@ -3453,6 +4596,38 @@
         }).join('') || '<p class="status-line">No listings match those filters.</p>';
       }
 
+      async function loadLiveMarketplace() {
+        if (!isAuthenticated()) return;
+        try {
+          const rows = await supabaseSelect('marketplace_listings', {
+            select: 'id,title,description,category,condition,price_cents,currency,location_city,location_region,location_country,status,safety_status,created_at',
+            status: 'eq.active',
+            order: 'created_at.desc',
+            limit: '36',
+          });
+          if (Array.isArray(rows) && rows.length) {
+            activeListings = rows.map(row => ({
+              id: row.id,
+              title: row.title || 'Marketplace Listing',
+              price: Math.round(Number(row.price_cents || 0) / 100),
+              category: row.category || 'Parts',
+              tier: row.safety_status ? labelize(row.safety_status) : 'BoostHub Seller',
+              seller: 'BoostHub member',
+              location: formatLocation([row.location_city, row.location_region, row.location_country]),
+              condition: row.condition || 'Condition not set',
+              tags: [row.category, row.condition].filter(Boolean).map(labelize),
+              safety: row.safety_status ? `Safety status: ${labelize(row.safety_status)}` : 'Account-gated listing',
+              fitment: row.description || 'Open in BoostHub for full fitment details',
+            }));
+            if (status) status.textContent = 'Live marketplace listings loaded for this account.';
+            hydrateMarketplaceFilters();
+            renderMarketplace();
+          }
+        } catch {
+          if (status) status.textContent = 'Marketplace web listings will load here after seller tables are deployed.';
+        }
+      }
+
       [search, category, tier].forEach(input => input.addEventListener('input', renderMarketplace));
       results.addEventListener('click', event => {
         const saveId = event.target.dataset.saveListing;
@@ -3466,7 +4641,7 @@
           renderMarketplace();
         }
         if (messageId) {
-          const listing = marketplaceListings.find(item => item.id === messageId);
+          const listing = activeListings.find(item => item.id === messageId);
           if (!listing) return;
           const subject = encodeURIComponent(`BoostHub listing: ${listing.title}`);
           const body = encodeURIComponent(`Hi ${listing.seller},\n\nI saw your ${listing.title} on BoostHub and wanted to ask if it is still available.\n\nListing: ${money(listing.price)} - ${listing.location}`);
@@ -3474,7 +4649,10 @@
         }
       });
 
+      hydrateMarketplaceFilters();
       renderMarketplace();
+      window.addEventListener('boosthub-authenticated', loadLiveMarketplace);
+      if (isAuthenticated()) loadLiveMarketplace();
     }
 
     function setupRankComponent() {
@@ -3485,10 +4663,12 @@
       const note = document.getElementById('rankNote');
       if (!metric || !drivetrain || !proof || !results) return;
 
+      let activeRankBuilds = rankBuilds;
+
       function renderRankings() {
         const metricKey = metric.value;
         const ascending = metricKey === 'quarter';
-        const filtered = rankBuilds
+        const filtered = activeRankBuilds
           .filter(item => drivetrain.value === 'All' || item.drivetrain === drivetrain.value)
           .filter(item => proof.value === 'All' || item.proof === proof.value)
           .sort((a, b) => ascending ? a[metricKey] - b[metricKey] : b[metricKey] - a[metricKey]);
@@ -3512,8 +4692,41 @@
         `).join('') || '<p class="status-line">No builds match those filters.</p>';
       }
 
+      async function loadLiveRankings() {
+        if (!isAuthenticated()) return;
+        try {
+          const rows = await supabaseSelect('vehicles', {
+            select: 'id,owner_name,build_name,name,year,make,model,horsepower,quarter_mile,trap_speed,drivetrain,verified,is_public,created_at',
+            is_public: 'eq.true',
+            order: 'created_at.desc',
+            limit: '80',
+          });
+          const live = rows
+            .map(row => ({
+              id: row.id,
+              name: buildDisplayName(row),
+              owner: row.owner_name || 'BoostHub member',
+              horsepower: Number(row.horsepower || 0),
+              quarter: Number(row.quarter_mile || 999),
+              trap: Number(row.trap_speed || 0),
+              drivetrain: row.drivetrain || 'AWD',
+              proof: row.verified ? 'Verified' : 'Unverified',
+              meta: buildPlatform(row),
+            }))
+            .filter(row => row.horsepower > 0 || row.quarter < 999 || row.trap > 0);
+          if (live.length) {
+            activeRankBuilds = live;
+            renderRankings();
+          }
+        } catch {
+          if (note) note.textContent = 'Demo rankings shown; live ranking fetch unavailable.';
+        }
+      }
+
       [metric, drivetrain, proof].forEach(input => input.addEventListener('input', renderRankings));
       renderRankings();
+      window.addEventListener('boosthub-authenticated', loadLiveRankings);
+      if (isAuthenticated()) loadLiveRankings();
     }
 
     function getNumber(id, fallback) {
@@ -3751,8 +4964,8 @@
             <h4 class="public-event-title">${liveLoadState === 'loading' ? 'Loading event...' : 'Event not found yet'}</h4>
             <p class="public-event-copy">
               ${liveLoadState === 'loading'
-                ? 'BoostHub is opening this shared event from the public event link.'
-                : 'This shared event link could not be loaded publicly yet. The app link may still open it if you have BoostHub installed.'}
+                ? 'BoostHub is opening this shared event for the signed-in account.'
+                : 'This shared event link could not be loaded for this account yet. The app link may still open it if you have BoostHub installed.'}
             </p>
             <div class="event-actions">
               <a class="action-button primary" href="boosthub://events/${encodeURIComponent(focusedEventId)}">Open In App</a>
@@ -3764,7 +4977,7 @@
         }
 
         publicEventDetail.innerHTML = `
-          <div class="public-event-label">${event.source === 'live' ? 'Public BoostHub event' : 'Public event preview'}</div>
+          <div class="public-event-label">${event.source === 'live' ? 'BoostHub member event' : 'Member event preview'}</div>
           <h4 class="public-event-title">${escapeText(event.name)}</h4>
           <p class="public-event-meta">${escapeText(getEventSchedule(event))}<br>${escapeText(event.city)}</p>
           ${event.description ? `<p class="public-event-copy">${escapeText(event.description).slice(0, 520)}</p>` : ''}
@@ -3859,6 +5072,11 @@
 
       form.addEventListener('submit', event => {
         event.preventDefault();
+        if (!isAuthenticated()) {
+          renderAuthState('Sign in to add events.');
+          document.getElementById('webAuthPanel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
         const name = document.getElementById('eventName').value.trim();
         const city = document.getElementById('eventCity').value.trim();
         const date = dateInput.value;
@@ -3894,6 +5112,11 @@
           renderEventSuite();
         }
         if (interestId) {
+          if (!isAuthenticated()) {
+            renderAuthState('Sign in to RSVP to events.');
+            document.getElementById('webAuthPanel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+          }
           interestedEvents = interestedEvents.includes(interestId)
             ? interestedEvents.filter(id => id !== interestId)
             : [...interestedEvents, interestId];
@@ -3904,7 +5127,7 @@
           const item = allEvents().find(eventItem => eventItem.id === shareId);
           if (!item) return;
           navigator.clipboard?.writeText(getEventShareUrl(item));
-          note.textContent = 'Public event link copied.';
+          note.textContent = 'Member event link copied.';
         }
       });
 
@@ -3914,7 +5137,7 @@
         const item = allEvents().find(eventItem => eventItem.id === shareId);
         if (!item) return;
         navigator.clipboard?.writeText(getEventShareUrl(item));
-        note.textContent = 'Public event link copied.';
+        note.textContent = 'Member event link copied.';
       });
 
       prevMonth?.addEventListener('click', () => {
@@ -3938,11 +5161,13 @@
       renderEventSuite();
 
       async function loadLiveEvents() {
+        if (!isAuthenticated()) {
+          liveLoadState = 'locked';
+          renderEventSuite();
+          return;
+        }
         try {
-          const headers = {
-            apikey: BOOSTHUB_PUBLIC_SUPABASE_KEY,
-            Authorization: `Bearer ${BOOSTHUB_PUBLIC_SUPABASE_KEY}`,
-          };
+          const headers = await authHeaders();
           const eventFields = 'id,title,description,location_name,city,state,event_url,starts_at,ends_at,host_user_id';
           const [eventsResponse, rsvpsResponse] = await Promise.all([
             fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/rest/v1/events?select=${eventFields}&order=starts_at.asc`, { headers }),
@@ -3981,11 +5206,17 @@
         renderEventSuite();
       }
 
+      window.addEventListener('boosthub-authenticated', loadLiveEvents);
       loadLiveEvents();
     }
 
     setupComponentTabs();
+    setupAuthGate();
+    setupProfileComponent();
     setupBuildComponent();
+    setupGroupsComponent();
+    setupMapComponent();
+    setupTracksComponent();
     setupMarketplaceComponent();
     setupRankComponent();
     setupCalculators();

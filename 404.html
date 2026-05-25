@@ -6,11 +6,24 @@
   <title>Open BoostHub Link</title>
   <meta name="robots" content="noindex" />
   <script>
-    if (window.location.pathname.startsWith("/events/")) {
+    (() => {
+      const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      const routedOnWeb = [
+        /^\/events?\//,
+        /^\/builds?\//,
+        /^\/u\//,
+        /^\/profiles?\//,
+        /^\/groups?\//,
+        /^\/marketplace\//,
+        /^\/listings?\//,
+        /^\/tracks?\//,
+        /^\/map\//,
+      ].some(pattern => pattern.test(window.location.pathname));
+      if (!routedOnWeb) return;
       const target = new URL("/", window.location.origin);
-      target.searchParams.set("route", window.location.pathname);
+      target.searchParams.set("route", currentPath);
       window.location.replace(target.toString());
-    }
+    })();
   </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -167,7 +180,7 @@
     <div class="status">App link</div>
     <h1>Open This In BoostHub</h1>
     <p>
-      Shared build, event, marketplace, and profile links open in the BoostHub app while the full web version is being built.
+      Shared build, event, marketplace, track, group, and profile links open on the BoostHub website after account sign-in.
     </p>
 
     <div class="actions">
@@ -182,6 +195,20 @@
 
   <script>
     const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    const webRoutes = [
+      /^\/events?\//,
+      /^\/builds?\//,
+      /^\/u\//,
+      /^\/profiles?\//,
+      /^\/groups?\//,
+      /^\/marketplace\//,
+      /^\/listings?\//,
+      /^\/tracks?\//,
+      /^\/map\//,
+    ];
+    if (webRoutes.some(pattern => pattern.test(window.location.pathname))) {
+      window.location.replace(`/?route=${encodeURIComponent(currentPath)}`);
+    }
     const appPath = currentPath.replace(/^\/+/, "");
     const appUrl = appPath ? `boosthub://${appPath}` : "boosthub://";
     const openAppLink = document.getElementById("open-app");
