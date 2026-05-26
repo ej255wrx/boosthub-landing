@@ -2352,6 +2352,22 @@
       white-space: pre-line;
     }
 
+    .event-flyer-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .event-flyer-image {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 1px solid rgba(59,130,246,0.26);
+      border-radius: 12px;
+      background: #05070a;
+    }
+
     .event-card-focused {
       border-color: rgba(34,197,94,0.58);
       box-shadow: 0 0 0 1px rgba(34,197,94,0.16);
@@ -2506,6 +2522,16 @@
       font-weight: 900;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+    }
+
+    .event-field-note {
+      color: #8b95a4;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: 1.45;
+      text-transform: none;
     }
 
     textarea.event-input {
@@ -3026,6 +3052,9 @@
       .calc-grid,
       .event-results,
       .event-form {
+        grid-template-columns: 1fr;
+      }
+      .event-flyer-grid {
         grid-template-columns: 1fr;
       }
       .ranking-row {
@@ -3703,6 +3732,11 @@
               <label class="event-field event-form-wide">
                 Event link / website
                 <input class="event-input" id="eventUrl" type="text" inputmode="url" placeholder="https://..." />
+              </label>
+              <label class="event-field event-form-wide">
+                Event flyer images
+                <input class="event-input" id="eventFlyerFiles" type="file" accept="image/*" multiple />
+                <span class="event-field-note">Optional. Upload up to 2 flyers or event images.</span>
               </label>
               <label class="event-field event-form-wide">
                 Details
@@ -5077,6 +5111,31 @@
         throw new Error(details.message || 'Proof upload failed');
       }
       return `${BOOSTHUB_PUBLIC_SUPABASE_URL}/storage/v1/object/public/build-photos/${filePath}`;
+    }
+
+    async function uploadEventFlyerFile(file, eventSlug) {
+      if (!file || !authUser?.id) return '';
+      if (!String(file.type || '').startsWith('image/')) {
+        throw new Error('Event flyers must be image files.');
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        throw new Error('Event flyer images must be under 10 MB each.');
+      }
+      const extension = file.name?.includes('.') ? file.name.split('.').pop() : 'jpg';
+      const filePath = `${authUser.id}/events/${eventSlug}-${Date.now()}-${slugifyFileName(file.name || `flyer.${extension}`)}`;
+      const headers = await authHeaders();
+      headers['Content-Type'] = file.type || 'image/jpeg';
+      headers['x-upsert'] = 'true';
+      const response = await fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/storage/v1/object/event-flyers/${filePath}`, {
+        method: 'POST',
+        headers,
+        body: file,
+      });
+      if (!response.ok) {
+        const details = await response.json().catch(() => ({}));
+        throw new Error(details.message || 'Event flyer upload failed');
+      }
+      return `${BOOSTHUB_PUBLIC_SUPABASE_URL}/storage/v1/object/public/event-flyers/${filePath}`;
     }
 
     async function fetchAuthUser() {
@@ -7020,6 +7079,7 @@
       const endDateInput = document.getElementById('eventEndDate');
       const endTimeInput = document.getElementById('eventEndTime');
       const eventUrlInput = document.getElementById('eventUrl');
+      const flyerFilesInput = document.getElementById('eventFlyerFiles');
       const descriptionInput = document.getElementById('eventDescription');
       const publicEventDetail = document.getElementById('publicEventDetail');
       if (!form || !results) return;
@@ -7065,6 +7125,22 @@
         }
       }
 
+      function normalizeFlyerUrls(value) {
+        if (!value) return [];
+        const urls = Array.isArray(value) ? value : [value];
+        return urls.map(item => String(item || '').trim()).filter(Boolean).slice(0, 2);
+      }
+
+      function renderEventFlyers(event) {
+        const flyers = normalizeFlyerUrls(event.flyerUrls);
+        if (!flyers.length) return '';
+        return `
+          <div class="event-flyer-grid">
+            ${flyers.map((url, index) => `<img class="event-flyer-image" src="${escapeText(url)}" alt="${escapeText(event.name)} flyer ${index + 1}" loading="lazy" />`).join('')}
+          </div>
+        `;
+      }
+
       function escapeText(value) {
         return String(value)
           .replaceAll('&', '&amp;')
@@ -7092,6 +7168,7 @@
           interestedCount: 0,
           description: event.description || '',
           eventUrl: event.eventUrl || '',
+          flyerUrls: normalizeFlyerUrls(event.flyerUrls),
           source: 'demo',
         };
       }
@@ -7114,6 +7191,7 @@
           interestedCount: 0,
           description: event.description || '',
           eventUrl: event.eventUrl || '',
+          flyerUrls: normalizeFlyerUrls(event.flyerUrls),
           source: 'local',
         };
       }
@@ -7140,6 +7218,7 @@
           interestedCount: counts.interested,
           description: row.description || '',
           eventUrl: row.event_url || '',
+          flyerUrls: normalizeFlyerUrls(row.flyer_image_urls),
           source: 'live',
         };
       }
@@ -7259,6 +7338,7 @@
           <h4 class="public-event-title">${escapeText(event.name)}</h4>
           <p class="public-event-meta">${escapeText(getEventSchedule(event))}<br>${escapeText(getEventLocationSummary(event))}</p>
           ${event.hostName ? `<p class="event-host-line">Hosted by ${escapeText(event.hostName)}</p>` : ''}
+          ${renderEventFlyers(event)}
           ${event.description ? `<p class="public-event-copy">${escapeText(event.description).slice(0, 520)}</p>` : ''}
           <p class="event-count">${event.goingCount || 0} going - ${event.interestedCount || 0} interested</p>
           <div class="event-actions">
@@ -7337,6 +7417,7 @@
                   ${event.hostName ? `<p class="event-host-line">Hosted by ${escapeText(event.hostName)}</p>` : ''}
                 </div>
               </div>
+              ${renderEventFlyers({ ...event, flyerUrls: normalizeFlyerUrls(event.flyerUrls).slice(0, 1) })}
               <p class="event-count">${event.goingCount || 0} going - ${event.interestedCount || count || 0} interested</p>
               <div class="event-actions">
                 <button class="action-button ${focused ? 'active' : ''}" type="button" data-event-open="${event.id}">${focused ? 'Viewing' : 'View Event'}</button>
@@ -7355,7 +7436,7 @@
         renderEvents();
       }
 
-      form.addEventListener('submit', event => {
+      form.addEventListener('submit', async event => {
         event.preventDefault();
         if (!isAuthenticated()) {
           renderAuthState('Sign in to add events.');
@@ -7374,7 +7455,16 @@
         const endTime = endTimeInput?.value || '';
         const description = descriptionInput?.value.trim() || '';
         const normalizedEventUrl = normalizeEventUrl(eventUrlInput?.value || '');
+        const flyerFiles = Array.from(flyerFilesInput?.files || []);
         if (!name || !city || !date) return;
+        if (flyerFiles.length > 2) {
+          note.textContent = 'Upload up to 2 event flyer images.';
+          return;
+        }
+        if (flyerFiles.some(file => !String(file.type || '').startsWith('image/'))) {
+          note.textContent = 'Event flyers must be image files.';
+          return;
+        }
         if (normalizedEventUrl === '') {
           note.textContent = 'Enter a valid event link or leave it blank.';
           return;
@@ -7391,36 +7481,42 @@
           note.textContent = 'End date and time must be after the start.';
           return;
         }
-        note.textContent = 'Creating event...';
-        supabaseInsert('events', {
-          host_user_id: authUser.id,
-          title: name,
-          host_name: hostName || null,
-          description: description || null,
-          location_name: locationName || null,
-          address: address || null,
-          city,
-          state: stateName || null,
-          event_url: normalizedEventUrl,
-          starts_at: startsAt,
-          ends_at: endsAt,
-        })
-          .then(async rows => {
-            const saved = rows[0];
-            focusedEventId = saved?.id || focusedEventId;
-            visibleMonth = eventDateToObject(`${date.slice(0, 7)}-01`);
-            selectedDate = date;
-            form.reset();
-            dateInput.value = date;
-            if (startTimeInput) startTimeInput.value = startTime || '18:00';
-            if (endDateInput) endDateInput.value = '';
-            if (endTimeInput) endTimeInput.value = '';
-            note.textContent = 'Event created.';
-            await loadLiveEvents();
-          })
-          .catch(error => {
-            note.textContent = error.message || 'Event could not be created.';
+        try {
+          note.textContent = flyerFiles.length ? 'Uploading event flyer images...' : 'Creating event...';
+          const flyerImageUrls = [];
+          for (const [index, file] of flyerFiles.entries()) {
+            const uploadedUrl = await uploadEventFlyerFile(file, `${slugifyFileName(name)}-${index + 1}`);
+            if (uploadedUrl) flyerImageUrls.push(uploadedUrl);
+          }
+          note.textContent = 'Creating event...';
+          const rows = await supabaseInsert('events', {
+            host_user_id: authUser.id,
+            title: name,
+            host_name: hostName || null,
+            description: description || null,
+            location_name: locationName || null,
+            address: address || null,
+            city,
+            state: stateName || null,
+            event_url: normalizedEventUrl,
+            flyer_image_urls: flyerImageUrls,
+            starts_at: startsAt,
+            ends_at: endsAt,
           });
+          const saved = rows[0];
+          focusedEventId = saved?.id || focusedEventId;
+          visibleMonth = eventDateToObject(`${date.slice(0, 7)}-01`);
+          selectedDate = date;
+          form.reset();
+          dateInput.value = date;
+          if (startTimeInput) startTimeInput.value = startTime || '18:00';
+          if (endDateInput) endDateInput.value = '';
+          if (endTimeInput) endTimeInput.value = '';
+          note.textContent = 'Event created.';
+          await loadLiveEvents();
+        } catch (error) {
+          note.textContent = error.message || 'Event could not be created.';
+        }
       });
 
       calendar?.addEventListener('click', event => {
@@ -7532,7 +7628,7 @@
               renderAuthState('Your session expired. Public events are still visible.');
             }
           }
-          const eventFields = 'id,title,host_name,description,location_name,address,city,state,event_url,starts_at,ends_at,host_user_id';
+          const eventFields = 'id,title,host_name,description,location_name,address,city,state,event_url,flyer_image_urls,starts_at,ends_at,host_user_id';
           const [eventsResponse, rsvpsResponse] = await Promise.all([
             fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/rest/v1/events?select=${eventFields}&order=starts_at.asc`, { headers }),
             fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/rest/v1/event_rsvps?select=event_id,user_id,status`, { headers }),
