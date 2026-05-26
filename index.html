@@ -120,6 +120,12 @@
       gap: 12px;
     }
 
+    body.web-app-mode #webAppNavLink,
+    body:not(.web-app-mode) #webAuthStatus,
+    body:not(.web-app-mode) #webAuthNavButton {
+      display: none;
+    }
+
     .nav-auth-status {
       color: #a7b0bf;
       font-size: 12px;
@@ -1281,6 +1287,59 @@
         radial-gradient(circle at 84% 18%, rgba(37,99,235,0.14), transparent 34%),
         #080a0d;
       padding: 42px 24px 64px;
+    }
+
+    body:not(.web-app-mode) .app-components-section {
+      display: none;
+    }
+
+    body.web-app-mode {
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    body.web-app-mode .launch-download,
+    body.web-app-mode .hero,
+    body.web-app-mode .stats-bar,
+    body.web-app-mode .features,
+    body.web-app-mode .web-product-section,
+    body.web-app-mode .cta-section,
+    body.web-app-mode .site-footer-wrap {
+      display: none !important;
+    }
+
+    body.web-app-mode .app-components-section {
+      min-height: calc(100vh - 73px);
+      height: calc(100vh - 73px);
+      margin-top: 73px;
+      border-top: 0;
+      border-bottom: 0;
+      padding: 18px;
+      overflow: hidden;
+    }
+
+    body.web-app-mode .components-inner {
+      max-width: none;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    body.web-app-mode .app-tab-bar {
+      flex: 0 0 auto;
+      margin: 12px 0;
+    }
+
+    body.web-app-mode .auth-panel,
+    body.web-app-mode .component-shell {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+    }
+
+    body.web-app-mode .component-title-row {
+      margin-bottom: 14px;
     }
 
     .components-inner {
@@ -2575,6 +2634,23 @@
       .nav-badge { display: none; }
       .nav-actions .nav-badge { display: inline-flex; }
       .nav-auth-status { display: none; }
+      body.web-app-mode {
+        overflow: auto;
+      }
+      body.web-app-mode .app-components-section {
+        height: auto;
+        min-height: calc(100vh - 67px);
+        margin-top: 67px;
+        overflow: visible;
+        padding: 12px;
+      }
+      body.web-app-mode .components-inner {
+        height: auto;
+      }
+      body.web-app-mode .auth-panel,
+      body.web-app-mode .component-shell {
+        overflow: visible;
+      }
       .launch-download {
         margin-top: 67px;
         padding: 14px 14px 16px;
@@ -2693,6 +2769,7 @@
       <span>Boost<span class="accent">Hub</span></span>
     </div>
     <div class="nav-actions">
+      <a class="nav-badge" id="webAppNavLink" href="/app">Open Web App</a>
       <span class="nav-auth-status" id="webAuthStatus">Account required</span>
       <button class="nav-badge" id="webAuthNavButton" type="button">Sign In</button>
     </div>
@@ -3316,19 +3393,19 @@
       <span class="proof-pill">Dragy Results</span>
       <span class="proof-pill">Nearby Events</span>
       <span class="proof-pill">Marketplace Tools</span>
-      <a class="proof-pill proof-link" href="#live-components">Web Workspace</a>
+      <a class="proof-pill proof-link" href="/app">Web App</a>
     </div>
 
     <div class="hero-actions">
-      <a class="hero-action primary" href="#live-components">Open Web Workspace</a>
+      <a class="hero-action primary" href="/app">Open Web App</a>
       <a class="hero-action secondary" href="#web-preview">See Web Roadmap</a>
     </div>
 
     <div class="web-callout">
-      <span class="web-callout-label">Member Workspace Live Above</span>
+      <span class="web-callout-label">Member Web App</span>
       <p class="web-callout-copy">
-        The website now starts with account-gated app-style tabs for garage builds, groups,
-        Boost Map, tracks, marketplace, DynoRank, calculators, and events.
+        The signed-in workspace opens in its own full-frame app screen for garage builds,
+        groups, Boost Map, tracks, marketplace, DynoRank, calculators, and events.
       </p>
     </div>
 
@@ -3896,7 +3973,7 @@
     </div>
   </section>
 
-  <div style="border-top: 1px solid var(--border);">
+  <div class="site-footer-wrap" style="border-top: 1px solid var(--border);">
     <footer>
       <div class="footer-logo">Boost<span>Hub</span></div>
       <div class="footer-links">
@@ -3959,6 +4036,7 @@
       const routePath = routedPath || (
         currentPath !== '/' && currentPath !== '/index.html' ? currentPath : ''
       );
+      const isAppPath = /^\/(app|web-app|workspace)\/?$/i.test(routePath);
       const routeMatch = routePath.match(/^\/(events|event|build|builds|u|profile|group|groups|marketplace|listing|tracks|track|map)\/([^/?#]+)/);
       const routeKindMap = {
         event: 'events',
@@ -3983,7 +4061,8 @@
       const groupId = params.get('group') || (matchedKind === 'groups' ? matchedId : '');
       const listingId = params.get('listing') || (matchedKind === 'marketplace' ? matchedId : '');
       const trackId = params.get('track') || (matchedKind === 'tracks' || matchedKind === 'map' ? matchedId : '');
-      const routeKind = eventId ? 'events'
+      const routeKind = isAppPath ? 'app'
+        : eventId ? 'events'
         : buildId ? 'build'
           : profileName ? 'profile'
             : groupId ? 'groups'
@@ -4004,8 +4083,11 @@
         trackId: trackId ? decodeURIComponent(trackId) : '',
         routeKind,
         routePath,
+        isAppRoute: Boolean(isAppPath || routeKind),
       };
     }
+
+    document.body.classList.toggle('web-app-mode', routeState.isAppRoute);
 
     function setupComponentTabs() {
       const tabs = Array.from(document.querySelectorAll('[data-component-tab]'));
@@ -4059,6 +4141,7 @@
         '#events': 'events',
       };
       const routeTab = {
+        app: 'profile',
         events: 'events',
         build: 'profile',
         profile: 'profile',
@@ -4400,6 +4483,7 @@
     function authRouteCopy() {
       if (!routeState.routeKind) return 'BoostHub web content is private to signed-in members.';
       const labels = {
+        app: 'BoostHub web app',
         events: 'shared event',
         build: 'shared build',
         profile: 'shared profile',
@@ -4432,6 +4516,7 @@
 
     function dispatchAuthReady() {
       const routeTab = {
+        app: 'profile',
         events: 'events',
         build: 'profile',
         profile: 'profile',
