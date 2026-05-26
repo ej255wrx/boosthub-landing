@@ -667,6 +667,190 @@
 
     .feature-desc { font-size: 15px; color: #9ca3af; line-height: 1.65; }
 
+    .feature-directory-section {
+      background:
+        linear-gradient(180deg, #080a0d 0%, #0d1118 48%, #080a0d 100%);
+      padding: 0 24px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .feature-directory {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 96px 0;
+    }
+
+    .feature-directory-head {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.92fr) minmax(340px, 1.08fr);
+      gap: 36px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+
+    .feature-directory-title {
+      font-family: var(--font-display);
+      font-size: clamp(42px, 6vw, 76px);
+      font-weight: 900;
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+    }
+
+    .feature-directory-copy {
+      color: #cbd5e1;
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 660px;
+    }
+
+    .feature-directory-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .feature-directory-card {
+      min-height: 100%;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      background: rgba(15,18,23,0.86);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .feature-directory-card:nth-child(3n + 1) {
+      border-color: rgba(59,130,246,0.32);
+    }
+
+    .feature-directory-card:nth-child(3n + 2) {
+      border-color: rgba(255,106,0,0.28);
+    }
+
+    .feature-directory-card:nth-child(3n) {
+      border-color: rgba(34,197,94,0.26);
+    }
+
+    .feature-directory-card.feature-directory-wide {
+      grid-column: span 2;
+    }
+
+    .feature-directory-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      min-height: 46px;
+    }
+
+    .feature-directory-kicker {
+      color: var(--blue-bright);
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .feature-directory-card:nth-child(3n + 2) .feature-directory-kicker {
+      color: var(--orange);
+    }
+
+    .feature-directory-card:nth-child(3n) .feature-directory-kicker {
+      color: var(--green);
+    }
+
+    .feature-directory-card h3 {
+      font-family: var(--font-display);
+      color: var(--white);
+      font-size: 27px;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .feature-directory-count {
+      flex: 0 0 auto;
+      color: #dbeafe;
+      border: 1px solid rgba(59,130,246,0.32);
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .feature-directory-list {
+      list-style: none;
+      display: grid;
+      gap: 0;
+    }
+
+    .feature-directory-list li {
+      color: #b7c0ce;
+      font-size: 14px;
+      line-height: 1.45;
+      padding: 8px 0 8px 18px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      position: relative;
+    }
+
+    .feature-directory-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 15px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--blue-bright);
+      box-shadow: 0 0 18px rgba(59,130,246,0.5);
+    }
+
+    .feature-directory-card:nth-child(3n + 2) li::before {
+      background: var(--orange);
+      box-shadow: 0 0 18px rgba(255,106,0,0.42);
+    }
+
+    .feature-directory-card:nth-child(3n) li::before {
+      background: var(--green);
+      box-shadow: 0 0 18px rgba(34,197,94,0.42);
+    }
+
+    .feature-directory-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .feature-directory-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border-radius: 6px;
+      padding: 11px 16px;
+      background: var(--blue);
+      color: white;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .feature-directory-link.secondary {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      color: #dbeafe;
+    }
+
     .feature-stage {
       position: sticky;
       top: 104px;
@@ -1331,6 +1515,7 @@
     body.web-app-mode .hero,
     body.web-app-mode .stats-bar,
     body.web-app-mode .features,
+    body.web-app-mode .feature-directory-section,
     body.web-app-mode .web-product-section,
     body.web-app-mode .cta-section,
     body.web-app-mode .site-footer-wrap {
@@ -2680,6 +2865,15 @@
       .download-name {
         font-size: 21px;
       }
+
+      .feature-directory-head {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .feature-directory-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 640px) {
@@ -2750,6 +2944,16 @@
       }
       .preview-phone { min-height: 540px; }
       .preview-phone-content { min-height: 470px; }
+      .feature-directory-section { padding: 0 16px; }
+      .feature-directory { padding: 70px 0; }
+      .feature-directory-copy { font-size: 16px; }
+      .feature-directory-grid { grid-template-columns: 1fr; }
+      .feature-directory-card.feature-directory-wide { grid-column: auto; }
+      .feature-directory-card { padding: 18px; }
+      .feature-directory-card h3 { font-size: 24px; }
+      .feature-directory-top { min-height: 0; }
+      .feature-directory-actions { flex-direction: column; }
+      .feature-directory-link { width: 100%; }
       .audience-layout { grid-template-columns: 1fr; }
       .audience-copy { margin-top: -30px; }
       .audience-grid { grid-template-columns: 1fr; }
@@ -3470,7 +3674,7 @@
 
     <div class="hero-actions">
       <a class="hero-action primary" href="/app">Open Web App</a>
-      <a class="hero-action secondary" href="#web-preview">See Web Roadmap</a>
+      <a class="hero-action secondary" href="#feature-directory">See Every Feature</a>
     </div>
 
     <div class="web-callout">
@@ -3741,6 +3945,261 @@
       </div>
     </section>
   </div>
+
+  <section class="feature-directory-section" id="feature-directory">
+    <div class="feature-directory">
+      <div class="feature-directory-head reveal">
+        <div>
+          <p class="section-label">Full Feature List</p>
+          <h2 class="feature-directory-title">Everything<br>BoostHub<br>Includes</h2>
+        </div>
+        <p class="feature-directory-copy">
+          A straight inventory of the app and web-app tools: garage profiles, proof, rankings,
+          events, maps, groups, marketplace trust, account settings, and the utility calculators
+          people actually use while building.
+        </p>
+      </div>
+
+      <div class="feature-directory-grid reveal">
+        <article class="feature-directory-card feature-directory-wide">
+          <div class="feature-directory-top">
+            <div>
+              <div class="feature-directory-kicker">Garage</div>
+              <h3>Build Profiles</h3>
+            </div>
+            <span class="feature-directory-count">Core</span>
+          </div>
+          <ul class="feature-directory-list">
+            <li>Create, edit, delete, and share garage builds from your account.</li>
+            <li>Save build name, owner/shop, year, make, model, vehicle type, cylinders, induction, drivetrain, transmission, and fuel type.</li>
+            <li>Track horsepower, torque, turbo or power adder, ECU, injectors, clutch, fuel, mod list, suspension setup, brake setup, and chassis details.</li>
+            <li>Set city, state or region, country, public visibility, and BoostMap-ready location details.</li>
+            <li>Upload build photos, gallery photos, dyno sheets, and short build videos tied to the vehicle.</li>
+            <li>Request verification and show verified build status where available.</li>
+          </ul>
+        </article>
+
+        <article class="feature-directory-card">
+          <div class="feature-directory-top">
+            <div>
+              <div class="feature-directory-kicker">Proof</div>
+              <h3>Numbers and Receipts</h3>
+            </div>
+            <span class="feature-directory-count">Proof</span>
+          </div>
+          <ul class="feature-directory-list">
+            <li>Attach dyno sheets with pinch-zoom viewing.</li>
+            <li>Add Dragy screenshots for 1/4 mile, 1/8 mile, 0-60 MPH, and 60-130 MPH.</li>
+            <li>Store elapsed time, trap speed, notes, proof image, and optional track location.</li>
+            <li>Show race numbers including 1/4 mile, 1/8 mile, 60 foot, reaction time, and trap speed.</li>
+            <li>View build video playback and processing status.</li>
+            <li>Add photo captions, photo location, date taken, professional-photo flag, and photographer credit.</li>
+          </ul>
+        </article>
+
+        <article class="feature-directory-card">
+          <div class="feature-directory-top">
+            <div>
+              <div class="feature-directory-kicker">DynoRank</div>
+              <h3>Leaderboards</h3>
+            </div>
+            <span class="feature-directory-count">Rank</span>
+          </div>
+          <ul class="feature-directory-list">
+            <li>Rank builds by horsepower, 1/4 mile, 1/8 mile, 60 foot, reaction time, and trap speed.</li>
+            <li>Rank Dragy results by 1/4 mile, 1/8 mile, 0-60 MPH, 60-130 MPH, 100-200 KM/H, and track lap categories.</li>
+            <li>Filter by vehicle type, cylinders, induction, drivetrain, transmission, fuel, verification, and track.</li>
+            <li>Open leaderboard entries directly into the related build profile.</li>
+            <li>Support imperial and metric unit display.</li>
+          </ul>
+        </article>
+
+        <article class="feature-directory-card">
+          <div class="feature-directory-top">
+            <div>
+              <div class="feature-directory-kicker">Discover</div>
+              <h3>Community Feed</h3>
+            </div>
+            <span class="feature-directory-count">Social</span>
+          </div>
+          <ul class="feature-directory-list">
+            <li>Browse For You, Recent, Following, Country, and Groups discovery views.</li>
+            <li>See Build of the Week and public build activity.</li>
+            <li>Search by year, make, model, build name, owner, or username.</li>
+            <li>Follow builders and follow build topics like make, model, country, fuel, or drivetrain.</li>
+            <li>Like builds, comment on builds, hide feed items, and view why a card was shown.</li>
+            <li>Grouped activity keeps one active builder from flooding the feed.</li>
+          </ul>
+        </article>
+
+        <article class="feature-directory-card">
+          <div class="feature-directory-top">
+            <div>
+              <div class="feature-directory-kicker">Groups</div>
+              <h3>Clubs and Crews</h3>
+            </div>
+            <span class="feature-directory-count">Groups</span>
+          </div>
+          <ul class="feature-directory-list">
+            <li>Create public groups for local crews, platform groups, event hosts, shops, and general communities.</li>
+            <li>Join, leave, and open group pages from Discover.</li>
+            <li>Post group updates as a member.</li>
+            <li>View group posts, members, member builds, hosted events, and roles.</li>
+            <li>Manually add garage builds to a group instead of auto-filling personal builds.</li>
+            <li>Share group links that open on the website behind account sign-in.</li>
+          </ul>
+        </article>
+
+        <article class="feature-directory-card">
+          <div class="feature-directory-top">
+            <div>
+              <div class="feature-directory-kicker">Events</div>
+              <h3>Calendar and Alerts</h3>
+            </div>
+            <span class="feature-directory-count">Events</span>
+          </div>
+          <ul class="feature-directory-list">
+            <li>Browse a community calendar for meets, dyno days, cruises, track nights, and multi-day events.</li>
+            <li>Create events with title, location, city, region, start time, optional end time, event link, and details.</li>
+            <li>RSVP as going or interested and review My RSVPs.</li>
+            <li>Use selected-day and upcoming-event views.</li>
+            <li>Tag events to saved BoostMap locations when available.</li>
+            <li>Use optional GPS-based nearby event alerts.</li>
+          </ul>
+        </article>
+
+        <article class="feature-directory-card">
+          <div class="feature-directory-top">
+            <div>
+              <div class="feature-directory-kicker">BoostMap</div>
+              <h3>Map and Tracks</h3>
+            </div>
+            <span class="feature-directory-count">Map</span>
+          </div>
+          <ul class="feature-directory-list">
+            <li>View public build locations and saved BoostMap places on a map.</li>
+            <li>Use city, state, country, latitude, and longitude data tied to builds and venues.</li>
+            <li>Browse curated tracks, drag strips, road courses, shops, dyno locations, raceways, and venues.</li>
+            <li>Open map pins into related builds, tracks, or event context.</li>
+            <li>Submit track times with build, track, result type, elapsed time, trap speed, notes, and proof URL or file.</li>
+            <li>Compare track results by location and category where data exists.</li>
+          </ul>
+        </article>
+
+        <article class="feature-directory-card">
+          <div class="feature-directory-top">
+            <div>
+              <div class="feature-directory-kicker">Marketplace</div>
+              <h3>Parts and Sellers</h3>
+            </div>
+            <span class="feature-directory-count">Market</span>
+          </div>
+          <ul class="feature-directory-list">
+            <li>Browse marketplace listings for parts, cars, services, shops, vendors, and partner inventory.</li>
+            <li>Filter listings by category, seller tier, trust level, and search terms.</li>
+            <li>Save listings, report listings, and report sellers.</li>
+            <li>Create listings through the marketplace flow.</li>
+            <li>Start seller verification and seller account setup.</li>
+            <li>Show seller trust signals, verification status, safety status, trust score, and storefront-style shop data.</li>
+          </ul>
+        </article>
+
+        <article class="feature-directory-card">
+          <div class="feature-directory-top">
+            <div>
+              <div class="feature-directory-kicker">Tools</div>
+              <h3>Build Calculators</h3>
+            </div>
+            <span class="feature-directory-count">Tools</span>
+          </div>
+          <ul class="feature-directory-list">
+            <li>Basic VIN lookup.</li>
+            <li>Injector calculator with fuel type, BSFC, injector count, and duty cycle.</li>
+            <li>Wheel and tire fitment comparison with offset, poke, clearance, ride height, speedometer effect, diameter, circumference, and sidewall changes.</li>
+            <li>Fuel mix calculator for ethanol blend math.</li>
+            <li>Boost converter.</li>
+            <li>Speedometer correction and gear/RPM calculator.</li>
+          </ul>
+        </article>
+
+        <article class="feature-directory-card">
+          <div class="feature-directory-top">
+            <div>
+              <div class="feature-directory-kicker">Profiles</div>
+              <h3>Identity and Trust</h3>
+            </div>
+            <span class="feature-directory-count">Profile</span>
+          </div>
+          <ul class="feature-directory-list">
+            <li>Claim a username, display name, avatar, and bio.</li>
+            <li>Share public profiles and open public builder pages.</li>
+            <li>Show profile badges including creator, launch, country, horsepower, verification, and photographer-related badges.</li>
+            <li>Enable automotive photographer profile fields, service area, portfolio links, booking link, Instagram link, and availability.</li>
+            <li>View follower and following previews.</li>
+            <li>Track builder momentum, build logs, photos, group memberships, and suggested next actions.</li>
+          </ul>
+        </article>
+
+        <article class="feature-directory-card">
+          <div class="feature-directory-top">
+            <div>
+              <div class="feature-directory-kicker">Messages</div>
+              <h3>Inbox and Notifications</h3>
+            </div>
+            <span class="feature-directory-count">Inbox</span>
+          </div>
+          <ul class="feature-directory-list">
+            <li>Open the message inbox from header actions and marketplace flows.</li>
+            <li>Use notification badges for unread activity.</li>
+            <li>Receive notifications for likes, comments, follows, events, verification, account activity, and app updates.</li>
+            <li>Turn push notifications on or off by device.</li>
+            <li>Choose whether to receive app update alerts.</li>
+          </ul>
+        </article>
+
+        <article class="feature-directory-card feature-directory-wide">
+          <div class="feature-directory-top">
+            <div>
+              <div class="feature-directory-kicker">Web App</div>
+              <h3>Website Sharing and Account Gate</h3>
+            </div>
+            <span class="feature-directory-count">Web</span>
+          </div>
+          <ul class="feature-directory-list">
+            <li>Open the signed-in web app at boosthubapp.com/app.</li>
+            <li>Keep builds, profiles, groups, events, map pages, tracks, marketplace listings, rankings, and tools behind account sign-in.</li>
+            <li>Open shared build, event, group, listing, map, and track links on the website when someone is outside the mobile app.</li>
+            <li>Create and edit web builds, browse groups, view map and track pages, browse marketplace listings, start seller verification, run calculators, and RSVP to events.</li>
+            <li>Use account-required web flows so private member data is not exposed as a public preview.</li>
+          </ul>
+        </article>
+
+        <article class="feature-directory-card">
+          <div class="feature-directory-top">
+            <div>
+              <div class="feature-directory-kicker">Account</div>
+              <h3>Settings and Safety</h3>
+            </div>
+            <span class="feature-directory-count">Account</span>
+          </div>
+          <ul class="feature-directory-list">
+            <li>Sign in, create an account, reset password, and confirm auth links.</li>
+            <li>Choose light, dark, or system appearance.</li>
+            <li>Choose imperial or metric units across tools, rankings, and build displays.</li>
+            <li>Send feedback and contact support, reports, partnerships, or general inquiries.</li>
+            <li>Report builds, comments, photos, listings, and sellers for moderation.</li>
+            <li>Block and unblock users, view legal/privacy pages, and delete your account and data.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="feature-directory-actions reveal">
+        <a class="feature-directory-link" href="/app">Open Web App</a>
+        <a class="feature-directory-link secondary" href="https://apps.apple.com/us/app/id6761749887">Download iOS</a>
+        <a class="feature-directory-link secondary" href="https://play.google.com/store/apps/details?id=com.boosthubllc.app">Download Android</a>
+      </div>
+    </div>
+  </section>
 
   <div style="background: var(--black); padding: 0 24px;">
     <section class="section teaser-grid">
