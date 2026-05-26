@@ -4036,8 +4036,9 @@
       const routePath = routedPath || (
         currentPath !== '/' && currentPath !== '/index.html' ? currentPath : ''
       );
-      const isAppPath = /^\/(app|web-app|workspace)\/?$/i.test(routePath);
-      const routeMatch = routePath.match(/^\/(events|event|build|builds|u|profile|group|groups|marketplace|listing|tracks|track|map)\/([^/?#]+)/);
+      const routeCleanPath = routePath.split(/[?#]/)[0] || routePath;
+      const isAppPath = /^\/(app|web-app|workspace)\/?$/i.test(routeCleanPath);
+      const routeMatch = routeCleanPath.match(/^\/(events|event|build|builds|u|profile|group|groups|marketplace|listing|tracks|track|map)\/([^/?#]+)/);
       const routeKindMap = {
         event: 'events',
         events: 'events',
