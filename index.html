@@ -1516,6 +1516,10 @@
     body.web-app-mode .stats-bar,
     body.web-app-mode .features,
     body.web-app-mode .feature-directory-section,
+    body.web-app-mode .site-feature-wrap,
+    body.web-app-mode .site-teaser-wrap,
+    body.web-app-mode .for-section,
+    body.web-app-mode .site-steps-wrap,
     body.web-app-mode .web-product-section,
     body.web-app-mode .cta-section,
     body.web-app-mode .site-footer-wrap {
@@ -2100,6 +2104,13 @@
       margin-top: 10px;
     }
 
+    .event-host-line {
+      color: #bbf7d0;
+      font-size: 13px;
+      font-weight: 900;
+      margin-top: 8px;
+    }
+
     .listing-actions,
     .event-actions {
       display: flex;
@@ -2476,9 +2487,30 @@
 
     .event-form {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr auto;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin-bottom: 14px;
+    }
+
+    .event-form .event-form-wide,
+    .event-form .event-submit {
+      grid-column: 1 / -1;
+    }
+
+    .event-field {
+      display: grid;
+      gap: 6px;
+      color: #a7f3d0;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    textarea.event-input {
+      min-height: 112px;
+      resize: vertical;
     }
 
     .event-filter-row {
@@ -3628,10 +3660,55 @@
             <article class="public-event-detail" id="publicEventDetail" hidden></article>
 
             <form class="event-form" id="eventForm">
-              <input class="event-input" id="eventName" type="text" placeholder="Meet name" required />
-              <input class="event-input" id="eventCity" type="text" placeholder="City / state" required />
-              <input class="event-input" id="eventDate" type="date" required />
-              <button class="action-button primary" type="submit">Add Event</button>
+              <label class="event-field event-form-wide">
+                Event title
+                <input class="event-input" id="eventName" type="text" placeholder="Cars and Coffee, Dyno Day, Cruise Night..." required />
+              </label>
+              <label class="event-field event-form-wide">
+                Host / organizer
+                <input class="event-input" id="eventHostName" type="text" placeholder="Optional. Leave blank if you do not want a public host shown." maxlength="160" />
+              </label>
+              <label class="event-field">
+                Venue
+                <input class="event-input" id="eventLocationName" type="text" placeholder="Location / venue name" />
+              </label>
+              <label class="event-field">
+                Street address
+                <input class="event-input" id="eventAddress" type="text" placeholder="Street address" />
+              </label>
+              <label class="event-field">
+                City
+                <input class="event-input" id="eventCity" type="text" placeholder="City" required />
+              </label>
+              <label class="event-field">
+                State / region
+                <input class="event-input" id="eventState" type="text" placeholder="State / region" />
+              </label>
+              <label class="event-field">
+                Start date
+                <input class="event-input" id="eventDate" type="date" required />
+              </label>
+              <label class="event-field">
+                Start time
+                <input class="event-input" id="eventStartTime" type="time" value="18:00" required />
+              </label>
+              <label class="event-field">
+                End date
+                <input class="event-input" id="eventEndDate" type="date" />
+              </label>
+              <label class="event-field">
+                End time
+                <input class="event-input" id="eventEndTime" type="time" />
+              </label>
+              <label class="event-field event-form-wide">
+                Event link / website
+                <input class="event-input" id="eventUrl" type="url" placeholder="https://..." />
+              </label>
+              <label class="event-field event-form-wide">
+                Details
+                <textarea class="event-input" id="eventDescription" placeholder="Schedule, parking, cost, rules, contact info, cruise route, or anything people need to know"></textarea>
+              </label>
+              <button class="action-button primary event-submit" type="submit">Add Event</button>
             </form>
 
             <div class="event-filter-row">
@@ -3741,7 +3818,7 @@
 
   <div class="divider"></div>
 
-  <div style="background: var(--black); padding: 0 24px;">
+  <div class="site-feature-wrap" style="background: var(--black); padding: 0 24px;">
     <section class="section">
       <p class="section-label reveal">What BoostHub Does</p>
       <h2 class="section-title reveal">Everything<br>Your Build<br>Deserves</h2>
@@ -4201,7 +4278,7 @@
     </div>
   </section>
 
-  <div style="background: var(--black); padding: 0 24px;">
+  <div class="site-teaser-wrap" style="background: var(--black); padding: 0 24px;">
     <section class="section teaser-grid">
       <img class="teaser-image reveal" src="assets/boosthub-logo-vertical.png" alt="BoostHub turbo logo" />
       <div>
@@ -4263,7 +4340,7 @@
     </div>
   </div>
 
-  <div style="background: var(--black); padding: 0 24px;">
+  <div class="site-steps-wrap" style="background: var(--black); padding: 0 24px;">
     <section class="section">
       <p class="section-label reveal">How It Works</p>
       <h2 class="section-title reveal">Simple.<br>Powerful.<br>Yours.</h2>
@@ -4906,6 +4983,13 @@
       };
     }
 
+    function publicHeaders() {
+      return {
+        apikey: BOOSTHUB_PUBLIC_SUPABASE_KEY,
+        'Content-Type': 'application/json',
+      };
+    }
+
     async function supabaseSelect(table, params = {}) {
       const url = new URL(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/rest/v1/${table}`);
       Object.entries(params).forEach(([key, value]) => {
@@ -5014,6 +5098,7 @@
 
     function authRouteCopy() {
       if (!routeState.routeKind) return 'BoostHub web content is private to signed-in members.';
+      if (routeState.routeKind === 'events') return 'This event page is public. Sign in only to RSVP or create events.';
       const labels = {
         app: 'BoostHub web app',
         events: 'shared event',
@@ -5035,11 +5120,15 @@
       const authCopy = document.getElementById('webAuthCopy');
       const messageEl = document.getElementById('webAuthMessage');
       const signedIn = isAuthenticated();
+      const publicEventRoute = routeState.routeKind === 'events';
+      const showPublicEventAuthPrompt = publicEventRoute && Boolean(message);
 
-      document.body.classList.toggle('workspace-locked', !signedIn);
+      document.body.classList.toggle('workspace-locked', !signedIn && !publicEventRoute);
       document.body.classList.toggle('workspace-ready', signedIn);
-      if (panel) panel.hidden = signedIn;
-      if (status) status.textContent = signedIn ? `Signed in${authUser?.email ? ` as ${authUser.email}` : ''}` : 'Account required';
+      if (panel) panel.hidden = signedIn || (publicEventRoute && !showPublicEventAuthPrompt);
+      if (status) status.textContent = signedIn
+        ? `Signed in${authUser?.email ? ` as ${authUser.email}` : ''}`
+        : publicEventRoute ? 'Public event' : 'Account required';
       if (navButton) navButton.textContent = signedIn ? 'Sign Out' : 'Sign In';
       if (authTitle) authTitle.textContent = currentAuthMode === 'signup' ? 'Create your account' : 'Sign in to continue';
       if (authCopy) authCopy.textContent = authRouteCopy();
@@ -6923,6 +7012,15 @@
       const clearFilter = document.getElementById('eventClearFilter');
       const filterLabel = document.getElementById('eventFilterLabel');
       const dateInput = document.getElementById('eventDate');
+      const hostNameInput = document.getElementById('eventHostName');
+      const locationNameInput = document.getElementById('eventLocationName');
+      const addressInput = document.getElementById('eventAddress');
+      const stateInput = document.getElementById('eventState');
+      const startTimeInput = document.getElementById('eventStartTime');
+      const endDateInput = document.getElementById('eventEndDate');
+      const endTimeInput = document.getElementById('eventEndTime');
+      const eventUrlInput = document.getElementById('eventUrl');
+      const descriptionInput = document.getElementById('eventDescription');
       const publicEventDetail = document.getElementById('publicEventDetail');
       if (!form || !results) return;
 
@@ -6950,6 +7048,23 @@
         return new Date(value).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', hour12: true });
       }
 
+      function buildEventDateTime(date, time) {
+        const value = new Date(`${date}T${time || '18:00'}`);
+        return Number.isNaN(value.getTime()) ? '' : value.toISOString();
+      }
+
+      function normalizeEventUrl(value) {
+        const trimmed = String(value || '').trim();
+        if (!trimmed) return null;
+        const withScheme = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+        try {
+          const url = new URL(withScheme);
+          return /^https?:$/i.test(url.protocol) ? url.toString() : '';
+        } catch {
+          return '';
+        }
+      }
+
       function escapeText(value) {
         return String(value)
           .replaceAll('&', '&amp;')
@@ -6964,6 +7079,10 @@
           id: event.id,
           name: event.name,
           city: event.city,
+          hostName: event.hostName || '',
+          locationName: event.locationName || '',
+          address: event.address || '',
+          state: event.state || '',
           date: event.date,
           startsAt: `${event.date}T18:00:00`,
           endsAt: null,
@@ -6982,6 +7101,10 @@
           id: event.id,
           name: event.name,
           city: event.city,
+          hostName: event.hostName || '',
+          locationName: event.locationName || '',
+          address: event.address || '',
+          state: event.state || '',
           date: event.date,
           startsAt: `${event.date}T18:00:00`,
           endsAt: null,
@@ -6998,16 +7121,16 @@
       function normalizeLiveEvent(row, rsvpCounts) {
         const startsAt = row.starts_at || new Date().toISOString();
         const startDate = new Date(startsAt);
-        const location = [
-          row.location_name,
-          [row.city, row.state].filter(Boolean).join(', '),
-        ].filter(Boolean).join(' - ') || 'Location TBA';
         const counts = rsvpCounts[row.id] || { going: 0, interested: 0 };
 
         return {
           id: row.id,
           name: row.title || 'BoostHub Event',
-          city: location,
+          city: row.city || '',
+          hostName: row.host_name || '',
+          locationName: row.location_name || '',
+          address: row.address || '',
+          state: row.state || '',
           date: dateToIso(startDate),
           startsAt,
           endsAt: row.ends_at || null,
@@ -7064,6 +7187,14 @@
           : `${startLabel} - ${formatEventDate(endDate)} at ${endTime}`;
       }
 
+      function getEventLocationSummary(event) {
+        return [
+          event.locationName,
+          event.address,
+          [event.city, event.state].filter(Boolean).join(', '),
+        ].filter(Boolean).join(' - ') || event.city || 'Location TBA';
+      }
+
       function getEventShareUrl(event) {
         return `${window.location.origin}/events/${encodeURIComponent(event.id)}`;
       }
@@ -7110,8 +7241,8 @@
             <h4 class="public-event-title">${liveLoadState === 'loading' ? 'Loading event...' : 'Event not found yet'}</h4>
             <p class="public-event-copy">
               ${liveLoadState === 'loading'
-                ? 'BoostHub is opening this shared event for the signed-in account.'
-                : 'This shared event link could not be loaded for this account yet. The app link may still open it if you have BoostHub installed.'}
+                ? 'BoostHub is loading this shared event page.'
+                : 'This shared event link could not be loaded yet. The app link may still open it if you have BoostHub installed.'}
             </p>
             <div class="event-actions">
               <a class="action-button primary" href="boosthub://events/${encodeURIComponent(focusedEventId)}">Open In App</a>
@@ -7126,7 +7257,8 @@
         publicEventDetail.innerHTML = `
           <div class="public-event-label">${event.source === 'live' ? 'BoostHub member event' : 'Member event preview'}</div>
           <h4 class="public-event-title">${escapeText(event.name)}</h4>
-          <p class="public-event-meta">${escapeText(getEventSchedule(event))}<br>${escapeText(event.city)}</p>
+          <p class="public-event-meta">${escapeText(getEventSchedule(event))}<br>${escapeText(getEventLocationSummary(event))}</p>
+          ${event.hostName ? `<p class="event-host-line">Hosted by ${escapeText(event.hostName)}</p>` : ''}
           ${event.description ? `<p class="public-event-copy">${escapeText(event.description).slice(0, 520)}</p>` : ''}
           <p class="event-count">${event.goingCount || 0} going - ${event.interestedCount || 0} interested</p>
           <div class="event-actions">
@@ -7201,7 +7333,8 @@
               <div class="event-topline">
                 <div>
                   <h4 class="event-name">${escapeText(event.name)}</h4>
-                  <p class="event-meta">${escapeText(event.type)} - ${escapeText(event.city)} - ${escapeText(getEventSchedule(event))}</p>
+                  <p class="event-meta">${escapeText(event.type)} - ${escapeText(getEventLocationSummary(event))} - ${escapeText(getEventSchedule(event))}</p>
+                  ${event.hostName ? `<p class="event-host-line">Hosted by ${escapeText(event.hostName)}</p>` : ''}
                 </div>
               </div>
               <p class="event-count">${event.goingCount || 0} going - ${event.interestedCount || count || 0} interested</p>
@@ -7230,15 +7363,47 @@
           return;
         }
         const name = document.getElementById('eventName').value.trim();
+        const hostName = hostNameInput?.value.trim() || '';
+        const locationName = locationNameInput?.value.trim() || '';
+        const address = addressInput?.value.trim() || '';
         const city = document.getElementById('eventCity').value.trim();
+        const stateName = stateInput?.value.trim() || '';
         const date = dateInput.value;
+        const startTime = startTimeInput?.value || '18:00';
+        const endDate = endDateInput?.value || '';
+        const endTime = endTimeInput?.value || '';
+        const description = descriptionInput?.value.trim() || '';
+        const normalizedEventUrl = normalizeEventUrl(eventUrlInput?.value || '');
         if (!name || !city || !date) return;
+        if (normalizedEventUrl === '') {
+          note.textContent = 'Enter a valid event link or leave it blank.';
+          return;
+        }
+        const startsAt = buildEventDateTime(date, startTime);
+        if (!startsAt) {
+          note.textContent = 'Choose a valid start date and time.';
+          return;
+        }
+        const endsAt = endDate || endTime
+          ? buildEventDateTime(endDate || date, endTime || startTime)
+          : null;
+        if (endsAt && new Date(endsAt).getTime() <= new Date(startsAt).getTime()) {
+          note.textContent = 'End date and time must be after the start.';
+          return;
+        }
         note.textContent = 'Creating event...';
         supabaseInsert('events', {
           host_user_id: authUser.id,
           title: name,
+          host_name: hostName || null,
+          description: description || null,
+          location_name: locationName || null,
+          address: address || null,
           city,
-          starts_at: `${date}T18:00:00`,
+          state: stateName || null,
+          event_url: normalizedEventUrl,
+          starts_at: startsAt,
+          ends_at: endsAt,
         })
           .then(async rows => {
             const saved = rows[0];
@@ -7247,6 +7412,9 @@
             selectedDate = date;
             form.reset();
             dateInput.value = date;
+            if (startTimeInput) startTimeInput.value = startTime || '18:00';
+            if (endDateInput) endDateInput.value = '';
+            if (endTimeInput) endTimeInput.value = '';
             note.textContent = 'Event created.';
             await loadLiveEvents();
           })
@@ -7347,18 +7515,24 @@
         renderEventSuite();
       });
 
-      if (dateInput && !dateInput.value) dateInput.value = '2026-06-28';
+      if (dateInput && !dateInput.value) dateInput.value = dateToIso(new Date());
+      if (startTimeInput && !startTimeInput.value) startTimeInput.value = '18:00';
       renderEventSuite();
 
       async function loadLiveEvents() {
-        if (!isAuthenticated()) {
-          liveLoadState = 'locked';
-          renderEventSuite();
-          return;
-        }
         try {
-          const headers = await authHeaders();
-          const eventFields = 'id,title,description,location_name,city,state,event_url,starts_at,ends_at,host_user_id';
+          let headers = publicHeaders();
+          let signedInForEvents = false;
+          if (isAuthenticated()) {
+            try {
+              headers = await authHeaders();
+              signedInForEvents = true;
+            } catch {
+              clearAuthSession();
+              renderAuthState('Your session expired. Public events are still visible.');
+            }
+          }
+          const eventFields = 'id,title,host_name,description,location_name,address,city,state,event_url,starts_at,ends_at,host_user_id';
           const [eventsResponse, rsvpsResponse] = await Promise.all([
             fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/rest/v1/events?select=${eventFields}&order=starts_at.asc`, { headers }),
             fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/rest/v1/event_rsvps?select=event_id,user_id,status`, { headers }),
@@ -7368,12 +7542,12 @@
 
           const liveRows = await eventsResponse.json();
           const rsvpRows = rsvpsResponse.ok ? await rsvpsResponse.json() : [];
-          liveUserRsvps = rsvpRows
+          liveUserRsvps = signedInForEvents ? rsvpRows
             .filter(row => row.user_id === authUser?.id)
             .reduce((items, row) => {
               items[row.event_id] = row.status;
               return items;
-            }, {});
+            }, {}) : {};
           const rsvpCounts = rsvpRows.reduce((counts, row) => {
             counts[row.event_id] = counts[row.event_id] || { going: 0, interested: 0 };
             if (row.status === 'interested') counts[row.event_id].interested += 1;
