@@ -3146,20 +3146,23 @@
 
     body:not(.web-app-mode) .hero {
       min-height: auto;
+      align-items: center;
       justify-content: center;
-      padding: 64px 24px 68px;
+      padding: 64px 24px 70px;
+      text-align: center;
       background:
-        linear-gradient(90deg, rgba(8,10,13,0.98) 0%, rgba(8,10,13,0.82) 45%, rgba(8,10,13,0.52) 100%),
-        linear-gradient(0deg, rgba(8,10,13,0.98) 0%, rgba(8,10,13,0.26) 46%, rgba(8,10,13,0.92) 100%),
+        linear-gradient(90deg, rgba(8,10,13,0.94) 0%, rgba(8,10,13,0.86) 50%, rgba(8,10,13,0.94) 100%),
+        linear-gradient(0deg, rgba(8,10,13,0.98) 0%, rgba(8,10,13,0.36) 46%, rgba(8,10,13,0.92) 100%),
         url("assets/boosthub-cover.png") center / cover no-repeat;
     }
 
     body:not(.web-app-mode) .hero-content {
-      width: min(1180px, 100%);
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.72fr);
-      gap: 18px 34px;
-      align-items: start;
+      width: min(920px, 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      text-align: center;
     }
 
     body:not(.web-app-mode) .hero-eyebrow,
@@ -3179,19 +3182,20 @@
     }
 
     body:not(.web-app-mode) .hero-title {
-      max-width: 720px;
+      max-width: 840px;
       font-size: clamp(48px, 5.8vw, 74px);
       line-height: 0.98;
-      margin-bottom: 6px;
+      margin: 0 auto 6px;
     }
 
     body:not(.web-app-mode) .hero-sub {
       max-width: 620px;
-      margin-bottom: 6px;
+      margin: 0 auto 6px;
     }
 
     body:not(.web-app-mode) .hero-proof-row {
       margin: 4px 0 4px;
+      justify-content: center;
     }
 
     body:not(.web-app-mode) .proof-pill,
@@ -3205,13 +3209,14 @@
 
     body:not(.web-app-mode) .hero-actions {
       margin: 8px 0 0;
+      justify-content: center;
     }
 
     body:not(.web-app-mode) .hero-side {
       grid-column: 2;
       grid-row: 1 / span 7;
       align-self: start;
-      display: flex;
+      display: none;
       flex-direction: column;
       gap: 12px;
       padding-top: 4px;
