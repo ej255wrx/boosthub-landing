@@ -1705,6 +1705,26 @@
       min-height: 20px;
     }
 
+    .auth-help-button {
+      min-height: 34px;
+      border: 0;
+      background: transparent;
+      color: #93c5fd;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      padding: 0;
+      text-align: left;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    .auth-help-button:hover {
+      color: #bbf7d0;
+    }
+
     .auth-lock-list {
       display: grid;
       gap: 8px;
@@ -3612,12 +3632,17 @@
             <div class="auth-mode-row" role="tablist" aria-label="Account access">
               <button class="auth-mode-button active" id="authModeSignIn" type="button" data-auth-mode="signin">Sign In</button>
               <button class="auth-mode-button" id="authModeSignUp" type="button" data-auth-mode="signup">Create Account</button>
+              <button class="auth-mode-button" id="authModeReset" type="button" data-auth-mode="reset">Reset Password</button>
             </div>
             <form class="auth-form" id="webAuthForm">
               <input class="component-control auth-field" id="webAuthName" type="text" placeholder="Display name" autocomplete="name" hidden />
               <input class="component-control" id="webAuthEmail" type="email" placeholder="Email" autocomplete="email" required />
               <input class="component-control" id="webAuthPassword" type="password" placeholder="Password" autocomplete="current-password" required minlength="6" />
+              <input class="component-control auth-field" id="webAuthOtp" type="text" placeholder="8-digit reset code" inputmode="numeric" autocomplete="one-time-code" hidden />
+              <input class="component-control auth-field" id="webAuthNewPassword" type="password" placeholder="New password" autocomplete="new-password" minlength="6" hidden />
+              <input class="component-control auth-field" id="webAuthConfirmPassword" type="password" placeholder="Confirm new password" autocomplete="new-password" minlength="6" hidden />
               <button class="action-button primary" id="webAuthSubmit" type="submit">Sign In</button>
+              <button class="auth-help-button" id="webAuthForgotButton" type="button">Forgot Password?</button>
               <div class="auth-message" id="webAuthMessage"></div>
             </form>
           </div>
@@ -5615,7 +5640,13 @@
         ? `Signed in${authUser?.email ? ` as ${authUser.email}` : ''}`
         : publicEventRoute ? 'Public event' : 'Account required';
       if (navButton) navButton.textContent = signedIn ? 'Sign Out' : 'Sign In';
-      if (authTitle) authTitle.textContent = currentAuthMode === 'signup' ? 'Create your account' : 'Sign in to continue';
+      if (authTitle) {
+        authTitle.textContent = currentAuthMode === 'signup'
+          ? 'Create your account'
+          : currentAuthMode === 'reset'
+            ? 'Reset your password'
+            : 'Sign in to continue';
+      }
       if (authCopy) authCopy.textContent = authRouteCopy();
       if (messageEl && message) messageEl.textContent = message;
     }
@@ -5635,29 +5666,80 @@
       window.dispatchEvent(new CustomEvent('boosthub-authenticated'));
     }
 
+    function authErrorMessage(error) {
+      const raw = String(error?.message || error || '').trim();
+      const normalized = raw.toLowerCase();
+      if (normalized.includes('invalid login')) {
+        return 'Invalid login. Check the email and password from the app, or use Reset Password to set a new password for web access.';
+      }
+      if (normalized.includes('email not confirmed') || normalized.includes('confirm')) {
+        return 'This account still needs email confirmation. Check your email, then try signing in again.';
+      }
+      if (normalized.includes('rate limit') || normalized.includes('too many')) {
+        return 'Too many attempts. Wait a minute, then try again or use Reset Password.';
+      }
+      return raw || 'Could not complete account request.';
+    }
+
+    async function authJsonRequest(path, body, options = {}) {
+      const headers = {
+        apikey: BOOSTHUB_PUBLIC_SUPABASE_KEY,
+        'Content-Type': 'application/json',
+      };
+      if (options.accessToken) headers.Authorization = `Bearer ${options.accessToken}`;
+      const response = await fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/auth/v1/${path}`, {
+        method: options.method || 'POST',
+        headers,
+        body: JSON.stringify(body),
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.msg || payload.error_description || payload.message || 'Account request failed');
+      return payload;
+    }
+
     function setupAuthGate() {
       const form = document.getElementById('webAuthForm');
       const email = document.getElementById('webAuthEmail');
       const password = document.getElementById('webAuthPassword');
       const name = document.getElementById('webAuthName');
+      const otp = document.getElementById('webAuthOtp');
+      const newPassword = document.getElementById('webAuthNewPassword');
+      const confirmPassword = document.getElementById('webAuthConfirmPassword');
       const submit = document.getElementById('webAuthSubmit');
       const message = document.getElementById('webAuthMessage');
+      const forgotButton = document.getElementById('webAuthForgotButton');
       const modeButtons = Array.from(document.querySelectorAll('[data-auth-mode]'));
       const navButton = document.getElementById('webAuthNavButton');
       const panel = document.getElementById('webAuthPanel');
       if (!form || !email || !password || !submit) return;
+      let resetCodeSent = false;
+
+      function showResetCodeFields(show) {
+        [otp, newPassword, confirmPassword].forEach(field => {
+          if (!field) return;
+          field.hidden = !show;
+          field.required = show;
+        });
+      }
 
       function setMode(mode) {
         currentAuthMode = mode;
+        resetCodeSent = false;
         modeButtons.forEach(button => button.classList.toggle('active', button.dataset.authMode === mode));
         if (name) name.hidden = mode !== 'signup';
+        if (name) name.required = false;
+        password.hidden = mode === 'reset';
+        password.required = mode !== 'reset';
         password.autocomplete = mode === 'signup' ? 'new-password' : 'current-password';
-        submit.textContent = mode === 'signup' ? 'Create Account' : 'Sign In';
+        showResetCodeFields(false);
+        if (forgotButton) forgotButton.hidden = mode !== 'signin';
+        submit.textContent = mode === 'signup' ? 'Create Account' : mode === 'reset' ? 'Send Reset Code' : 'Sign In';
         if (message) message.textContent = '';
         renderAuthState();
       }
 
       modeButtons.forEach(button => button.addEventListener('click', () => setMode(button.dataset.authMode)));
+      forgotButton?.addEventListener('click', () => setMode('reset'));
 
       navButton?.addEventListener('click', () => {
         if (isAuthenticated()) {
@@ -5674,7 +5756,58 @@
         const emailValue = email.value.trim();
         const passwordValue = password.value;
         const displayName = name?.value.trim() || '';
-        if (!emailValue || !passwordValue) return;
+        if (!emailValue) return;
+
+        if (currentAuthMode === 'reset') {
+          submit.disabled = true;
+          try {
+            if (!resetCodeSent) {
+              if (message) message.textContent = 'Sending reset code...';
+              await authJsonRequest('recover', { email: emailValue });
+              resetCodeSent = true;
+              showResetCodeFields(true);
+              submit.textContent = 'Update Password';
+              if (message) message.textContent = 'Check your email for the reset code, then enter your new password here.';
+              otp?.focus();
+              return;
+            }
+
+            const resetToken = otp?.value.trim() || '';
+            const nextPassword = newPassword?.value || '';
+            const confirmedPassword = confirmPassword?.value || '';
+            if (!resetToken) throw new Error('Enter the reset code from your email.');
+            if (nextPassword.length < 6) throw new Error('New password must be at least 6 characters.');
+            if (nextPassword !== confirmedPassword) throw new Error('New passwords do not match.');
+            if (message) message.textContent = 'Updating password...';
+
+            const payload = await authJsonRequest('verify', {
+              email: emailValue,
+              token: resetToken,
+              type: 'recovery',
+            });
+            const nextSession = normalizeAuthSession(payload);
+            if (!nextSession?.access_token) throw new Error('Reset code accepted, but no session was returned. Try signing in again.');
+            await authJsonRequest('user', { password: nextPassword }, {
+              method: 'PUT',
+              accessToken: nextSession.access_token,
+            });
+            saveAuthSession(nextSession);
+            await fetchAuthUser();
+            password.value = '';
+            if (newPassword) newPassword.value = '';
+            if (confirmPassword) confirmPassword.value = '';
+            if (otp) otp.value = '';
+            renderAuthState('Password updated. You are signed in.');
+            dispatchAuthReady();
+          } catch (error) {
+            if (message) message.textContent = authErrorMessage(error);
+          } finally {
+            submit.disabled = false;
+          }
+          return;
+        }
+
+        if (!passwordValue) return;
 
         submit.disabled = true;
         if (message) message.textContent = currentAuthMode === 'signup' ? 'Creating account...' : 'Signing in...';
@@ -5707,7 +5840,7 @@
           renderAuthState('Signed in.');
           dispatchAuthReady();
         } catch (error) {
-          if (message) message.textContent = error.message || 'Could not complete account request.';
+          if (message) message.textContent = authErrorMessage(error);
         } finally {
           submit.disabled = false;
         }
