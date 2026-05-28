@@ -19,6 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.99.0/dist/umd/supabase.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -3636,8 +3637,8 @@
             </div>
             <form class="auth-form" id="webAuthForm">
               <input class="component-control auth-field" id="webAuthName" type="text" placeholder="Display name" autocomplete="name" hidden />
-              <input class="component-control" id="webAuthEmail" type="email" placeholder="Email" autocomplete="email" required />
-              <input class="component-control" id="webAuthPassword" type="password" placeholder="Password" autocomplete="current-password" required minlength="6" />
+              <input class="component-control" id="webAuthEmail" type="email" placeholder="Email" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" required />
+              <input class="component-control" id="webAuthPassword" type="password" placeholder="Password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" required minlength="6" />
               <input class="component-control auth-field" id="webAuthOtp" type="text" placeholder="8-digit reset code" inputmode="numeric" autocomplete="one-time-code" hidden />
               <input class="component-control auth-field" id="webAuthNewPassword" type="password" placeholder="New password" autocomplete="new-password" minlength="6" hidden />
               <input class="component-control auth-field" id="webAuthConfirmPassword" type="password" placeholder="Confirm new password" autocomplete="new-password" minlength="6" hidden />
@@ -5121,6 +5122,27 @@
     const APP_STORE_URL = 'https://apps.apple.com/us/app/id6761749887';
     const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.boosthubllc.app';
     const routeState = getInitialRouteState();
+    let boosthubSupabaseClient = null;
+
+    function getBoostHubSupabaseClient() {
+      if (boosthubSupabaseClient) return boosthubSupabaseClient;
+      if (!window.supabase?.createClient) {
+        throw new Error('Auth client could not load. Refresh the page and try again.');
+      }
+      boosthubSupabaseClient = window.supabase.createClient(
+        BOOSTHUB_PUBLIC_SUPABASE_URL,
+        BOOSTHUB_PUBLIC_SUPABASE_KEY,
+        {
+          auth: {
+            autoRefreshToken: false,
+            detectSessionInUrl: false,
+            persistSession: false,
+            flowType: 'pkce',
+          },
+        }
+      );
+      return boosthubSupabaseClient;
+    }
 
     function getInitialRouteState() {
       const params = new URLSearchParams(window.location.search);
@@ -5440,22 +5462,16 @@
       if (expiresAtMs && expiresAtMs - Date.now() > 60000) return authSession;
       if (!authSession.refresh_token) return authSession;
 
-      const response = await fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
-        method: 'POST',
-        headers: {
-          apikey: BOOSTHUB_PUBLIC_SUPABASE_KEY,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ refresh_token: authSession.refresh_token }),
+      const { data, error } = await getBoostHubSupabaseClient().auth.refreshSession({
+        refresh_token: authSession.refresh_token,
       });
 
-      if (!response.ok) {
+      if (error || !data?.session) {
         clearAuthSession();
-        throw new Error('Session expired');
+        throw new Error(error?.message || 'Session expired');
       }
 
-      const payload = await response.json();
-      saveAuthSession(payload);
+      saveAuthSession(data.session);
       return authSession;
     }
 
@@ -5670,31 +5686,15 @@
       const raw = String(error?.message || error || '').trim();
       const normalized = raw.toLowerCase();
       if (normalized.includes('invalid login')) {
-        return 'Invalid login. Check the email and password from the app, or use Reset Password to set a new password for web access.';
+        return 'Invalid login. Check the email and password, or use Forgot Password if you need a reset.';
       }
       if (normalized.includes('email not confirmed') || normalized.includes('confirm')) {
         return 'This account still needs email confirmation. Check your email, then try signing in again.';
       }
       if (normalized.includes('rate limit') || normalized.includes('too many')) {
-        return 'Too many attempts. Wait a minute, then try again or use Reset Password.';
+        return 'Too many attempts. Wait a minute, then try again.';
       }
       return raw || 'Could not complete account request.';
-    }
-
-    async function authJsonRequest(path, body, options = {}) {
-      const headers = {
-        apikey: BOOSTHUB_PUBLIC_SUPABASE_KEY,
-        'Content-Type': 'application/json',
-      };
-      if (options.accessToken) headers.Authorization = `Bearer ${options.accessToken}`;
-      const response = await fetch(`${BOOSTHUB_PUBLIC_SUPABASE_URL}/auth/v1/${path}`, {
-        method: options.method || 'POST',
-        headers,
-        body: JSON.stringify(body),
-      });
-      const payload = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(payload.msg || payload.error_description || payload.message || 'Account request failed');
-      return payload;
     }
 
     function setupAuthGate() {
@@ -5763,7 +5763,8 @@
           try {
             if (!resetCodeSent) {
               if (message) message.textContent = 'Sending reset code...';
-              await authJsonRequest('recover', { email: emailValue });
+              const { error } = await getBoostHubSupabaseClient().auth.resetPasswordForEmail(emailValue);
+              if (error) throw error;
               resetCodeSent = true;
               showResetCodeFields(true);
               submit.textContent = 'Update Password';
@@ -5780,17 +5781,22 @@
             if (nextPassword !== confirmedPassword) throw new Error('New passwords do not match.');
             if (message) message.textContent = 'Updating password...';
 
-            const payload = await authJsonRequest('verify', {
+            const verifyResult = await getBoostHubSupabaseClient().auth.verifyOtp({
               email: emailValue,
               token: resetToken,
               type: 'recovery',
             });
-            const nextSession = normalizeAuthSession(payload);
+            if (verifyResult.error) throw verifyResult.error;
+            const nextSession = normalizeAuthSession(verifyResult.data?.session);
             if (!nextSession?.access_token) throw new Error('Reset code accepted, but no session was returned. Try signing in again.');
-            await authJsonRequest('user', { password: nextPassword }, {
-              method: 'PUT',
-              accessToken: nextSession.access_token,
+            const client = getBoostHubSupabaseClient();
+            const setSessionResult = await client.auth.setSession({
+              access_token: nextSession.access_token,
+              refresh_token: nextSession.refresh_token,
             });
+            if (setSessionResult.error) throw setSessionResult.error;
+            const updateResult = await client.auth.updateUser({ password: nextPassword });
+            if (updateResult.error) throw updateResult.error;
             saveAuthSession(nextSession);
             await fetchAuthUser();
             password.value = '';
@@ -5813,24 +5819,20 @@
         if (message) message.textContent = currentAuthMode === 'signup' ? 'Creating account...' : 'Signing in...';
 
         try {
-          const endpoint = currentAuthMode === 'signup'
-            ? `${BOOSTHUB_PUBLIC_SUPABASE_URL}/auth/v1/signup`
-            : `${BOOSTHUB_PUBLIC_SUPABASE_URL}/auth/v1/token?grant_type=password`;
-          const body = currentAuthMode === 'signup'
-            ? { email: emailValue, password: passwordValue, data: { display_name: displayName || emailValue.split('@')[0] } }
-            : { email: emailValue, password: passwordValue };
-          const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-              apikey: BOOSTHUB_PUBLIC_SUPABASE_KEY,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(body),
-          });
-          const payload = await response.json().catch(() => ({}));
-          if (!response.ok) throw new Error(payload.msg || payload.error_description || payload.message || 'Account request failed');
+          const client = getBoostHubSupabaseClient();
+          const result = currentAuthMode === 'signup'
+            ? await client.auth.signUp({
+              email: emailValue,
+              password: passwordValue,
+              options: { data: { display_name: displayName || emailValue.split('@')[0] } },
+            })
+            : await client.auth.signInWithPassword({
+              email: emailValue,
+              password: passwordValue,
+            });
+          if (result.error) throw result.error;
 
-          if (!saveAuthSession(payload)) {
+          if (!saveAuthSession(result.data?.session)) {
             setMode('signin');
             if (message) message.textContent = 'Account created. Check your email, then sign in here.';
             return;
