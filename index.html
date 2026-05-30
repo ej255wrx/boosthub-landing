@@ -2140,6 +2140,56 @@
       margin-top: 14px;
     }
 
+    .map-media-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .map-media-image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      background: #111827;
+      object-fit: cover;
+    }
+
+    .track-outline-card {
+      border: 1px solid rgba(94,234,212,0.24);
+      background: rgba(15,23,42,0.72);
+      border-radius: 10px;
+      padding: 10px;
+      margin: 12px 0;
+    }
+
+    .track-outline-label {
+      color: #5eead4;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .track-outline-svg {
+      display: block;
+      width: 100%;
+      height: 118px;
+      background: #101117;
+      border-radius: 8px;
+    }
+
+    .map-media-credit {
+      color: #9ca3af;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.5;
+      margin-top: 8px;
+    }
+
     .action-button {
       min-height: 38px;
       border: 1px solid rgba(59,130,246,0.42);
@@ -3925,6 +3975,7 @@
           </div>
           <div class="map-main">
             <div class="web-map-canvas is-empty" id="tracksMapCanvas">Track map loads after track locations are available.</div>
+            <article class="functional-card location-detail" id="tracksLocationDetail"></article>
             <div class="track-side">
             <div class="track-time-grid" id="trackTimesResults"></div>
             </div>
@@ -6109,6 +6160,60 @@
     let liveTrackTimes = [];
     let selectedMapLocationId = routeState.trackId || '';
     const mapInstances = {};
+    const MAP_LOCATION_SELECT_BASIC = 'id,name,category,address,city,state,country,latitude,longitude,description,website_url,is_public,created_at';
+    const MAP_LOCATION_SELECT_WITH_MEDIA = `${MAP_LOCATION_SELECT_BASIC},image_urls,track_outline_svg_path,media_credit,media_source_url`;
+
+    function normalizeMapImageUrls(location) {
+      return (location?.image_urls || [])
+        .map(url => String(url || '').trim())
+        .filter(url => /^https?:\/\//i.test(url))
+        .slice(0, 4);
+    }
+
+    function sanitizeTrackOutlinePath(value) {
+      return String(value || '').replace(/[^MmLlHhVvCcSsQqTtAaZz0-9,.\-\s]/g, '').trim();
+    }
+
+    function renderTrackOutline(location) {
+      const path = sanitizeTrackOutlinePath(location?.track_outline_svg_path);
+      if (!path) return '';
+      return `
+        <div class="track-outline-card">
+          <div class="track-outline-label">Course Outline</div>
+          <svg class="track-outline-svg" viewBox="0 0 120 90" role="img" aria-label="${escapeText(location.name)} course outline">
+            <path d="${path}" fill="none" stroke="rgba(15,23,42,0.92)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="${path}" fill="none" stroke="#5eead4" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+      `;
+    }
+
+    function renderLocationMediaHtml(location) {
+      const mediaImages = normalizeMapImageUrls(location).map(url => `
+        <img class="map-media-image" src="${escapeText(url)}" alt="${escapeText(location.name)} track photo" loading="lazy">
+      `).join('');
+      return `
+        ${mediaImages ? `<div class="map-media-strip">${mediaImages}</div>` : ''}
+        ${renderTrackOutline(location)}
+        ${location.media_credit ? `<p class="map-media-credit">${escapeText(location.media_credit)}</p>` : ''}
+      `;
+    }
+
+    async function loadBoostMapLocations() {
+      try {
+        return await supabaseSelect('boostmap_locations', {
+          select: MAP_LOCATION_SELECT_WITH_MEDIA,
+          order: 'name.asc',
+          limit: '250',
+        });
+      } catch {
+        return supabaseSelect('boostmap_locations', {
+          select: MAP_LOCATION_SELECT_BASIC,
+          order: 'name.asc',
+          limit: '250',
+        });
+      }
+    }
 
     function ensureLeafletMap(elementId) {
       const element = document.getElementById(elementId);
@@ -6855,6 +6960,7 @@
           <div class="profile-label">${escapeText(categoryLabel(location.category))}</div>
           <h4 class="profile-name">${escapeText(location.name)}</h4>
           <p class="public-event-meta">${escapeText(locationLine(location))}</p>
+          ${renderLocationMediaHtml(location)}
           ${location.address ? `<p class="web-row-meta">${escapeText(location.address)}</p>` : ''}
           ${location.description ? `<p class="public-event-copy">${escapeText(location.description).slice(0, 520)}</p>` : ''}
           <div class="profile-stat-grid">
@@ -6873,6 +6979,7 @@
           </div>
           <div class="listing-actions">
             ${location.website_url ? `<a class="action-button primary" href="${escapeText(location.website_url)}" target="_blank" rel="noopener">Official Website</a>` : ''}
+            ${location.media_source_url ? `<a class="action-button" href="${escapeText(location.media_source_url)}" target="_blank" rel="noopener">Media Source</a>` : ''}
             <a class="action-button orange" href="${escapeText(externalMapUrl(location))}" target="_blank" rel="noopener">Open Map</a>
             <button class="action-button" type="button" data-map-track-times="${escapeText(location.id)}">Track Times</button>
             <a class="action-button" href="boosthub://map/${encodeURIComponent(location.id)}">Open In App</a>
@@ -6918,11 +7025,7 @@
         if (!isAuthenticated()) return;
         results.innerHTML = '<div class="web-empty">Loading Boost Map...</div>';
         try {
-          liveMapLocations = await supabaseSelect('boostmap_locations', {
-            select: 'id,name,category,address,city,state,country,latitude,longitude,description,website_url,is_public,created_at',
-            order: 'name.asc',
-            limit: '250',
-          });
+          liveMapLocations = await loadBoostMapLocations();
           renderMap();
           window.dispatchEvent(new CustomEvent('boosthub-map-loaded'));
         } catch {
@@ -6962,6 +7065,7 @@
       const times = document.getElementById('trackTimesResults');
       const note = document.getElementById('tracksNote');
       const canvas = document.getElementById('tracksMapCanvas');
+      const trackDetail = document.getElementById('tracksLocationDetail');
       const submitForm = document.getElementById('trackTimeForm');
       const submitBuild = document.getElementById('trackSubmitBuild');
       const submitLocation = document.getElementById('trackSubmitLocation');
@@ -6991,6 +7095,29 @@
       function resultVehicle(result) {
         const vehicle = result.vehicles || {};
         return buildDisplayName(vehicle);
+      }
+
+      function renderTrackDetail(location) {
+        if (!trackDetail) return;
+        if (!location) {
+          trackDetail.innerHTML = '<div class="web-empty">Select a track to view location media and details.</div>';
+          return;
+        }
+        const count = liveTrackTimes.filter(result => result.boostmap_location_id === location.id).length;
+        trackDetail.innerHTML = `
+          <div class="profile-label">${escapeText(labelize(location.category || 'track'))}</div>
+          <h4 class="profile-name">${escapeText(location.name)}</h4>
+          <p class="public-event-meta">${escapeText(formatLocation([location.city, location.state, location.country]))}</p>
+          ${renderLocationMediaHtml(location)}
+          ${location.address ? `<p class="web-row-meta">${escapeText(location.address)}</p>` : ''}
+          ${location.description ? `<p class="public-event-copy">${escapeText(location.description).slice(0, 420)}</p>` : ''}
+          <div class="listing-actions">
+            ${location.website_url ? `<a class="action-button primary" href="${escapeText(location.website_url)}" target="_blank" rel="noopener">Official Website</a>` : ''}
+            ${location.media_source_url ? `<a class="action-button" href="${escapeText(location.media_source_url)}" target="_blank" rel="noopener">Media Source</a>` : ''}
+            <a class="action-button orange" href="${escapeText(externalMapUrl(location))}" target="_blank" rel="noopener">Open Map</a>
+            <a class="action-button" href="boosthub://map/${encodeURIComponent(location.id)}">${count} Time${count === 1 ? '' : 's'} In App</a>
+          </div>
+        `;
       }
 
       function hydrateTrackSubmitOptions() {
@@ -7062,6 +7189,11 @@
           history.replaceState(null, '', `/tracks/${encodeURIComponent(id)}`);
           renderTracks();
         });
+        const selectedTrack =
+          locationFilter.value === 'All'
+            ? visibleTracks[0] || null
+            : tracks.find(location => location.id === locationFilter.value) || null;
+        renderTrackDetail(selectedTrack);
       }
 
       async function loadTrackData() {
@@ -7069,11 +7201,7 @@
         list.innerHTML = '<div class="web-empty">Loading tracks...</div>';
         try {
           if (!liveMapLocations.length) {
-            liveMapLocations = await supabaseSelect('boostmap_locations', {
-              select: 'id,name,category,address,city,state,country,latitude,longitude,description,website_url,is_public,created_at',
-              order: 'name.asc',
-              limit: '250',
-            });
+            liveMapLocations = await loadBoostMapLocations();
           }
           liveTrackTimes = await supabaseSelect('build_dragy_results', {
             select: 'id,result_type,elapsed_seconds,trap_speed_mph,boostmap_location_id,verified,created_at,vehicles(id,build_name,name,year,make,model,owner_name,verified)',
