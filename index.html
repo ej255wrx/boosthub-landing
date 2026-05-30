@@ -6162,9 +6162,41 @@
     const mapInstances = {};
     const MAP_LOCATION_SELECT_BASIC = 'id,name,category,address,city,state,country,latitude,longitude,description,website_url,is_public,created_at';
     const MAP_LOCATION_SELECT_WITH_MEDIA = `${MAP_LOCATION_SELECT_BASIC},image_urls,track_outline_svg_path,media_credit,media_source_url`;
+    const SEEDED_TRACK_MEDIA = {
+      'road america|elkhart lake|united states': {
+        image_urls: ['https://commons.wikimedia.org/wiki/Special:FilePath/10.27.07_Road_America_-_frontstretch,_pit_lane.jpg'],
+        track_outline_svg_path: 'M21 58 C27 40 38 26 55 24 C70 22 80 35 73 47 C68 56 82 65 96 57 C106 52 109 62 101 69 C88 80 64 72 53 60 C42 50 31 66 21 58',
+        media_credit: 'Photo: Royal Broil, CC BY-SA 2.0, via Wikimedia Commons. Outline: BoostHub generated silhouette.',
+        media_source_url: 'https://commons.wikimedia.org/wiki/File:10.27.07_Road_America_-_frontstretch,_pit_lane.jpg',
+      },
+      'weathertech raceway laguna seca|monterey|united states': {
+        image_urls: ['https://commons.wikimedia.org/wiki/Special:FilePath/The_Corkscrew.jpg'],
+        track_outline_svg_path: 'M28 26 C42 18 67 18 82 29 C94 38 93 53 80 59 C66 66 55 54 63 44 C70 35 56 31 44 38 C35 43 27 38 28 26',
+        media_credit: 'Photo: Stuart Seeger, CC BY 2.0, via Wikimedia Commons. Outline: BoostHub generated silhouette.',
+        media_source_url: 'https://commons.wikimedia.org/wiki/File:The_Corkscrew.jpg',
+      },
+      'circuit of the americas|austin|united states': {
+        image_urls: ['https://commons.wikimedia.org/wiki/Special:FilePath/United_states_grand_prix_2013.jpg'],
+        track_outline_svg_path: 'M13 24 C31 17 46 17 63 23 L104 28 C111 29 112 39 103 42 L76 46 C63 48 67 58 83 60 L100 62 C111 64 108 75 95 72 L59 66 C45 64 38 55 44 46 L52 36 C42 31 28 33 13 24',
+        media_credit: 'Photo: Larry D. Moore, CC BY 4.0, via Wikimedia Commons. Outline: BoostHub generated silhouette.',
+        media_source_url: 'https://commons.wikimedia.org/wiki/File:United_states_grand_prix_2013.jpg',
+      },
+    };
+
+    function seededTrackMedia(location) {
+      const key = [location?.name, location?.city, location?.country]
+        .map(part => String(part || '').trim().toLowerCase())
+        .join('|');
+      return SEEDED_TRACK_MEDIA[key] || {};
+    }
+
+    function mediaField(location, field) {
+      return location?.[field] || seededTrackMedia(location)[field] || '';
+    }
 
     function normalizeMapImageUrls(location) {
-      return (location?.image_urls || [])
+      const imageUrls = location?.image_urls?.length ? location.image_urls : seededTrackMedia(location).image_urls;
+      return (imageUrls || [])
         .map(url => String(url || '').trim())
         .filter(url => /^https?:\/\//i.test(url))
         .slice(0, 4);
@@ -6175,7 +6207,7 @@
     }
 
     function renderTrackOutline(location) {
-      const path = sanitizeTrackOutlinePath(location?.track_outline_svg_path);
+      const path = sanitizeTrackOutlinePath(mediaField(location, 'track_outline_svg_path'));
       if (!path) return '';
       return `
         <div class="track-outline-card">
@@ -6195,7 +6227,7 @@
       return `
         ${mediaImages ? `<div class="map-media-strip">${mediaImages}</div>` : ''}
         ${renderTrackOutline(location)}
-        ${location.media_credit ? `<p class="map-media-credit">${escapeText(location.media_credit)}</p>` : ''}
+        ${mediaField(location, 'media_credit') ? `<p class="map-media-credit">${escapeText(mediaField(location, 'media_credit'))}</p>` : ''}
       `;
     }
 
@@ -6979,7 +7011,7 @@
           </div>
           <div class="listing-actions">
             ${location.website_url ? `<a class="action-button primary" href="${escapeText(location.website_url)}" target="_blank" rel="noopener">Official Website</a>` : ''}
-            ${location.media_source_url ? `<a class="action-button" href="${escapeText(location.media_source_url)}" target="_blank" rel="noopener">Media Source</a>` : ''}
+            ${mediaField(location, 'media_source_url') ? `<a class="action-button" href="${escapeText(mediaField(location, 'media_source_url'))}" target="_blank" rel="noopener">Media Source</a>` : ''}
             <a class="action-button orange" href="${escapeText(externalMapUrl(location))}" target="_blank" rel="noopener">Open Map</a>
             <button class="action-button" type="button" data-map-track-times="${escapeText(location.id)}">Track Times</button>
             <a class="action-button" href="boosthub://map/${encodeURIComponent(location.id)}">Open In App</a>
@@ -7113,7 +7145,7 @@
           ${location.description ? `<p class="public-event-copy">${escapeText(location.description).slice(0, 420)}</p>` : ''}
           <div class="listing-actions">
             ${location.website_url ? `<a class="action-button primary" href="${escapeText(location.website_url)}" target="_blank" rel="noopener">Official Website</a>` : ''}
-            ${location.media_source_url ? `<a class="action-button" href="${escapeText(location.media_source_url)}" target="_blank" rel="noopener">Media Source</a>` : ''}
+            ${mediaField(location, 'media_source_url') ? `<a class="action-button" href="${escapeText(mediaField(location, 'media_source_url'))}" target="_blank" rel="noopener">Media Source</a>` : ''}
             <a class="action-button orange" href="${escapeText(externalMapUrl(location))}" target="_blank" rel="noopener">Open Map</a>
             <a class="action-button" href="boosthub://map/${encodeURIComponent(location.id)}">${count} Time${count === 1 ? '' : 's'} In App</a>
           </div>
