@@ -2174,12 +2174,17 @@
       text-transform: uppercase;
     }
 
-    .track-outline-svg {
+    .track-outline-svg,
+    .track-outline-image {
       display: block;
       width: 100%;
       height: 118px;
       background: #101117;
       border-radius: 8px;
+    }
+
+    .track-outline-image {
+      object-fit: contain;
     }
 
     .map-media-credit {
@@ -6161,24 +6166,27 @@
     let selectedMapLocationId = routeState.trackId || '';
     const mapInstances = {};
     const MAP_LOCATION_SELECT_BASIC = 'id,name,category,address,city,state,country,latitude,longitude,description,website_url,is_public,created_at';
-    const MAP_LOCATION_SELECT_WITH_MEDIA = `${MAP_LOCATION_SELECT_BASIC},image_urls,track_outline_svg_path,media_credit,media_source_url`;
+    const MAP_LOCATION_SELECT_WITH_MEDIA = `${MAP_LOCATION_SELECT_BASIC},image_urls,track_outline_svg_path,track_outline_image_url,track_outline_source_url,media_credit,media_source_url`;
     const SEEDED_TRACK_MEDIA = {
       'road america|elkhart lake|united states': {
         image_urls: ['https://commons.wikimedia.org/wiki/Special:FilePath/10.27.07_Road_America_-_frontstretch,_pit_lane.jpg'],
-        track_outline_svg_path: 'M21 58 C27 40 38 26 55 24 C70 22 80 35 73 47 C68 56 82 65 96 57 C106 52 109 62 101 69 C88 80 64 72 53 60 C42 50 31 66 21 58',
-        media_credit: 'Photo: Royal Broil, CC BY-SA 2.0, via Wikimedia Commons. Outline: BoostHub generated silhouette.',
+        track_outline_image_url: 'https://commons.wikimedia.org/wiki/Special:FilePath/Road_America.svg',
+        track_outline_source_url: 'https://commons.wikimedia.org/wiki/File:Road_America.svg',
+        media_credit: 'Photo: Royal Broil, CC BY-SA 2.0, via Wikimedia Commons. Track outline: Road America.svg by Will Pittenger, CC BY-SA 3.0, via Wikimedia Commons.',
         media_source_url: 'https://commons.wikimedia.org/wiki/File:10.27.07_Road_America_-_frontstretch,_pit_lane.jpg',
       },
       'weathertech raceway laguna seca|monterey|united states': {
         image_urls: ['https://commons.wikimedia.org/wiki/Special:FilePath/The_Corkscrew.jpg'],
-        track_outline_svg_path: 'M28 26 C42 18 67 18 82 29 C94 38 93 53 80 59 C66 66 55 54 63 44 C70 35 56 31 44 38 C35 43 27 38 28 26',
-        media_credit: 'Photo: Stuart Seeger, CC BY 2.0, via Wikimedia Commons. Outline: BoostHub generated silhouette.',
+        track_outline_image_url: 'https://commons.wikimedia.org/wiki/Special:FilePath/Laguna_Seca.svg',
+        track_outline_source_url: 'https://commons.wikimedia.org/wiki/File:Laguna_Seca.svg',
+        media_credit: 'Photo: Stuart Seeger, CC BY 2.0, via Wikimedia Commons. Track outline: Laguna Seca.svg by Will Pittenger, CC BY-SA 3.0, via Wikimedia Commons.',
         media_source_url: 'https://commons.wikimedia.org/wiki/File:The_Corkscrew.jpg',
       },
       'circuit of the americas|austin|united states': {
         image_urls: ['https://commons.wikimedia.org/wiki/Special:FilePath/United_states_grand_prix_2013.jpg'],
-        track_outline_svg_path: 'M13 24 C31 17 46 17 63 23 L104 28 C111 29 112 39 103 42 L76 46 C63 48 67 58 83 60 L100 62 C111 64 108 75 95 72 L59 66 C45 64 38 55 44 46 L52 36 C42 31 28 33 13 24',
-        media_credit: 'Photo: Larry D. Moore, CC BY 4.0, via Wikimedia Commons. Outline: BoostHub generated silhouette.',
+        track_outline_image_url: 'https://commons.wikimedia.org/wiki/Special:FilePath/Austin_Formula_One_circuit.svg',
+        track_outline_source_url: 'https://commons.wikimedia.org/wiki/File:Austin_Formula_One_circuit.svg',
+        media_credit: 'Photo: Larry D. Moore, CC BY 4.0, via Wikimedia Commons. Track outline: Austin Formula One circuit.svg by Francesco Betti Sorbelli, CC BY-SA 3.0/GFDL, via Wikimedia Commons.',
         media_source_url: 'https://commons.wikimedia.org/wiki/File:United_states_grand_prix_2013.jpg',
       },
     };
@@ -6206,16 +6214,26 @@
       return String(value || '').replace(/[^MmLlHhVvCcSsQqTtAaZz0-9,.\-\s]/g, '').trim();
     }
 
+    function normalizeMediaUrl(value) {
+      const url = String(value || '').trim();
+      return /^https?:\/\//i.test(url) ? url : '';
+    }
+
     function renderTrackOutline(location) {
+      const imageUrl = normalizeMediaUrl(mediaField(location, 'track_outline_image_url'));
       const path = sanitizeTrackOutlinePath(mediaField(location, 'track_outline_svg_path'));
-      if (!path) return '';
+      if (!imageUrl && !path) return '';
       return `
         <div class="track-outline-card">
           <div class="track-outline-label">Course Outline</div>
-          <svg class="track-outline-svg" viewBox="0 0 120 90" role="img" aria-label="${escapeText(location.name)} course outline">
+          ${imageUrl ? `
+            <img class="track-outline-image" src="${escapeText(imageUrl)}" alt="${escapeText(location.name)} course outline" loading="lazy">
+          ` : `
+            <svg class="track-outline-svg" viewBox="0 0 120 90" role="img" aria-label="${escapeText(location.name)} course outline">
             <path d="${path}" fill="none" stroke="rgba(15,23,42,0.92)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"></path>
             <path d="${path}" fill="none" stroke="#5eead4" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
+          `}
         </div>
       `;
     }
@@ -7012,6 +7030,7 @@
           <div class="listing-actions">
             ${location.website_url ? `<a class="action-button primary" href="${escapeText(location.website_url)}" target="_blank" rel="noopener">Official Website</a>` : ''}
             ${mediaField(location, 'media_source_url') ? `<a class="action-button" href="${escapeText(mediaField(location, 'media_source_url'))}" target="_blank" rel="noopener">Media Source</a>` : ''}
+            ${mediaField(location, 'track_outline_source_url') ? `<a class="action-button" href="${escapeText(mediaField(location, 'track_outline_source_url'))}" target="_blank" rel="noopener">Outline Source</a>` : ''}
             <a class="action-button orange" href="${escapeText(externalMapUrl(location))}" target="_blank" rel="noopener">Open Map</a>
             <button class="action-button" type="button" data-map-track-times="${escapeText(location.id)}">Track Times</button>
             <a class="action-button" href="boosthub://map/${encodeURIComponent(location.id)}">Open In App</a>
@@ -7146,6 +7165,7 @@
           <div class="listing-actions">
             ${location.website_url ? `<a class="action-button primary" href="${escapeText(location.website_url)}" target="_blank" rel="noopener">Official Website</a>` : ''}
             ${mediaField(location, 'media_source_url') ? `<a class="action-button" href="${escapeText(mediaField(location, 'media_source_url'))}" target="_blank" rel="noopener">Media Source</a>` : ''}
+            ${mediaField(location, 'track_outline_source_url') ? `<a class="action-button" href="${escapeText(mediaField(location, 'track_outline_source_url'))}" target="_blank" rel="noopener">Outline Source</a>` : ''}
             <a class="action-button orange" href="${escapeText(externalMapUrl(location))}" target="_blank" rel="noopener">Open Map</a>
             <a class="action-button" href="boosthub://map/${encodeURIComponent(location.id)}">${count} Time${count === 1 ? '' : 's'} In App</a>
           </div>
