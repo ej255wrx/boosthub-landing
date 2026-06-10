@@ -1,0 +1,8 @@
+# Dynamic build previews keep the public URL clean while Supabase renders per-build OG HTML.
+/build/:id  https://nnuhkqtsrrxubmsoqehr.supabase.co/functions/v1/share-build/:id  200
+/build/  id=:id  https://nnuhkqtsrrxubmsoqehr.supabase.co/functions/v1/share-build/:id  200!
+/build/  build=:id  https://nnuhkqtsrrxubmsoqehr.supabase.co/functions/v1/share-build/:id  200!
+
+# Public profile previews should render a real profile card without requiring login.
+/u/:username  https://nnuhkqtsrrxubmsoqehr.supabase.co/functions/v1/share-profile/:username  200
+/u/:username/  https://nnuhkqtsrrxubmsoqehr.supabase.co/functions/v1/share-profile/:username  200

@@ -1,224 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Open BoostHub Link</title>
-  <meta name="robots" content="noindex" />
-  <script>
-    (() => {
-      const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-      const routedOnWeb = [
-        /^\/app\/?$/,
-        /^\/web-app\/?$/,
-        /^\/workspace\/?$/,
-        /^\/events?\//,
-        /^\/builds?\//,
-        /^\/u\//,
-        /^\/profiles?\//,
-        /^\/groups?\//,
-        /^\/marketplace\//,
-        /^\/listings?\//,
-        /^\/tracks?\//,
-        /^\/map\//,
-      ].some(pattern => pattern.test(window.location.pathname));
-      if (!routedOnWeb) return;
-      const target = new URL("/", window.location.origin);
-      target.searchParams.set("route", currentPath);
-      window.location.replace(target.toString());
-    })();
-  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BoostHub</title>
+  <meta name="description" content="Open BoostHub to view shared car builds, events, profiles, and marketplace links.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BoostHub">
+  <meta property="og:title" content="BoostHub">
+  <meta property="og:description" content="Open BoostHub to view shared car builds, events, profiles, and marketplace links.">
+  <meta property="og:image" content="https://boosthubapp.com/og/boosthub-og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BoostHub">
+  <meta name="twitter:description" content="Open BoostHub to view shared car builds, events, profiles, and marketplace links.">
+  <meta name="twitter:image" content="https://boosthubapp.com/og/boosthub-og.png">
+  <meta name="apple-itunes-app" content="app-id=6761749887">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --black: #080a0d;
-      --panel: #10141c;
-      --panel-soft: #161b25;
-      --border: #283142;
-      --blue: #2563eb;
-      --blue-bright: #3b82f6;
-      --green: #22c55e;
-      --orange: #ff6a00;
-      --white: #f0f2f5;
-      --muted: #9ca3af;
-    }
-
+    :root { color-scheme: dark; }
     body {
+      margin: 0;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background:
-        linear-gradient(140deg, rgba(37,99,235,0.22), rgba(8,10,13,0.96) 48%, rgba(255,106,0,0.18)),
-        var(--black);
-      color: var(--white);
-      font-family: Arial, Helvetica, sans-serif;
-      padding: 22px;
-    }
-
-    main {
-      width: min(760px, 100%);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: rgba(16,20,28,0.94);
-      box-shadow: 0 24px 80px rgba(0,0,0,0.42);
-      padding: clamp(22px, 5vw, 42px);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-
-    .brand img {
-      width: 46px;
-      height: 46px;
-      border-radius: 10px;
-      object-fit: cover;
-    }
-
-    .brand-name {
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-    }
-
-    .brand-name span { color: var(--blue-bright); }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--green);
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-
-    h1 {
-      font-size: clamp(38px, 9vw, 72px);
-      line-height: 0.92;
-      letter-spacing: 0.01em;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-
-    p {
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.55;
-      max-width: 620px;
-    }
-
-    .actions {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 28px;
+      place-items: center;
+      padding: 24px;
+      background: #080a0d;
+      color: #f8fafc;
+      font-family: Arial, sans-serif;
     }
-
-    .button {
-      min-height: 58px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.14);
+    main {
+      width: min(560px, 100%);
+      border: 1px solid #243041;
+      border-radius: 16px;
+      background: #111827;
+      padding: 24px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .38);
+    }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    p { color: #cbd5e1; line-height: 1.5; }
+    a {
+      display: inline-flex;
+      margin: 12px 8px 0 0;
+      background: #2563eb;
       color: white;
       text-decoration: none;
-      font-size: 15px;
       font-weight: 800;
-      text-align: center;
-      padding: 14px 16px;
-      background: var(--panel-soft);
+      padding: 12px 16px;
+      border-radius: 10px;
     }
-
-    .button.primary {
-      grid-column: 1 / -1;
-      background: linear-gradient(135deg, var(--blue), #174ea6);
-      border-color: rgba(255,255,255,0.2);
-      font-size: 17px;
-    }
-
-    .button.apple { background: #111827; }
-    .button.android { background: #0f2a1d; border-color: rgba(34,197,94,0.32); }
-    .button.site { grid-column: 1 / -1; color: #bfdbfe; }
-
-    .path {
-      margin-top: 22px;
-      padding: 12px;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.05);
-      color: #cbd5e1;
-      font-size: 13px;
-      overflow-wrap: anywhere;
-    }
-
-    @media (max-width: 620px) {
-      body { align-items: stretch; padding: 14px; }
-      main {
-        min-height: calc(100vh - 28px);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-      .actions { grid-template-columns: 1fr; }
-      .button.primary, .button.site { grid-column: auto; }
-    }
+    a.secondary { background: #1f2937; color: #dbeafe; }
   </style>
 </head>
 <body>
   <main>
-    <div class="brand">
-      <img src="/assets/boosthub-logo-square.png" alt="" />
-      <div class="brand-name">Boost<span>Hub</span></div>
-    </div>
-
-    <div class="status">App link</div>
-    <h1>Open This In BoostHub</h1>
-    <p>
-      Shared build, event, marketplace, track, group, and profile links open on the BoostHub website after account sign-in.
-    </p>
-
-    <div class="actions">
-      <a id="open-app" class="button primary" href="boosthub://">Open in BoostHub App</a>
-      <a class="button apple" href="https://apps.apple.com/us/app/boosthub/id6761749887">App Store</a>
-      <a class="button android" href="https://play.google.com/store/apps/details?id=com.boosthubllc.app">Google Play</a>
-      <a class="button site" href="/">Go to BoostHub Website</a>
-    </div>
-
-    <div id="path" class="path"></div>
+    <h1>Open BoostHub</h1>
+    <p>This shared BoostHub link should open in the app. If it does not, use one of the links below.</p>
+    <a id="open-app" href="boosthub://">Open BoostHub</a>
+    <a class="secondary" href="https://apps.apple.com/us/app/boosthub/id6761749887">App Store</a>
+    <a class="secondary" href="https://play.google.com/store/apps/details?id=com.boosthubllc.app">Google Play</a>
   </main>
-
   <script>
-    const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-    const webRoutes = [
-      /^\/events?\//,
-      /^\/builds?\//,
-      /^\/u\//,
-      /^\/profiles?\//,
-      /^\/groups?\//,
-      /^\/marketplace\//,
-      /^\/listings?\//,
-      /^\/tracks?\//,
-      /^\/map\//,
-    ];
-    if (webRoutes.some(pattern => pattern.test(window.location.pathname))) {
-      window.location.replace(`/?route=${encodeURIComponent(currentPath)}`);
-    }
-    const appPath = currentPath.replace(/^\/+/, "");
-    const appUrl = appPath ? `boosthub://${appPath}` : "boosthub://";
-    const openAppLink = document.getElementById("open-app");
-    const pathLabel = document.getElementById("path");
+    (function () {
+      var path = window.location.pathname || "";
+      var match = path.match(/^\/(build|events|marketplace|u)\/([^/?#]+)/);
+      var deepLink = "boosthub://";
+      var shouldAutoOpen = false;
+      var shareFunctionBaseUrl = "https://nnuhkqtsrrxubmsoqehr.supabase.co/functions/v1";
 
-    openAppLink.href = appUrl;
-    pathLabel.textContent = currentPath && currentPath !== "/" ? `Requested link: ${currentPath}` : "";
+      function renderSharePreview(kind, id) {
+        var functionName = kind === "u" ? "share-profile" : kind === "build" ? "share-build" : "";
+        if (!functionName || !id) return false;
+
+        fetch(shareFunctionBaseUrl + "/" + functionName + "/" + encodeURIComponent(id))
+          .then(function (response) {
+            if (!response.ok) throw new Error("Share preview failed");
+            return response.text();
+          })
+          .then(function (html) {
+            document.open();
+            document.write(html);
+            document.close();
+          })
+          .catch(function () {
+            document.body.classList.add("fallback-ready");
+          });
+
+        return true;
+      }
+
+      if (match) {
+        var kind = match[1];
+        var id = decodeURIComponent(match[2]);
+        deepLink = "boosthub://" + kind + "/" + encodeURIComponent(id);
+
+        if (renderSharePreview(kind, id)) {
+          document.getElementById("open-app").href = deepLink;
+          return;
+        }
+
+        shouldAutoOpen = kind !== "u";
+      } else if (path === "/merch") {
+        deepLink = "boosthub://merch";
+        shouldAutoOpen = true;
+      }
+
+      document.getElementById("open-app").href = deepLink;
+
+      if (shouldAutoOpen && deepLink !== "boosthub://") {
+        setTimeout(function () {
+          window.location.href = deepLink;
+        }, 400);
+      }
+    })();
   </script>
 </body>
 </html>

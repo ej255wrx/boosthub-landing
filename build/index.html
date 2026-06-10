@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BoostHub Build</title>
+  <meta name="description" content="Open this BoostHub build profile in the BoostHub app.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BoostHub">
+  <meta property="og:title" content="BoostHub Build">
+  <meta property="og:description" content="Open this BoostHub build profile in the BoostHub app.">
+  <meta property="og:image" content="https://boosthubapp.com/og/boosthub-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BoostHub Build">
+  <meta name="twitter:description" content="Open this BoostHub build profile in the BoostHub app.">
+  <meta name="twitter:image" content="https://boosthubapp.com/og/boosthub-og.png">
+  <meta name="apple-itunes-app" content="app-id=6761749887">
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: #080a0d;
+      color: #f8fafc;
+      font-family: Arial, sans-serif;
+    }
+    main {
+      width: min(560px, 100%);
+      border: 1px solid #243041;
+      border-radius: 16px;
+      background: #111827;
+      padding: 24px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .38);
+    }
+    img {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    p { color: #cbd5e1; line-height: 1.5; }
+    a {
+      display: inline-flex;
+      margin: 12px 8px 0 0;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      padding: 12px 16px;
+      border-radius: 10px;
+    }
+    a.secondary { background: #1f2937; color: #dbeafe; }
+  </style>
+</head>
+<body>
+  <main>
+    <img src="/og/boosthub-og.png" alt="">
+    <h1>Open this build on BoostHub</h1>
+    <p>This shared build opens in the BoostHub app. If the app does not open automatically, use one of the links below.</p>
+    <a id="open-app" href="boosthub://">Open BoostHub</a>
+    <a class="secondary" href="https://apps.apple.com/us/app/boosthub/id6761749887">App Store</a>
+    <a class="secondary" href="https://play.google.com/store/apps/details?id=com.boosthubllc.app">Google Play</a>
+  </main>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var id = (params.get("id") || params.get("build") || "").trim();
+      var deepLink = id ? "boosthub://build/" + encodeURIComponent(id) : "boosthub://";
+      var userAgent = navigator.userAgent || "";
+      var storeFallback = /android/i.test(userAgent)
+        ? "https://play.google.com/store/apps/details?id=com.boosthubllc.app"
+        : /iphone|ipad|ipod/i.test(userAgent)
+          ? "https://apps.apple.com/us/app/boosthub/id6761749887"
+          : "";
+      var leftPage = false;
+      var openApp = document.getElementById("open-app");
+      openApp.href = deepLink;
+
+      function markLeftPage() {
+        leftPage = true;
+      }
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) markLeftPage();
+      });
+      window.addEventListener("pagehide", markLeftPage);
+
+      if (id) {
+        setTimeout(function () {
+          window.location.href = deepLink;
+        }, 400);
+
+        if (storeFallback) {
+          setTimeout(function () {
+            if (!leftPage && !document.hidden) {
+              window.location.href = storeFallback;
+            }
+          }, 1800);
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
