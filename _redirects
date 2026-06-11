@@ -1,4 +1,7 @@
 # Dynamic build previews keep the public URL clean while Supabase renders per-build OG HTML.
+/vendors  /vendors.html  200
+/vendors/  /vendors.html  200
+
 /build/:id  https://nnuhkqtsrrxubmsoqehr.supabase.co/functions/v1/share-build/:id  200
 /build/  id=:id  https://nnuhkqtsrrxubmsoqehr.supabase.co/functions/v1/share-build/:id  200!
 /build/  build=:id  https://nnuhkqtsrrxubmsoqehr.supabase.co/functions/v1/share-build/:id  200!
