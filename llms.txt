@@ -43,6 +43,13 @@ Useful topic coverage:
 - Car Community App for Builds, Events, Rankings, and Marketplace | BoostHub: https://boosthubapp.com/seo/car-community-app
 - Car Club App for Builds, Groups, and Events | BoostHub: https://boosthubapp.com/seo/car-club-app
 - Performance Car Tools and Calculators | BoostHub: https://boosthubapp.com/seo/performance-car-tools
+- Diesel Truck Build Tracker App | BoostHub: https://boosthubapp.com/seo/diesel-truck-build-tracker
+- LS Swap Build Tracker App | BoostHub: https://boosthubapp.com/seo/ls-swap-build-tracker
+- Track Car Build Log App | BoostHub: https://boosthubapp.com/seo/track-car-build-log
+- Drag Car Build Log App | BoostHub: https://boosthubapp.com/seo/drag-car-build-log
+- Performance Shop Profile for Automotive Businesses | BoostHub: https://boosthubapp.com/seo/performance-shop-profile
+- Automotive Vendor Storefront for Parts and Services | BoostHub: https://boosthubapp.com/seo/automotive-vendor-storefront
+- Featured BoostMap Placement for Automotive Shops | BoostHub: https://boosthubapp.com/seo/featured-boost-map-placement
 - Project Car Build Log App | BoostHub: https://boosthubapp.com/seo/project-car-build-log
 - Dyno Sheet Tracker for Car Builds | BoostHub: https://boosthubapp.com/seo/dyno-sheet-tracker
 - Modified Car Profile App | BoostHub: https://boosthubapp.com/seo/modified-car-profile-app
@@ -50,3 +57,9 @@ Useful topic coverage:
 - Car Build Marketplace for Parts, Shops, and Vendors | BoostHub: https://boosthubapp.com/seo/car-build-marketplace
 - BoostMap Car Community Map | BoostHub: https://boosthubapp.com/seo/boostmap-car-community-map
 - Carfax vs Modified Car Build History | BoostHub: https://boosthubapp.com/seo/carfax-vs-modified-build-history
+
+Topic clusters:
+- Build tracking: makes, models, project cars, track cars, drag cars, diesel trucks, and LS swaps.
+- Proof and rankings: dyno sheets, horsepower, torque, race times, and DynoRank.
+- Discovery: BoostMap, local car events, car meets, car shows, clubs, shops, and vendors.
+- Marketplace: parts, storefronts, performance shops, seller verification, and featured map placement.
