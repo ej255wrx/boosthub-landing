@@ -9,54 +9,54 @@ Sitemap: https://boosthubapp.com/sitemap.xml
 
 Important pages:
 - https://boosthubapp.com/
-- https://boosthubapp.com/seo
-- https://boosthubapp.com/seo/car-build-tracker
-- https://boosthubapp.com/seo/car-community-app
-- https://boosthubapp.com/seo/car-events-app
-- https://boosthubapp.com/seo/horsepower-tracker
-- https://boosthubapp.com/seo/horsepower-leaderboard
-- https://boosthubapp.com/seo/car-build-marketplace
-- https://boosthubapp.com/seo/boostmap-car-community-map
+- https://boosthubapp.com/seo/
+- https://boosthubapp.com/seo/car-build-tracker/
+- https://boosthubapp.com/seo/car-community-app/
+- https://boosthubapp.com/seo/car-events-app/
+- https://boosthubapp.com/seo/horsepower-tracker/
+- https://boosthubapp.com/seo/horsepower-leaderboard/
+- https://boosthubapp.com/seo/car-build-marketplace/
+- https://boosthubapp.com/seo/boostmap-car-community-map/
 
 Useful topic coverage:
-- Car Build Tracker App for Any Make | BoostHub: https://boosthubapp.com/seo/car-build-tracker
-- Subaru WRX Build Tracker App | BoostHub: https://boosthubapp.com/seo/subaru-wrx-build-tracker
-- Ford Mustang Build Tracker App | BoostHub: https://boosthubapp.com/seo/ford-mustang-build-tracker
-- Honda Civic Build Tracker App | BoostHub: https://boosthubapp.com/seo/honda-civic-build-tracker
-- Toyota Supra Build Tracker App | BoostHub: https://boosthubapp.com/seo/toyota-supra-build-tracker
-- Nissan Z Build Tracker App | BoostHub: https://boosthubapp.com/seo/nissan-z-build-tracker
-- Chevy Camaro Build Tracker App | BoostHub: https://boosthubapp.com/seo/chevy-camaro-build-tracker
-- Corvette Build Tracker App | BoostHub: https://boosthubapp.com/seo/corvette-build-tracker
-- Dodge Challenger and Charger Build Tracker App | BoostHub: https://boosthubapp.com/seo/dodge-challenger-charger-build-tracker
-- BMW Build Tracker App | BoostHub: https://boosthubapp.com/seo/bmw-build-tracker
-- Audi Build Tracker App | BoostHub: https://boosthubapp.com/seo/audi-build-tracker
-- Mitsubishi Evo Build Tracker App | BoostHub: https://boosthubapp.com/seo/mitsubishi-evo-build-tracker
-- Mazda Miata Build Tracker App | BoostHub: https://boosthubapp.com/seo/mazda-miata-build-tracker
-- Volkswagen GTI Build Tracker App | BoostHub: https://boosthubapp.com/seo/volkswagen-gti-build-tracker
-- Truck Build Tracker App | BoostHub: https://boosthubapp.com/seo/truck-build-tracker
-- Car Events App for Meets, Shows, and Local Scenes | BoostHub: https://boosthubapp.com/seo/car-events-app
-- Car Show App for Builds, Events, and Profiles | BoostHub: https://boosthubapp.com/seo/car-show-app
-- Car Meet App for Local Car Communities | BoostHub: https://boosthubapp.com/seo/car-meet-app
-- Horsepower Tracker App for Car Builds | BoostHub: https://boosthubapp.com/seo/horsepower-tracker
-- Horsepower Leaderboard for Car Builds | BoostHub DynoRank: https://boosthubapp.com/seo/horsepower-leaderboard
-- Race Times Tracker for Car Builds | BoostHub: https://boosthubapp.com/seo/race-times-tracker
-- Car Community App for Builds, Events, Rankings, and Marketplace | BoostHub: https://boosthubapp.com/seo/car-community-app
-- Car Club App for Builds, Groups, and Events | BoostHub: https://boosthubapp.com/seo/car-club-app
-- Performance Car Tools and Calculators | BoostHub: https://boosthubapp.com/seo/performance-car-tools
-- Diesel Truck Build Tracker App | BoostHub: https://boosthubapp.com/seo/diesel-truck-build-tracker
-- LS Swap Build Tracker App | BoostHub: https://boosthubapp.com/seo/ls-swap-build-tracker
-- Track Car Build Log App | BoostHub: https://boosthubapp.com/seo/track-car-build-log
-- Drag Car Build Log App | BoostHub: https://boosthubapp.com/seo/drag-car-build-log
-- Performance Shop Profile for Automotive Businesses | BoostHub: https://boosthubapp.com/seo/performance-shop-profile
-- Automotive Vendor Storefront for Parts and Services | BoostHub: https://boosthubapp.com/seo/automotive-vendor-storefront
-- Featured BoostMap Placement for Automotive Shops | BoostHub: https://boosthubapp.com/seo/featured-boost-map-placement
-- Project Car Build Log App | BoostHub: https://boosthubapp.com/seo/project-car-build-log
-- Dyno Sheet Tracker for Car Builds | BoostHub: https://boosthubapp.com/seo/dyno-sheet-tracker
-- Modified Car Profile App | BoostHub: https://boosthubapp.com/seo/modified-car-profile-app
-- Car Mod Tracker App | BoostHub: https://boosthubapp.com/seo/car-mod-tracker
-- Car Build Marketplace for Parts, Shops, and Vendors | BoostHub: https://boosthubapp.com/seo/car-build-marketplace
-- BoostMap Car Community Map | BoostHub: https://boosthubapp.com/seo/boostmap-car-community-map
-- Carfax vs Modified Car Build History | BoostHub: https://boosthubapp.com/seo/carfax-vs-modified-build-history
+- Car Build Tracker App for Any Make | BoostHub: https://boosthubapp.com/seo/car-build-tracker/
+- Subaru WRX Build Tracker App | BoostHub: https://boosthubapp.com/seo/subaru-wrx-build-tracker/
+- Ford Mustang Build Tracker App | BoostHub: https://boosthubapp.com/seo/ford-mustang-build-tracker/
+- Honda Civic Build Tracker App | BoostHub: https://boosthubapp.com/seo/honda-civic-build-tracker/
+- Toyota Supra Build Tracker App | BoostHub: https://boosthubapp.com/seo/toyota-supra-build-tracker/
+- Nissan Z Build Tracker App | BoostHub: https://boosthubapp.com/seo/nissan-z-build-tracker/
+- Chevy Camaro Build Tracker App | BoostHub: https://boosthubapp.com/seo/chevy-camaro-build-tracker/
+- Corvette Build Tracker App | BoostHub: https://boosthubapp.com/seo/corvette-build-tracker/
+- Dodge Challenger and Charger Build Tracker App | BoostHub: https://boosthubapp.com/seo/dodge-challenger-charger-build-tracker/
+- BMW Build Tracker App | BoostHub: https://boosthubapp.com/seo/bmw-build-tracker/
+- Audi Build Tracker App | BoostHub: https://boosthubapp.com/seo/audi-build-tracker/
+- Mitsubishi Evo Build Tracker App | BoostHub: https://boosthubapp.com/seo/mitsubishi-evo-build-tracker/
+- Mazda Miata Build Tracker App | BoostHub: https://boosthubapp.com/seo/mazda-miata-build-tracker/
+- Volkswagen GTI Build Tracker App | BoostHub: https://boosthubapp.com/seo/volkswagen-gti-build-tracker/
+- Truck Build Tracker App | BoostHub: https://boosthubapp.com/seo/truck-build-tracker/
+- Car Events App for Meets, Shows, and Local Scenes | BoostHub: https://boosthubapp.com/seo/car-events-app/
+- Car Show App for Builds, Events, and Profiles | BoostHub: https://boosthubapp.com/seo/car-show-app/
+- Car Meet App for Local Car Communities | BoostHub: https://boosthubapp.com/seo/car-meet-app/
+- Horsepower Tracker App for Car Builds | BoostHub: https://boosthubapp.com/seo/horsepower-tracker/
+- Horsepower Leaderboard for Car Builds | BoostHub DynoRank: https://boosthubapp.com/seo/horsepower-leaderboard/
+- Race Times Tracker for Car Builds | BoostHub: https://boosthubapp.com/seo/race-times-tracker/
+- Car Community App for Builds, Events, Rankings, and Marketplace | BoostHub: https://boosthubapp.com/seo/car-community-app/
+- Car Club App for Builds, Groups, and Events | BoostHub: https://boosthubapp.com/seo/car-club-app/
+- Performance Car Tools and Calculators | BoostHub: https://boosthubapp.com/seo/performance-car-tools/
+- Diesel Truck Build Tracker App | BoostHub: https://boosthubapp.com/seo/diesel-truck-build-tracker/
+- LS Swap Build Tracker App | BoostHub: https://boosthubapp.com/seo/ls-swap-build-tracker/
+- Track Car Build Log App | BoostHub: https://boosthubapp.com/seo/track-car-build-log/
+- Drag Car Build Log App | BoostHub: https://boosthubapp.com/seo/drag-car-build-log/
+- Performance Shop Profile for Automotive Businesses | BoostHub: https://boosthubapp.com/seo/performance-shop-profile/
+- Automotive Vendor Storefront for Parts and Services | BoostHub: https://boosthubapp.com/seo/automotive-vendor-storefront/
+- Featured BoostMap Placement for Automotive Shops | BoostHub: https://boosthubapp.com/seo/featured-boost-map-placement/
+- Project Car Build Log App | BoostHub: https://boosthubapp.com/seo/project-car-build-log/
+- Dyno Sheet Tracker for Car Builds | BoostHub: https://boosthubapp.com/seo/dyno-sheet-tracker/
+- Modified Car Profile App | BoostHub: https://boosthubapp.com/seo/modified-car-profile-app/
+- Car Mod Tracker App | BoostHub: https://boosthubapp.com/seo/car-mod-tracker/
+- Car Build Marketplace for Parts, Shops, and Vendors | BoostHub: https://boosthubapp.com/seo/car-build-marketplace/
+- BoostMap Car Community Map | BoostHub: https://boosthubapp.com/seo/boostmap-car-community-map/
+- Carfax vs Modified Car Build History | BoostHub: https://boosthubapp.com/seo/carfax-vs-modified-build-history/
 
 Topic clusters:
 - Build tracking: makes, models, project cars, track cars, drag cars, diesel trucks, and LS swaps.
