@@ -6,3 +6,15 @@
 
 /og/*
   Cache-Control: public, max-age=31536000, immutable
+
+/qr/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/badges/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/build/*
+  Cache-Control: public, max-age=600
+
+/u/*
+  Cache-Control: public, max-age=600
