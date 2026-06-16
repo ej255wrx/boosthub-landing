@@ -67,7 +67,14 @@
       var shareFunctionBaseUrl = "https://nnuhkqtsrrxubmsoqehr.supabase.co/functions/v1";
 
       function renderSharePreview(kind, id) {
-        var functionName = kind === "u" ? "share-profile" : kind === "build" ? "share-build" : "";
+        var functionName =
+          kind === "u"
+            ? "share-profile"
+            : kind === "build"
+              ? "share-build"
+              : kind === "events"
+                ? "share-event"
+                : "";
         if (!functionName || !id) return false;
 
         fetch(shareFunctionBaseUrl + "/" + functionName + "/" + encodeURIComponent(id))

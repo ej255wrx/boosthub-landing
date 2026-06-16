@@ -16,5 +16,8 @@
 /build/*
   Cache-Control: public, max-age=600
 
+/events/*
+  Cache-Control: public, max-age=600
+
 /u/*
   Cache-Control: public, max-age=600
